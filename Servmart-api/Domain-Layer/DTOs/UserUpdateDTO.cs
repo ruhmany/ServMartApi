@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application_Layer.Helpers
+namespace Domain_Layer.DTOs
 {
-    internal class RegisterHelper
+    internal class UserUpdateDTO
     {
     }
 }

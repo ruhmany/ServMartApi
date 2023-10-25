@@ -1,5 +1,4 @@
-﻿using Application_Layer.Helpers;
-using Domain_Layer.DTOs;
+﻿using Domain_Layer.DTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -18,11 +17,15 @@ namespace Application_Layer.Repos
     {
         private readonly AppDbContext _appContext;
         private readonly UserManager<User> _usermanager;
-        public UserRepo(AppDbContext appContext, UserManager<User> userManager) : base(appContext)
+        private readonly RoleManager<IdentityRole> _rolemanager;
+        private readonly IConfiguration _config;
+        public UserRepo(AppDbContext appContext, UserManager<User> userManager, 
+            RoleManager<IdentityRole> rolemanager, IConfiguration config) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
-
+            _rolemanager = rolemanager;
+            _config = config;
         }
 
         public async Task<User> GetUser(string userId)
@@ -51,10 +54,14 @@ namespace Application_Layer.Repos
 
         public async Task<AuthModel> RegisterAsync(RegisterModel userDTO)
         {
-            if (await _usermanager.FindByEmailAsync(userDTO.Email) is not null)
+            if (await _usermanager.FindByEmailAsync(userDTO.Email) != null)
                 return new AuthModel { Message = "This Email Is Already Registerd" };
-            if (await _usermanager.FindByNameAsync(userDTO.Username) is not null)
+            if (await _usermanager.FindByNameAsync(userDTO.Username) != null)
                 return new AuthModel { Message = "This Username Is Already Registerd" };
+            if(!await _rolemanager.RoleExistsAsync(userDTO.Role))
+            {
+                return new AuthModel { Message = "there is no role with this name" };
+            }
             var user = new User
             {
                 UserName = userDTO.Username,
@@ -108,13 +115,13 @@ namespace Application_Layer.Repos
             }
             .Union(userclaims)
             .Union(roleclaim);
-            var symkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT.Key));
+            var symkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var signingkey = new SigningCredentials(symkey, SecurityAlgorithms.HmacSha256);
             var jwttoken = new JwtSecurityToken(
-                issuer: JWT.Issuer,
-                audience: JWT.Audience,
+                issuer: _config["JWT:Issuer"],
+                audience: _config["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(JWT.DurationInDays),
+                expires: DateTime.Now.AddDays(double.Parse(_config["JWT:DurationInDays"])),
                 signingCredentials: signingkey);
             return jwttoken;
         }
