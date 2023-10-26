@@ -14,7 +14,7 @@ namespace Domain_Layer.Models
         //public virtual string PhoneNo { get; set; }
         public  string Address { get; set; }
         //public virtual string Username { get; set; }
-        //public virtual string Email { get; set; }
+        //public virtual string Email { get; set; }pro
         //public virtual byte[] PasswordHash { get; set; }
         //public virtual byte[] PasswordSalt { get; set; }
         public  string ProfilePic { get; set; }

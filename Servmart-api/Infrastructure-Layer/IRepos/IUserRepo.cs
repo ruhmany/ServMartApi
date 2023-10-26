@@ -7,5 +7,6 @@ namespace Infrastructure_Layer.IRepos
     {
         Task<AuthModel> RegisterAsync(RegisterModel userDTO);
         Task<AuthModel> LoginAsync(UserLoginDTO loginDTO);
+        Task<User> UpdateUser(UserUpdateDTO user);
     }
 }

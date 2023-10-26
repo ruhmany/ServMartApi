@@ -1,11 +1,10 @@
-﻿using Domain_Layer.DTOs;
+﻿using Application_Layer.Interfaces;
+using Domain_Layer.DTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,13 +18,15 @@ namespace Application_Layer.Repos
         private readonly UserManager<User> _usermanager;
         private readonly RoleManager<IdentityRole> _rolemanager;
         private readonly IConfiguration _config;
-        public UserRepo(AppDbContext appContext, UserManager<User> userManager, 
-            RoleManager<IdentityRole> rolemanager, IConfiguration config) : base(appContext)
+        private readonly IPhotoService _photoservice;
+        public UserRepo(AppDbContext appContext, UserManager<User> userManager,
+            RoleManager<IdentityRole> rolemanager, IConfiguration config, IPhotoService photoservice) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
             _rolemanager = rolemanager;
             _config = config;
+            _photoservice = photoservice;
         }
 
         public async Task<User> GetUser(string userId)
@@ -95,7 +96,21 @@ namespace Application_Layer.Repos
             };
         }
 
-
+        public async Task<User> UpdateUser(UserUpdateDTO userDTO)
+        {
+            if (await _usermanager.FindByEmailAsync(userDTO.Email) is null || await _usermanager.FindByNameAsync(userDTO.Username) is null)
+                return null;
+            var user = await _usermanager.FindByEmailAsync(userDTO.Email);
+            var result = await _photoservice.AddPhotoAsync(userDTO.ProfilePic);           
+            user.Email = userDTO.Email;
+            user.Address = userDTO.Address;
+            user.UserName = userDTO.Username;
+            user.FName = userDTO.FName;
+            user.LName = userDTO.LName;
+            user.ProfilePic = result.Url.ToString();
+            await _usermanager.UpdateAsync(user);
+            return user;
+        }
 
         private async Task<JwtSecurityToken> CreateToken(User user)
         {

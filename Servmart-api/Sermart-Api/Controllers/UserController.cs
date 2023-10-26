@@ -44,5 +44,18 @@ namespace Sermart_Api.Controllers
                 return BadRequest(result.Message);
             return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn });
         }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateUser([FromForm]UserUpdateDTO userDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = await _userRepo.UpdateUser(userDTO);
+            if (result is null)
+                return BadRequest();
+            return Ok(result);
+
+        }
+
     }
 }
