@@ -19,16 +19,16 @@ namespace Sermart_Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Model state is not valid");
             }
             var result = await _userRepo.RegisterAsync(model);
             if (!result.IsAuthenticated)
-                return BadRequest(result.Message);
-            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn });
+                return BadRequest("error while registering"+result.Message);
+            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn, Role = result.Role });
         }
 
 
@@ -42,7 +42,7 @@ namespace Sermart_Api.Controllers
             var result = await _userRepo.LoginAsync(model);
             if (!result.IsAuthenticated)
                 return BadRequest(result.Message);
-            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn });
+            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn, Role = result.Role });
         }
 
         [HttpPost("Update")]

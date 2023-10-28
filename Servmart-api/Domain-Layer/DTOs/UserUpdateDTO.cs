@@ -16,7 +16,6 @@ namespace Domain_Layer.DTOs
         public string Email { get; set; }
         public string SSN { get; set; }
         public string PhoneNo { get; set; }
-        public string Password { get; set; }
         public string Address { get; set; }
         public IFormFile ProfilePic { get; set; }
     }

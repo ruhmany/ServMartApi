@@ -19,14 +19,28 @@ namespace Application_Layer.Repos
         private readonly RoleManager<IdentityRole> _rolemanager;
         private readonly IConfiguration _config;
         private readonly IPhotoService _photoservice;
+        private readonly IUnitOfWork _unitofwork;
         public UserRepo(AppDbContext appContext, UserManager<User> userManager,
-            RoleManager<IdentityRole> rolemanager, IConfiguration config, IPhotoService photoservice) : base(appContext)
+            RoleManager<IdentityRole> rolemanager, IConfiguration config, 
+            IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
             _rolemanager = rolemanager;
             _config = config;
             _photoservice = photoservice;
+            _unitofwork = unitofwork;
+        }
+
+        public async Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)
+        {
+            var user = await _usermanager.FindByEmailAsync(changePasswordDTO.Email);
+            if (user is null)
+                return null;
+            await _usermanager.ChangePasswordAsync(user, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
+            _unitofwork.CommitChanges();
+            return user;
+
         }
 
         public async Task<User> GetUser(string userId)
@@ -48,6 +62,7 @@ namespace Application_Layer.Repos
             authmodel.Token = new JwtSecurityTokenHandler().WriteToken(token);
             authmodel.UserName = user.UserName;
             authmodel.Email = user.Email;
+            authmodel.ExpiresOn = token.ValidTo;
             var roles = await _usermanager.GetRolesAsync(user);
             authmodel.Role = roles.ToString();
             return authmodel;
@@ -70,8 +85,7 @@ namespace Application_Layer.Repos
                 FName = userDTO.FName,
                 LName = userDTO.LName,
                 SSN = userDTO.SSN,
-                Address = userDTO.Address,
-                ProfilePic = userDTO.ProfilePic,
+                Address = "Hello world",
                 PhoneNumber = userDTO.phoneNumber
             };
             var result = await _usermanager.CreateAsync(user, userDTO.Password);
@@ -86,6 +100,7 @@ namespace Application_Layer.Repos
             }
             await _usermanager.AddToRoleAsync(user, userDTO.Role);
             var tokens = await CreateToken(user);
+            _unitofwork.CommitChanges();
             return new AuthModel
             {
                 IsAuthenticated = true,
@@ -109,6 +124,7 @@ namespace Application_Layer.Repos
             user.LName = userDTO.LName;
             user.ProfilePic = result.Url.ToString();
             await _usermanager.UpdateAsync(user);
+            _unitofwork.CommitChanges();
             return user;
         }
 
