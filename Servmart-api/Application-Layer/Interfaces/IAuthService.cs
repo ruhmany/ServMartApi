@@ -1,4 +1,4 @@
-﻿namespace Sermart_Api.Interfaces
+﻿namespace Application_Layer.Interfaces
 {
     public interface IAuthService
     {

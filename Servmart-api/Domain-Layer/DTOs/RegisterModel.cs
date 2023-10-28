@@ -7,15 +7,13 @@ namespace Domain_Layer.Models
 {
     public class RegisterModel
     {
-        public  string FName { get; set; }
-        public string Username { get; set; }
-        public  string LName { get; set; }
-        public  string SSN { get; set; }
         public  string Email { get; set; }
+        public string Username { get; set; }
         public  string Password { get; set; }
-        public string Address { get; set; } = null;
-        public string ProfilePic { get; set; } = "Profile.png";
+        public  string FName { get; set; }
+        public  string LName { get; set; }
         public  string phoneNumber { get; set; }
+        public  string SSN { get; set; }
         public string Role { get; set; }
     }
 }

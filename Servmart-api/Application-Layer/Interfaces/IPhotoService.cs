@@ -1,6 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
 
-namespace Sermart_Api.Interfaces
+namespace Application_Layer.Interfaces
 {
     public interface IPhotoService
     {

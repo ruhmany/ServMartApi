@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application_Layer.Helpers
+namespace Infrastructure_Layer.IRepos
 {
-    internal class RegisterHelper
+    public interface IUnitOfWork
     {
+        int CommitChanges();
     }
 }

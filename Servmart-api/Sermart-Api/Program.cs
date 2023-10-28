@@ -1,4 +1,3 @@
-
 using Application_Layer;
 using Application_Layer.Repos;
 using Domain_Layer.Models;
@@ -8,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sermart_Api.Helpers;
-using Sermart_Api.Interfaces;
-using Sermart_Api.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Application_Layer.Interfaces;
+using Application_Layer.Services;
 
 namespace Sermart_Api
 {
@@ -27,6 +26,8 @@ namespace Sermart_Api
             builder.Services.AddScoped(typeof(IBaseRepo<>), typeof(BaseRepos<>));
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

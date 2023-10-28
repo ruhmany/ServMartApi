@@ -1,20 +1,24 @@
-﻿using CloudinaryDotNet;
+﻿using Application_Layer.Interfaces;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Sermart_Api.Helpers;
-using Sermart_Api.Interfaces;
 
-namespace Sermart_Api.Services
+
+namespace Application_Layer.Services
 {
     public class PhotoService : IPhotoService
     {
         private readonly Cloudinary _cloudinary;
-        public PhotoService(IOptions<CloudinraySettings> config)
+        private readonly IConfiguration _config;
+        public PhotoService(IConfiguration config)
         {
+            _config = config;
             var acc = new Account(
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecret);
+                config["CloudinarySettings:CloudName"],
+                config["CloudinarySettings:ApiKey"],
+                config["CloudinarySettings:ApiSecret"]);
             _cloudinary = new Cloudinary(acc);
         }
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)

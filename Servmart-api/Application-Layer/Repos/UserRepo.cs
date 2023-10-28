@@ -1,12 +1,10 @@
-﻿using Application_Layer.Helpers;
+﻿using Application_Layer.Interfaces;
 using Domain_Layer.DTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,10 +16,30 @@ namespace Application_Layer.Repos
     {
         private readonly AppDbContext _appContext;
         private readonly UserManager<User> _usermanager;
-        public UserRepo(AppDbContext appContext, UserManager<User> userManager) : base(appContext)
+        private readonly RoleManager<IdentityRole> _rolemanager;
+        private readonly IConfiguration _config;
+        private readonly IPhotoService _photoservice;
+        private readonly IUnitOfWork _unitofwork;
+        public UserRepo(AppDbContext appContext, UserManager<User> userManager,
+            RoleManager<IdentityRole> rolemanager, IConfiguration config, 
+            IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
+            _rolemanager = rolemanager;
+            _config = config;
+            _photoservice = photoservice;
+            _unitofwork = unitofwork;
+        }
+
+        public async Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)
+        {
+            var user = await _usermanager.FindByEmailAsync(changePasswordDTO.Email);
+            if (user is null)
+                return null;
+            await _usermanager.ChangePasswordAsync(user, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
+            _unitofwork.CommitChanges();
+            return user;
 
         }
 
@@ -44,6 +62,7 @@ namespace Application_Layer.Repos
             authmodel.Token = new JwtSecurityTokenHandler().WriteToken(token);
             authmodel.UserName = user.UserName;
             authmodel.Email = user.Email;
+            authmodel.ExpiresOn = token.ValidTo;
             var roles = await _usermanager.GetRolesAsync(user);
             authmodel.Role = roles.ToString();
             return authmodel;
@@ -51,10 +70,14 @@ namespace Application_Layer.Repos
 
         public async Task<AuthModel> RegisterAsync(RegisterModel userDTO)
         {
-            if (await _usermanager.FindByEmailAsync(userDTO.Email) is not null)
+            if (await _usermanager.FindByEmailAsync(userDTO.Email) != null)
                 return new AuthModel { Message = "This Email Is Already Registerd" };
-            if (await _usermanager.FindByNameAsync(userDTO.Username) is not null)
+            if (await _usermanager.FindByNameAsync(userDTO.Username) != null)
                 return new AuthModel { Message = "This Username Is Already Registerd" };
+            if(!await _rolemanager.RoleExistsAsync(userDTO.Role))
+            {
+                return new AuthModel { Message = "there is no role with this name" };
+            }
             var user = new User
             {
                 UserName = userDTO.Username,
@@ -62,8 +85,7 @@ namespace Application_Layer.Repos
                 FName = userDTO.FName,
                 LName = userDTO.LName,
                 SSN = userDTO.SSN,
-                Address = userDTO.Address,
-                ProfilePic = userDTO.ProfilePic,
+                Address = "Hello world",
                 PhoneNumber = userDTO.phoneNumber
             };
             var result = await _usermanager.CreateAsync(user, userDTO.Password);
@@ -78,6 +100,7 @@ namespace Application_Layer.Repos
             }
             await _usermanager.AddToRoleAsync(user, userDTO.Role);
             var tokens = await CreateToken(user);
+            _unitofwork.CommitChanges();
             return new AuthModel
             {
                 IsAuthenticated = true,
@@ -88,7 +111,22 @@ namespace Application_Layer.Repos
             };
         }
 
-
+        public async Task<User> UpdateUser(UserUpdateDTO userDTO)
+        {
+            if (await _usermanager.FindByEmailAsync(userDTO.Email) is null || await _usermanager.FindByNameAsync(userDTO.Username) is null)
+                return null;
+            var user = await _usermanager.FindByEmailAsync(userDTO.Email);
+            var result = await _photoservice.AddPhotoAsync(userDTO.ProfilePic);           
+            user.Email = userDTO.Email;
+            user.Address = userDTO.Address;
+            user.UserName = userDTO.Username;
+            user.FName = userDTO.FName;
+            user.LName = userDTO.LName;
+            user.ProfilePic = result.Url.ToString();
+            await _usermanager.UpdateAsync(user);
+            _unitofwork.CommitChanges();
+            return user;
+        }
 
         private async Task<JwtSecurityToken> CreateToken(User user)
         {
@@ -108,13 +146,13 @@ namespace Application_Layer.Repos
             }
             .Union(userclaims)
             .Union(roleclaim);
-            var symkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWT.Key));
+            var symkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var signingkey = new SigningCredentials(symkey, SecurityAlgorithms.HmacSha256);
             var jwttoken = new JwtSecurityToken(
-                issuer: JWT.Issuer,
-                audience: JWT.Audience,
+                issuer: _config["JWT:Issuer"],
+                audience: _config["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(JWT.DurationInDays),
+                expires: DateTime.Now.AddDays(double.Parse(_config["JWT:DurationInDays"])),
                 signingCredentials: signingkey);
             return jwttoken;
         }
