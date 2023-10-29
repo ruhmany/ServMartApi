@@ -33,7 +33,7 @@ namespace Sermart_Api.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> login([FromBody] UserLoginDTO model)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO model)
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace Sermart_Api.Controllers
             return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn, Role = result.Role });
         }
 
-        [HttpPost("Update")]
+        [HttpPost("update")]
         public async Task<IActionResult> UpdateUser([FromForm]UserUpdateDTO userDTO)
         {
             if (!ModelState.IsValid)
