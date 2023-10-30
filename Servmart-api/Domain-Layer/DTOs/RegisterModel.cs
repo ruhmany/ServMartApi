@@ -14,6 +14,6 @@ namespace Domain_Layer.Models
         public  string LName { get; set; }
         public  string phoneNumber { get; set; }
         public  string SSN { get; set; }
-        public string Role { get; set; }
+        public List<string> Role { get; set; }
     }
 }

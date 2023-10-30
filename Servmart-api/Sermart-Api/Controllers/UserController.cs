@@ -57,5 +57,11 @@ namespace Sermart_Api.Controllers
 
         }
 
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userRepo.GetAllUsers());
+        }
+
     }
 }

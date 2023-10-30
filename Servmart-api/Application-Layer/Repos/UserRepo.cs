@@ -43,6 +43,11 @@ namespace Application_Layer.Repos
 
         }
 
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _appContext.Users.ToListAsync();
+        }
+
         public async Task<User> GetUser(string userId)
            => await _appContext.Users.FirstOrDefaultAsync(y => y.Id==userId);
 
@@ -64,7 +69,7 @@ namespace Application_Layer.Repos
             authmodel.Email = user.Email;
             authmodel.ExpiresOn = token.ValidTo;
             var roles = await _usermanager.GetRolesAsync(user);
-            authmodel.Role = roles.ToString();
+            authmodel.Role = roles.ToList();
             return authmodel;
         }
 
@@ -74,9 +79,12 @@ namespace Application_Layer.Repos
                 return new AuthModel { Message = "This Email Is Already Registerd" };
             if (await _usermanager.FindByNameAsync(userDTO.Username) != null)
                 return new AuthModel { Message = "This Username Is Already Registerd" };
-            if(!await _rolemanager.RoleExistsAsync(userDTO.Role))
+            foreach(var role in userDTO.Role)
             {
-                return new AuthModel { Message = "there is no role with this name" };
+                if (!await _rolemanager.RoleExistsAsync(role))
+                {
+                    return new AuthModel { Message = "there is no role with this name" };
+                }
             }
             var user = new User
             {
@@ -98,14 +106,17 @@ namespace Application_Layer.Repos
                 }
                 return new AuthModel { Message = erorr };
             }
-            await _usermanager.AddToRoleAsync(user, userDTO.Role);
+            foreach(var role in userDTO.Role)
+            {
+                await _usermanager.AddToRoleAsync(user, role);
+            }    
             var tokens = await CreateToken(user);
             _unitofwork.CommitChanges();
             return new AuthModel
             {
                 IsAuthenticated = true,
                 Token = new JwtSecurityTokenHandler().WriteToken(tokens),
-                Role = userDTO.Role,
+                Role = userDTO.Role.ToList<string>(),
                 UserName = user.UserName,
                 ExpiresOn = tokens.ValidTo
             };

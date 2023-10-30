@@ -9,5 +9,6 @@ namespace Infrastructure_Layer.IRepos
         Task<AuthModel> LoginAsync(UserLoginDTO loginDTO);
         Task<User> UpdateUser(UserUpdateDTO user);
         Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }
