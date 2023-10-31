@@ -34,6 +34,7 @@ namespace Application_Layer.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
+
             return uploadResult;
         }
 

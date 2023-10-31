@@ -43,6 +43,7 @@ namespace Application_Layer.Repos
             var authmodel = new AuthModel();
 
             var user = await _usermanager.FindByEmailAsync(loginDTO.Email);
+
             if (user == null || !await _usermanager.CheckPasswordAsync(user, loginDTO.Password))
             {
                 authmodel.Message = "Email or Password is incorrect";

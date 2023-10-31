@@ -1,5 +1,5 @@
 ﻿using Application_Layer.Repos;
-using Domain_Layer.DTOs;
+using Domain_Layer.DTOs.RequestDTOS;
 using Infrastructure_Layer.IRepos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +15,13 @@ namespace Sermart_Api.Controllers
             _request = request;
 
         }
-        [HttpPost("Add")]
-        public async Task<IActionResult> Create([FromBody] RequestDTO requestDTO)
+        [HttpPost("api/AddRequest")]
+        public async Task<IActionResult> Create([FromForm] RequestDTO requestDTO)
         {
             await _request.AddRequest(requestDTO);
             return Ok();
         }
-        [HttpPost("Id")]
+        [HttpPost("Api/UpDate")]
         public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request) 
         {
             request.ClientId = id;
@@ -29,7 +29,7 @@ namespace Sermart_Api.Controllers
             return Ok();
 
         }
-        [HttpPost("Detete")]
+        [HttpPost("Api/Detete")]
         public IActionResult Delete(Guid id)
         {
             _request.Delete(id);
@@ -37,14 +37,19 @@ namespace Sermart_Api.Controllers
 
         }
 
-        [HttpGet("get")]
+        [HttpGet("Api/getall")]
         
-        public IActionResult Getall() {
+        //public IActionResult Getall() {
         
-           var request = _request.GetRequestList();
-            return Ok(request);
+        //   var request = _request.GetRequestList();
+        //    return Ok(request);
+        //}
+        [HttpGet("FilterRequest")]
+        public IActionResult Filter(Guid clientId, decimal price, decimal? minPrice, decimal? maxPrice)
+        {
+            var filteredRequests = _request.filterReq(clientId, price, minPrice, maxPrice);
+            return Ok(filteredRequests);
         }
-       
 
     }
 }
