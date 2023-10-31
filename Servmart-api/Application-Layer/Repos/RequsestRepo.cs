@@ -1,5 +1,6 @@
 ﻿using Application_Layer.Interfaces;
-using Domain_Layer.DTOs;
+using CloudinaryDotNet.Actions;
+using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace Application_Layer.Repos
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
 
+
         public RequsestRepo(AppDbContext appContext, IUnitOfWork unitOfWork, IPhotoService photoService) : base(appContext)
         {
             _appDbContext = appContext;
@@ -26,17 +28,25 @@ namespace Application_Layer.Repos
 
         public async Task<Request> AddRequest(RequestDTO requestDTO)
         {
+
             var request = new Request()
             {
                 CleintID = requestDTO.ClientId,
                 ID = Guid.NewGuid(),
                 Details = requestDTO.Details,
                 RateMassage = requestDTO.RateMassage,
-                StartDate = requestDTO.StartDate,
+                StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
-                ExpectSalary=requestDTO.Price,
-                State=requestDTO.Status
+                ExpectSalary = requestDTO.Price,
+                State = requestDTO.Status
             };
+
+            foreach (var item in requestDTO.picUrl)
+            {
+                var resualt = await _photoService.AddPhotoAsync(item);
+                request.Media.Add(new RequestMedia() { MediaUrl = resualt.Url.ToString(), RequestID=request.ID });
+            }
+
             await _appDbContext.Request.AddAsync(request);
              _unitOfWork.CommitChanges();
 
@@ -56,9 +66,22 @@ namespace Application_Layer.Repos
            
         }
 
-        public List<Request> filterReq(Guid id, decimal Price, decimal? minPrice, decimal? maxPrice)
+        public List<Request> filterReq(Guid Cleinrid, decimal Price, decimal? minPrice, decimal? maxPrice)
         {
-            throw new NotImplementedException();
+            IQueryable<Request> query = _appDbContext.Request;
+            query = query.Where(r => r.CleintID ==Cleinrid);
+            query =query.Where(R=>R.ExpectSalary == Price);
+             if (minPrice.HasValue)
+            {
+                query = query.Where(r => r.ExpectSalary >= minPrice.Value);
+
+            }
+             if (maxPrice.HasValue)
+            {
+                query= query.Where(R=>R.ExpectSalary <= maxPrice.Value);
+
+            }
+             return query.ToList();
         }
 
         public List<Request> GetRequestList()
@@ -106,9 +129,6 @@ namespace Application_Layer.Repos
 
        
 
-        Task<RequestDTO> IRequestRepo.GetReqModel()
-        {
-            throw new NotImplementedException();
-        }
+ 
     }
 }

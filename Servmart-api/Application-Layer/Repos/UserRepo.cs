@@ -64,7 +64,7 @@ namespace Application_Layer.Repos
         public async Task<User> UpdateUser(UserUpdateDTO userDTO)
         {
             if (await _usermanager.FindByEmailAsync(userDTO.Email) is null || await _usermanager.FindByNameAsync(userDTO.Username) is null)
-                return null;
+             return null;
             var user = await _usermanager.FindByEmailAsync(userDTO.Email);
             var result = await _photoservice.AddPhotoAsync(userDTO.ProfilePic);
             user.Email = userDTO.Email;
