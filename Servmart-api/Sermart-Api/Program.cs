@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Application_Layer.Interfaces;
 using Application_Layer.Services;
+using Microsoft.Extensions.FileProviders;
 
 namespace Sermart_Api
 {
@@ -29,6 +30,7 @@ namespace Sermart_Api
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IRequestRepo, RequsestRepo>();
+            builder.Services.AddScoped<IAuthRepo, AuthRepo>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -81,6 +83,14 @@ namespace Sermart_Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.ContentRootPath, "Images")
+                    )
+                    ,RequestPath = "/Images"
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

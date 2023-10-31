@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain_Layer.DTOs
+namespace Domain_Layer.DTOs.UserDTOs
 {
     public class UserUpdateDTO
     {
