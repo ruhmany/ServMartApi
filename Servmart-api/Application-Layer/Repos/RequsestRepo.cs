@@ -35,7 +35,7 @@ namespace Application_Layer.Repos
                 StartDate = requestDTO.StartDate,
                 EndDate = requestDTO.EndDate,
                 ExpectSalary=requestDTO.Price,
-                State=requestDTO.Status
+                State=requestDTO.Status                
             };
             await _appDbContext.Request.AddAsync(request);
              _unitOfWork.CommitChanges();

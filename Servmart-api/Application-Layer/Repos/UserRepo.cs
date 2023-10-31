@@ -15,18 +15,15 @@ namespace Application_Layer.Repos
     public class UserRepo : BaseRepos<User>, IUserRepo
     {
         private readonly AppDbContext _appContext;
-        private readonly UserManager<User> _usermanager;
-        private readonly RoleManager<IdentityRole> _rolemanager;
+        private readonly UserManager<User> _usermanager;        
         private readonly IConfiguration _config;
         private readonly IPhotoService _photoservice;
         private readonly IUnitOfWork _unitofwork;
-        public UserRepo(AppDbContext appContext, UserManager<User> userManager,
-            RoleManager<IdentityRole> rolemanager, IConfiguration config, 
+        public UserRepo(AppDbContext appContext, UserManager<User> userManager, IConfiguration config, 
             IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
-            _rolemanager = rolemanager;
             _config = config;
             _photoservice = photoservice;
             _unitofwork = unitofwork;
