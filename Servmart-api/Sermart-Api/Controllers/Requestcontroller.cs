@@ -15,21 +15,22 @@ namespace Sermart_Api.Controllers
             _request = request;
 
         }
-        [HttpPost("Add")]
+        [HttpPost("AddRequest")]
         public async Task<IActionResult> Create([FromBody] RequestDTO requestDTO)
         {
             await _request.AddRequest(requestDTO);
             return Ok();
         }
-        [HttpPost("Id")]
+        [HttpPost("UpDate")]
         public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request) 
         {
             request.ClientId = id;
             _request.UPDate(request);
             return Ok();
 
+
         }
-        [HttpPost("Detete")]
+        [HttpPost("DeteteRequest")]
         public IActionResult Delete(Guid id)
         {
             _request.Delete(id);
@@ -37,7 +38,7 @@ namespace Sermart_Api.Controllers
 
         }
 
-        [HttpGet("get")]
+        [HttpGet("getAll")]
         
         public IActionResult Getall() {
         

@@ -30,6 +30,7 @@ namespace Application_Layer.Repos
             {
                 CleintID = requestDTO.ClientId,
                 ID = Guid.NewGuid(),
+                Title = requestDTO.Title,
                 Details = requestDTO.Details,
                 RateMassage = requestDTO.RateMassage,
                 StartDate = requestDTO.StartDate,
@@ -77,6 +78,7 @@ namespace Application_Layer.Repos
             var req = await _appDbContext.Request.FirstOrDefaultAsync(r => r.ID == requestDTO.ID);
             if (req != null)
             {
+                req.Title = requestDTO.Titles;
                 req.StartDate = requestDTO.StartDate;
                 req.EndDate = requestDTO.EndDate;
                 req.State = requestDTO.Status;

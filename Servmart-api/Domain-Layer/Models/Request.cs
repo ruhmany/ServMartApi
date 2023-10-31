@@ -4,6 +4,7 @@
     {
         public Guid ID { get; set; }
         public Guid CleintID { get; set; }
+        public string Title { get; set; }
         public string Details { get; set; }
         public decimal ExpectSalary { get; set; }
         public int State { get; set; }

@@ -18,5 +18,6 @@ namespace Domain_Layer.DTOs
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string RateMassage { get; set; }
+        public string Titles { get; set; }
     }
 }
