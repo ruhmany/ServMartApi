@@ -15,7 +15,7 @@ namespace Sermart_Api.Controllers
             _request = request;
 
         }
-        [HttpPost("api/AddRequest")]
+        [HttpPost("api/AddRequest"), DisableRequestSizeLimit]
         public async Task<IActionResult> Create([FromForm] RequestDTO requestDTO)
         {
             await _request.AddRequest(requestDTO);

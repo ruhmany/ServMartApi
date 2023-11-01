@@ -35,7 +35,7 @@ namespace Application_Layer.Repos
                 ID = Guid.NewGuid(),
                 Title = requestDTO.Title,
                 Details = requestDTO.Details,
-                RateMassage = requestDTO.RateMassage,
+                  RateMassage = requestDTO.RateMassage,
                 StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
                 ExpectSalary = requestDTO.Price,
@@ -50,6 +50,7 @@ namespace Application_Layer.Repos
 
             await _appDbContext.Request.AddAsync(request);
              _unitOfWork.CommitChanges();
+
 
             return null;
         }
