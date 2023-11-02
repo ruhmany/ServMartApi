@@ -38,7 +38,7 @@ namespace Application_Layer.Repos
                   RateMassage = requestDTO.RateMassage,
                 StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
-                ExpectSalary = requestDTO.Price,
+                ExpectSalary=requestDTO.Price,                          
                 State = requestDTO.Status
             };
               request.Media= new List<RequestMedia>();

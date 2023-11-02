@@ -26,6 +26,7 @@ namespace Application_Layer.Configuration
             builder.Property(i => i.EndDate).IsRequired();
             builder.Property(i => i.RateValue).IsRequired();
             builder.Property(i => i.RateMassage).IsRequired().HasMaxLength(500);
+            builder.Property(d => d.IsDirect).IsRequired().HasColumnType("bit");
 
             //CLIENTID
         }

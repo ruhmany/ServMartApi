@@ -1,8 +1,5 @@
 ﻿using Domain_Layer.DTOs.UserDTOs;
 using Infrastructure_Layer.IRepos;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
@@ -19,7 +16,6 @@ namespace Sermart_Api.Controllers
         }
 
 
-
         [HttpPost("update")]
         public async Task<IActionResult> UpdateUser([FromForm]UserUpdateDTO userDTO)
         {
@@ -32,6 +28,7 @@ namespace Sermart_Api.Controllers
 
         }
 
+        
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {

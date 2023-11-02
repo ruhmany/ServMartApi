@@ -3,6 +3,7 @@
     public class Request
     {
         public Guid ID { get; set; }
+        public string Title { get; set; }
         public Guid CleintID { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
@@ -12,7 +13,7 @@
         public DateTime EndDate { get; set; }
         public float RateValue { get; set; }
         public string RateMassage { get; set; }
-        //public string Address {  get; set; }      
+        public bool IsDirect { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<RequestMedia> Media { get; set; }
         public virtual ICollection<RequestOffer> RequestOffer { get; set; }

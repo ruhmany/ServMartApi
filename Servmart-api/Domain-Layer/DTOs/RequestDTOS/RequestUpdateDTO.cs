@@ -14,7 +14,6 @@ namespace Domain_Layer.DTOs.RequestDTOS
         public decimal Price { get; set; }
         public int Status { get; set; } = 0;
         public string picUrl { get; set; } = string.Empty;
-
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string RateMassage { get; set; }
