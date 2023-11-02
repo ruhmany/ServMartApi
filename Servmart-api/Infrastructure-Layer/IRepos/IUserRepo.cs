@@ -1,12 +1,13 @@
-﻿using Domain_Layer.DTOs;
+﻿using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
 
 namespace Infrastructure_Layer.IRepos
 {
     public interface IUserRepo :IBaseRepo<User>
     {
-        Task<AuthModel> RegisterAsync(RegisterModel userDTO);
-        Task<AuthModel> LoginAsync(UserLoginDTO loginDTO);
         Task<User> UpdateUser(UserUpdateDTO user);
+        Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO);
+        Task<User> ChageEmail(ChangeEmailDTO dTO);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

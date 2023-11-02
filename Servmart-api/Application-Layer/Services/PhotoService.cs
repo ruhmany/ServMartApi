@@ -25,7 +25,7 @@ namespace Application_Layer.Services
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
-            {
+            {                
                 using var stream = file.OpenReadStream();
                 var uploadParams = new ImageUploadParams
                 {
@@ -34,6 +34,7 @@ namespace Application_Layer.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
+
             return uploadResult;
         }
 

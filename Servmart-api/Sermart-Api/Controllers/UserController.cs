@@ -1,8 +1,5 @@
-﻿using Domain_Layer.DTOs;
-using Domain_Layer.Models;
+﻿using Domain_Layer.DTOs.UserDTOs;
 using Infrastructure_Layer.IRepos;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
@@ -18,34 +15,8 @@ namespace Sermart_Api.Controllers
             _userRepo = userRepo;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterModel model)
-        {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var result = await _userRepo.RegisterAsync(model);
-            if (!result.IsAuthenticated)
-                return BadRequest(result.Message);
-            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn });
-        }
 
-
-        [HttpPost("login")]
-        public async Task<IActionResult> login([FromBody] UserLoginDTO model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var result = await _userRepo.LoginAsync(model);
-            if (!result.IsAuthenticated)
-                return BadRequest(result.Message);
-            return Ok(new { Token = result.Token, ExpiresOn = result.ExpiresOn });
-        }
-
-        [HttpPost("Update")]
+        [HttpPost("update")]
         public async Task<IActionResult> UpdateUser([FromForm]UserUpdateDTO userDTO)
         {
             if (!ModelState.IsValid)
@@ -55,6 +26,13 @@ namespace Sermart_Api.Controllers
                 return BadRequest();
             return Ok(result);
 
+        }
+
+        
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userRepo.GetAllUsers());
         }
 
     }

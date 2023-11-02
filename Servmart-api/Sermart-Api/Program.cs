@@ -14,6 +14,9 @@ using Application_Layer.Services;
 using AutoMapper;
 using Sermart_Api.Mapper;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http.Features;
+using System.Reflection.PortableExecutable;
 
 namespace Sermart_Api
 {
@@ -37,7 +40,9 @@ namespace Sermart_Api
 
             builder.Services.AddAutoMapper(p=>p.AddProfile(new productProfile()));
             builder.Services.AddAutoMapper(p=>p.AddProfile(new CatgoryProfile()));
-
+            builder.Services.AddScoped<IRequestRepo, RequsestRepo>();
+            builder.Services.AddScoped<IAuthRepo, AuthRepo>();
+            builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -79,6 +84,14 @@ namespace Sermart_Api
                 };
             });
 
+            builder.Services.Configure<FormOptions>(Option =>
+            {
+                Option.ValueLengthLimit = int.MaxValue;
+                Option.MultipartBodyLengthLimit = int.MaxValue;
+                Option.MemoryBufferThreshold = int.MaxValue;
+
+            });
+
 
             var app = builder.Build();
 
@@ -90,6 +103,14 @@ namespace Sermart_Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.ContentRootPath, "Images")
+                    )
+                    ,RequestPath = "/Images"
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

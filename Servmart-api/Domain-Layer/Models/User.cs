@@ -12,7 +12,7 @@ namespace Domain_Layer.Models
         public  string LName { get; set; }
         public  string SSN { get; set; }
         //public virtual string PhoneNo { get; set; }
-        public  string Address { get; set; }
+        public  string? Address { get; set; }
         //public virtual string Username { get; set; }
         //public virtual string Email { get; set; }pro
         //public virtual byte[] PasswordHash { get; set; }

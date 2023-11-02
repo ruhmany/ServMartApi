@@ -4,6 +4,7 @@ using Application_Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application_Layer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231031103325_UpdationgRequestTable")]
+    partial class UpdationgRequestTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,11 +125,7 @@ namespace Application_Layer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ProviderId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid?>("ShopID")
+                    b.Property<Guid>("ShopID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Stoke")
@@ -138,8 +137,6 @@ namespace Application_Layer.Migrations
                     b.HasKey("ProductID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("ProviderId");
 
                     b.HasIndex("ShopID");
 
@@ -254,9 +251,7 @@ namespace Application_Layer.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -728,19 +723,15 @@ namespace Application_Layer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain_Layer.Models.User", "ProductUser")
+                    b.HasOne("Domain_Layer.Models.Shop", "Shop")
                         .WithMany("Products")
-                        .HasForeignKey("ProviderId")
+                        .HasForeignKey("ShopID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain_Layer.Models.Shop", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ShopID");
-
                     b.Navigation("Category");
 
-                    b.Navigation("ProductUser");
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("Domain_Layer.Models.ProductMedia", b =>
@@ -955,8 +946,6 @@ namespace Application_Layer.Migrations
             modelBuilder.Entity("Domain_Layer.Models.User", b =>
                 {
                     b.Navigation("Chats");
-
-                    b.Navigation("Products");
 
                     b.Navigation("Request");
 
