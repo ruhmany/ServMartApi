@@ -26,7 +26,7 @@ namespace Sermart_Api.Controllers
 			var result = await _authRepo.RegisterAsync( model );
 			if ( !result.IsAuthenticated )
 				return BadRequest( "error while registering" + result.Message );
-			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email } );
+			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );
 		}
 
 
@@ -40,7 +40,7 @@ namespace Sermart_Api.Controllers
 			var result = await _authRepo.LoginAsync( model );
 			if ( !result.IsAuthenticated )
 				return BadRequest( result.Message );
-			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email } );
+			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );
 		}
 	}
 }

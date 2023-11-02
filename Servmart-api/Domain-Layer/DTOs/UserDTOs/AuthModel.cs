@@ -16,5 +16,8 @@ namespace Domain_Layer.DTOs.UserDTOs
 		public string Token { get; set; }
 		public DateTime ExpiresOn { get; set; }
 		public string ProfilePic { get; set; }
+		public string FName { get; set; }
+		public string LName { get; set; }
+		public string UserID { get; set; }
 	}
 }

@@ -50,6 +50,7 @@ namespace Application_Layer.Repos
 				return authmodel;
 			}
 
+			var roles = await _usermanager.GetRolesAsync( user );
 			var token = await CreateToken( user );
 			authmodel.IsAuthenticated = true;
 			authmodel.Token = new JwtSecurityTokenHandler().WriteToken( token );
@@ -57,8 +58,10 @@ namespace Application_Layer.Repos
 			authmodel.Email = user.Email;
 			authmodel.ProfilePic = user.ProfilePic;
 			authmodel.ExpiresOn = token.ValidTo;
-			var roles = await _usermanager.GetRolesAsync( user );
 			authmodel.Role = roles.ToList();
+			authmodel.FName = user.FName;
+			authmodel.LName = user.LName;
+			authmodel.UserID = user.Id;
 			return authmodel;
 		}
 
@@ -108,7 +111,11 @@ namespace Application_Layer.Repos
 				Token = new JwtSecurityTokenHandler().WriteToken( tokens ),
 				Role = userDTO.Role.ToList<string>(),
 				UserName = user.UserName,
-				ExpiresOn = tokens.ValidTo
+				ExpiresOn = tokens.ValidTo,
+				ProfilePic = user.ProfilePic,
+				FName = user.FName,
+				LName = user.LName,
+				UserID = user.Id
 			};
 		}
 
