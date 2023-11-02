@@ -11,6 +11,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Application_Layer.Interfaces;
 using Application_Layer.Services;
+using AutoMapper;
+using Sermart_Api.Mapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Sermart_Api
 {
@@ -28,6 +31,13 @@ namespace Sermart_Api
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IProduct, Products>();
+            builder.Services.AddScoped<IProductCatgory, ProductCatgoryRepo>();
+
+
+            builder.Services.AddAutoMapper(p=>p.AddProfile(new productProfile()));
+            builder.Services.AddAutoMapper(p=>p.AddProfile(new CatgoryProfile()));
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
