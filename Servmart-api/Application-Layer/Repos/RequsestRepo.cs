@@ -33,14 +33,15 @@ namespace Application_Layer.Repos
             {
                 CleintID = requestDTO.ClientId,
                 ID = Guid.NewGuid(),
+                Title = requestDTO.Title,
                 Details = requestDTO.Details,
-                RateMassage = requestDTO.RateMassage,
+                  RateMassage = requestDTO.RateMassage,
                 StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
                 ExpectSalary=requestDTO.Price,                          
                 State = requestDTO.Status
             };
-
+              request.Media= new List<RequestMedia>();
             foreach (var item in requestDTO.picUrl)
             {
                 var resualt = await _photoService.AddPhotoAsync(item);
@@ -49,6 +50,7 @@ namespace Application_Layer.Repos
 
             await _appDbContext.Request.AddAsync(request);
              _unitOfWork.CommitChanges();
+
 
             return null;
         }
@@ -84,9 +86,9 @@ namespace Application_Layer.Repos
              return query.ToList();
         }
 
-        public List<Request> GetRequestList()
+        public   List<Request> GetRequestList()
         {
-            return _appDbContext.Request.ToList();
+            return   _appDbContext.Request.ToList();
         }
 
         public async Task<Request> GitbyId(Guid id)
@@ -100,6 +102,7 @@ namespace Application_Layer.Repos
             var req = await _appDbContext.Request.FirstOrDefaultAsync(r => r.ID == requestDTO.ID);
             if (req != null)
             {
+                req.Title = requestDTO.Titles;
                 req.StartDate = requestDTO.StartDate;
                 req.EndDate = requestDTO.EndDate;
                 req.State = requestDTO.Status;

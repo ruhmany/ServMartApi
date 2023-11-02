@@ -12,6 +12,8 @@ using System.Text;
 using Application_Layer.Interfaces;
 using Application_Layer.Services;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http.Features;
+using System.Reflection.PortableExecutable;
 
 namespace Sermart_Api
 {
@@ -71,6 +73,14 @@ namespace Sermart_Api
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                 };
+            });
+
+            builder.Services.Configure<FormOptions>(Option =>
+            {
+                Option.ValueLengthLimit = int.MaxValue;
+                Option.MultipartBodyLengthLimit = int.MaxValue;
+                Option.MemoryBufferThreshold = int.MaxValue;
+
             });
 
 
