@@ -12,7 +12,7 @@
         public DateTime EndDate { get; set; }
         public float RateValue { get; set; }
         public string RateMassage { get; set; }
-               
+        //public string Address {  get; set; }      
         public virtual User User { get; set; }
         public virtual ICollection<RequestMedia> Media { get; set; }
         public virtual ICollection<RequestOffer> RequestOffer { get; set; }

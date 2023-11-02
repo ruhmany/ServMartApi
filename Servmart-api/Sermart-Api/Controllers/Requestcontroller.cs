@@ -9,7 +9,7 @@ namespace Sermart_Api.Controllers
     public class Requestcontroller : ControllerBase
     {
         private readonly IRequestRepo _request;
-        
+
         public Requestcontroller(IRequestRepo request)
         {
             _request = request;
@@ -22,7 +22,7 @@ namespace Sermart_Api.Controllers
             return Ok();
         }
         [HttpPost("Api/UpDate")]
-        public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request) 
+        public IActionResult UpDate(Guid id, [FromBody] RequestUpdateDTO request)
         {
             request.ClientId = id;
             _request.UPDate(request);
@@ -39,18 +39,19 @@ namespace Sermart_Api.Controllers
         }
 
         [HttpGet("Api/getall")]
-        
-        //public IActionResult Getall() {
-        
-        //   var request = _request.GetRequestList();
-        //    return Ok(request);
-        //}
-        [HttpGet("FilterRequest")]
-        public IActionResult Filter(Guid clientId, decimal price, decimal? minPrice, decimal? maxPrice)
+
+        public IActionResult Getall()
         {
-            var filteredRequests = _request.filterReq(clientId, price, minPrice, maxPrice);
-            return Ok(filteredRequests);
+
+            var request = _request.GetRequestList();
+            return Ok(request);
         }
+        //[HttpGet("FilterRequest")]
+        //public IActionResult Filter(Guid clientId, decimal price, decimal? minPrice, decimal? maxPrice)
+        //{
+        //    var filteredRequests = _request.filterReq(clientId, price, minPrice, maxPrice);
+        //    return Ok(filteredRequests);
+        //}
 
     }
 }

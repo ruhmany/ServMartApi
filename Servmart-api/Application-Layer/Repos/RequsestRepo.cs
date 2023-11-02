@@ -41,7 +41,7 @@ namespace Application_Layer.Repos
                 ExpectSalary = requestDTO.Price,
                 State = requestDTO.Status
             };
-
+              request.Media= new List<RequestMedia>();
             foreach (var item in requestDTO.picUrl)
             {
                 var resualt = await _photoService.AddPhotoAsync(item);
@@ -86,9 +86,9 @@ namespace Application_Layer.Repos
              return query.ToList();
         }
 
-        public List<Request> GetRequestList()
+        public   List<Request> GetRequestList()
         {
-            return _appDbContext.Request.ToList();
+            return   _appDbContext.Request.ToList();
         }
 
         public async Task<Request> GitbyId(Guid id)
