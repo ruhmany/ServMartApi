@@ -14,6 +14,7 @@ namespace Infrastructure_Layer.IRepos
         //  List<Request> GetRequestList();
         //Task<RequestDTO> GetReqModel();
         Task<Request> UPDate(RequestUpdateDTO requestDTO);
+        Task<IEnumerable<Request>> GetAllRequests();
         Request Delete(Guid id);
         Task<Request> GitbyId(Guid id);
         List<Request> filterReq(Guid id, decimal Price, decimal? minPrice, decimal? maxPrice);

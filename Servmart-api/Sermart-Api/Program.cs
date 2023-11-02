@@ -12,6 +12,7 @@ using System.Text;
 using Application_Layer.Interfaces;
 using Application_Layer.Services;
 using Microsoft.Extensions.FileProviders;
+using System.Text.Json.Serialization;
 
 namespace Sermart_Api
 {
@@ -20,7 +21,8 @@ namespace Sermart_Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             // Add services to the container.
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
             builder.Services.Configure<CloudinraySettings>(builder.Configuration.GetSection("CloudinarySettings"));

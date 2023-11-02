@@ -15,13 +15,13 @@ namespace Sermart_Api.Controllers
             _request = request;
 
         }
-        [HttpPost("api/AddRequest")]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm] RequestDTO requestDTO)
         {
-            await _request.AddRequest(requestDTO);
-            return Ok();
+            var request = await _request.AddRequest(requestDTO);
+            return Ok(request);
         }
-        [HttpPost("Api/UpDate")]
+        [HttpPost("Update")]
         public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request) 
         {
             request.ClientId = id;
@@ -29,7 +29,7 @@ namespace Sermart_Api.Controllers
             return Ok();
 
         }
-        [HttpPost("Api/Detete")]
+        [HttpPost("Delet")]
         public IActionResult Delete(Guid id)
         {
             _request.Delete(id);
@@ -37,13 +37,14 @@ namespace Sermart_Api.Controllers
 
         }
 
-        [HttpGet("Api/getall")]
-        
-        //public IActionResult Getall() {
-        
-        //   var request = _request.GetRequestList();
-        //    return Ok(request);
-        //}
+        [HttpGet("GetAll")]
+
+        public async Task<IActionResult> Getall()
+        {
+
+            var request = await _request.GetAllRequests();
+            return Ok(request);
+        }
         [HttpGet("FilterRequest")]
         public IActionResult Filter(Guid clientId, decimal price, decimal? minPrice, decimal? maxPrice)
         {
