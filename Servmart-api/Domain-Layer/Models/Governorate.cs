@@ -1,0 +1,12 @@
+﻿
+namespace Domain_Layer.Models
+{
+	public class Governorate
+	{
+		public int ID { get; set; }
+		public string NameAr { get; set; }
+		public string NameEn { get; set; }
+
+		public virtual ICollection<City> Cities { get; set; }
+	}
+}

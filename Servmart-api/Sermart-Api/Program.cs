@@ -49,7 +49,7 @@ namespace Sermart_Api
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaltConnection"),
+                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString( "DefaultConnection" ),
                     m => m.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));                
             });
             builder.Services.AddIdentity<User, IdentityRole>(options =>
