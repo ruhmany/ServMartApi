@@ -12,6 +12,9 @@ using Sermart_Api.Interfaces;
 using Sermart_Api.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
+using Swashbuckle.AspNetCore.SwaggerGen; // Add this line for the SwaggerGen namespace
+using Domain_Layer.DTOs;
 
 namespace Sermart_Api
 {
@@ -28,9 +31,14 @@ namespace Sermart_Api
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            builder.Services.AddControllers().AddJsonOptions(x =>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(); 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaltConnection"),

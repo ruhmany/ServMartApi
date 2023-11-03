@@ -1,21 +1,24 @@
-﻿namespace Domain_Layer.Models
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain_Layer.DTOs
 {
-    public class Service
+    public class ServicesDTO
     {
         public Guid ID { get; set; }
+ 
         public string Title { get; set; }
         public string Discription { get; set; }
         public float Rate { get; set; }
         public decimal ExpectedSalary { get; set; }
-
-        public string FilePath { get; set; }
+        public IFormFile file { get; set; } 
 
         public Guid CategoryID { get; set; }
         public string ProviderID { get; set; }
-  
-        public virtual User User { get; set; }
-        public virtual ServiceCategory ServiceCategory { get; set; }
-        public virtual ICollection<ServiceRate> ServiceRates { get; set; }
-
     }
 }

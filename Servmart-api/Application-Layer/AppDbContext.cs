@@ -12,6 +12,7 @@ namespace Application_Layer
 {
     public class AppDbContext:IdentityDbContext<User>
     {
+       
         public AppDbContext(DbContextOptions options):base(options)
         {
                 

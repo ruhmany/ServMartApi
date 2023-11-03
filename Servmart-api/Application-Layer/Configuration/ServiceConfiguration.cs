@@ -21,6 +21,8 @@ namespace Application_Layer.Configuration
             builder.Property(E => E.ExpectedSalary).IsRequired().HasColumnType("float");
             builder.HasOne(e => e.ServiceCategory).WithMany(e => e.Services).HasForeignKey(e => e.CategoryID).IsRequired();
             builder.HasOne(e => e.User).WithMany(e => e.Services).HasForeignKey(e => e.ProviderID).IsRequired();
+            builder.Property(p => p.FilePath).IsRequired();
+
         }
     }
 }
