@@ -115,6 +115,7 @@ namespace Application_Layer.Repos
 				ProfilePic = user.ProfilePic,
 				FName = user.FName,
 				LName = user.LName,
+				Email = user.Email,
 				UserID = user.Id
 			};
 		}

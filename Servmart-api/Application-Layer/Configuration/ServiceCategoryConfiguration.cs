@@ -15,7 +15,8 @@ namespace Application_Layer.Configuration
         {
             builder.ToTable("ServiceCategory", "Service");
             builder.HasKey(x => x.ID);
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.NameAr).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.NameEn ).IsRequired().HasMaxLength(100);
         }
     }
 }
