@@ -17,6 +17,7 @@ namespace Application_Layer.Configuration
           
             builder.Property(u => u.FName).IsRequired().HasMaxLength(128);
             builder.Property(u => u.LName).IsRequired().HasMaxLength(128);
+            builder.Property(u => u.Gender).IsRequired().HasMaxLength(128);
             builder.Property(u => u.SSN).IsRequired().HasMaxLength(14);
             builder.Property(u => u.Address).HasMaxLength(250);
             builder.Property(u => u.Email).IsRequired().HasMaxLength(250);
