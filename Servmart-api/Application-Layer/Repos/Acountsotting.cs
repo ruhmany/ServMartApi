@@ -1,9 +1,8 @@
-﻿using Application_Layer.Interfaces;
-using Domain_Layer.DTOs.
-    s;
+﻿using InfrastructureLayer.Interfaces;
+using Domain_Layer.DTOs;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application_Layer.Repos
+namespace InfrastructureLayer.Repos
 {
     public class Acountsotting : BaseRepos<User>, IAcountSitting
     {
@@ -36,7 +35,7 @@ namespace Application_Layer.Repos
         }
 
         public Task<User> ChageEmail(ChangeEmailDTO dTO)
-        {               
+        {                  
         }
 
         public Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)

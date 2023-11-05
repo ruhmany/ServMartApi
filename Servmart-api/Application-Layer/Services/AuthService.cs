@@ -1,6 +1,6 @@
-﻿using Application_Layer.Interfaces;
+﻿using InfrastructureLayer.Interfaces;
 
-namespace Application_Layer.Services
+namespace InfrastructureLayer.Services
 {
     public class AuthService : IAuthService
     {

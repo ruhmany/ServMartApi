@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain_Layer.Models;
 
-namespace Application_Layer.Configuration
+namespace InfrastructureLayer.Configuration
 {
     public class RequestConfiguration : IEntityTypeConfiguration<Request>
     {

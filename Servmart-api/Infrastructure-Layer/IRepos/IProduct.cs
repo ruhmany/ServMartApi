@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure_Layer.IRepos
+namespace ApplicationLayer.IRepos
 {
     public interface IProduct
     {

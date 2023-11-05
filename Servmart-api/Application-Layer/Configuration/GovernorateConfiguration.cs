@@ -3,7 +3,7 @@ using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Application_Layer.Configuration
+namespace InfrastructureLayer.Configuration
 {
 	public class GovernorateConfiguration : IEntityTypeConfiguration<Governorate>
 	{

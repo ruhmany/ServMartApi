@@ -1,7 +1,7 @@
-﻿using Application_Layer.Interfaces;
+﻿using InfrastructureLayer.Interfaces;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Application_Layer.Repos
+namespace InfrastructureLayer.Repos
 {
     public class UserRepo : BaseRepos<User>, IUserRepo
     {

@@ -1,10 +1,10 @@
-﻿using Application_Layer.Configuration;
-using Application_Layer.Helpers;
+﻿using InfrastructureLayer.Configuration;
+using InfrastructureLayer.Helpers;
 using Domain_Layer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application_Layer
+namespace InfrastructureLayer
 {
 	public class AppDbContext : IdentityDbContext<User>
 	{
@@ -30,13 +30,14 @@ namespace Application_Layer
 			builder.ApplyConfiguration<Service>( new ServiceConfiguration() );
 			builder.ApplyConfiguration<ServiceRate>( new ServiceRateConfiguration() );
 			builder.ApplyConfiguration<Shop>( new ShopConfigtstion() );
-			builder.ApplyConfiguration<User>( new UserConfiguration() );
+			//builder.ApplyConfiguration<User>( new UserConfiguration() );
 			builder.ApplyConfiguration<Governorate>( new GovernorateConfiguration() );
 			builder.ApplyConfiguration<City>( new CityConfiguration() );
 
 			builder.SeedRoles();
 			builder.SeedGovernorate();
 			builder.SeedCity();
+			builder.SeedRequestAndServiceCategories();
 
 			base.OnModelCreating( builder );
 
@@ -55,7 +56,7 @@ namespace Application_Layer
 		public DbSet<Service> Service { get; set; }
 		public DbSet<ServiceCategory> ServiceCategorie { get; set; }
 		public DbSet<ServiceRate> ServiceRate { get; set; }
-		public DbSet<Shop> Shop { get; set; }
+		//public DbSet<Shop> Shop { get; set; }
 		public DbSet<Governorate> Governorates { get; set; }
 		public DbSet<City> Cities { get; set; }
 

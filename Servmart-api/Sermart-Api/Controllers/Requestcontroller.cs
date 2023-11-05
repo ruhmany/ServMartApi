@@ -1,6 +1,6 @@
-﻿using Application_Layer.Repos;
+﻿using InfrastructureLayer.Repos;
 using Domain_Layer.DTOs.RequestDTOS;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Application_Layer.Configuration
+namespace InfrastructureLayer.Configuration
 {
 	public class CityConfiguration : IEntityTypeConfiguration<City>
 	{

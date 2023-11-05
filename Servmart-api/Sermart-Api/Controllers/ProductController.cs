@@ -1,9 +1,9 @@
-﻿using Application_Layer;
-using Application_Layer.Repos;
-using Application_Layer.Services;
+﻿using InfrastructureLayer;
+using InfrastructureLayer.Repos;
+using InfrastructureLayer.Services;
 using AutoMapper;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

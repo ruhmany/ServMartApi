@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application_Layer.Helpers
+namespace InfrastructureLayer.Helpers
 {
 	public static class ModelBuilderExtensions
 	{
@@ -448,6 +448,60 @@ namespace Application_Layer.Helpers
 				new City { ID = 394, GovernorateId = 27, NameAr = "طما", NameEn = "Tama" },
 				new City { ID = 395, GovernorateId = 27, NameAr = "طهطا", NameEn = "Tahta" },
 				new City { ID = 396, GovernorateId = 27, NameAr = "الكوثر", NameEn = "Alkawthar" }
+			);
+		}
+
+		public static void SeedRequestAndServiceCategories( this ModelBuilder builder )
+		{
+			builder.Entity<ServiceCategory>().HasData(
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "المحاسبة", NameEn = "Accounting" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "الإعلان والتسويق", NameEn = "Advertising and marketing" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "إستشارات", NameEn = "Consulting " },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات تكنولوجيا المعلومات", NameEn = "Information technology services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات قانونية", NameEn = "Legal services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "إدارة المكاتب", NameEn = "Office management" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات الترجمة", NameEn = "Translation services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تصميم وتطوير مواقع الويب", NameEn = "Web design and development" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "صيانة سيارات", NameEn = "Car maintenance" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات التجميل", NameEn = "Beauty services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تقديم الطعام", NameEn = "Catering " },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "رعاية الأطفال", NameEn = "Childcare" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات التنظيف", NameEn = "Cleaning services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "إصلاح الكمبيوتر", NameEn = "Computer repair" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات التوصيل", NameEn = "Delivery services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "التنظيف الجاف", NameEn = "Dry cleaning" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "التخطيط للأحداث", NameEn = "Event planning" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "الخدمات المالية", NameEn = "Financial services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تدريب اللياقة البدنية", NameEn = "Fitness training" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "توصيل طلبات الطعام", NameEn = "Food delivery" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تأمين", NameEn = "Insurance" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "العناية بالحديقة", NameEn = "Garden care" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات غسيل الملابس", NameEn = "Laundry services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات صناعة الأقفال", NameEn = "Locksmith services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "الخدمات الطبية", NameEn = "Medical services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات النقل", NameEn = "Transportation services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "رعاية الحيوانات الاليفة", NameEn = "Pet care" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "الخدمات البيطرية", NameEn = "Veterinary services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "سباكة", NameEn = "Plumbing" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "كهرباء", NameEn = "Electricity" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "نجارة", NameEn = "Carpenter " },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "نقاشة", NameEn = "Painter" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "مكافحة الحشرات والطيور", NameEn = "Pest and bird control" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "ساتلايت ورسيفر", NameEn = "Satellite and receiver" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "التكييف", NameEn = "Air conditioning" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تركيب و صيانة الاجهزة المنزلية", NameEn = "Installation and maintenance of home appliances" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تنظيف حمام السباحة", NameEn = "Swimming pool cleaning" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "تسقيف", NameEn = "Roofing" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات سيارات الأجرة", NameEn = "Taxi services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات حكومية", NameEn = "Government services" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "المكتبات", NameEn = "Libraries" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "حدائق و منتجعات ترفيهيه", NameEn = "Parks and recreation" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "ترفيه", NameEn = "Entertainment" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "ضيافة", NameEn = "Hospitality" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "العقارات", NameEn = "Real estate" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "الرياضة", NameEn = "Sports" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "البناء", NameEn = "Construction" },
+				new ServiceCategory { ID = Guid.NewGuid(), NameAr = "خدمات أخرى", NameEn = "Other services" }
 			);
 		}
 	}
