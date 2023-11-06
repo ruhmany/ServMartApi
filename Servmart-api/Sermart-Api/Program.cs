@@ -107,14 +107,6 @@ namespace Sermart_Api
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(builder.Environment.ContentRootPath, "Images")
-                    )
-                    ,RequestPath = "/Images"
-            });
-
             app.UseAuthentication();
             app.UseAuthorization();
 
