@@ -1,7 +1,7 @@
-﻿using Application_Layer.Interfaces;
+﻿using InfrastructureLayer.Interfaces;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application_Layer.Repos
+namespace InfrastructureLayer.Repos
 {
 	public class AuthRepo : BaseRepos<User>, IAuthRepo
 	{
@@ -115,6 +115,7 @@ namespace Application_Layer.Repos
 				ProfilePic = user.ProfilePic,
 				FName = user.FName,
 				LName = user.LName,
+				Email = user.Email,
 				UserID = user.Id
 			};
 		}

@@ -1,7 +1,7 @@
-using Application_Layer;
-using Application_Layer.Repos;
+using InfrastructureLayer;
+using InfrastructureLayer.Repos;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Sermart_Api.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Application_Layer.Interfaces;
-using Application_Layer.Services;
+using InfrastructureLayer.Interfaces;
+using InfrastructureLayer.Services;
 using AutoMapper;
 using Sermart_Api.Mapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +52,7 @@ namespace Sermart_Api
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("defaltConnection"),
+                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString( "DefaultConnection" ),
                     m => m.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));                
             });
             builder.Services.AddIdentity<User, IdentityRole>(options =>

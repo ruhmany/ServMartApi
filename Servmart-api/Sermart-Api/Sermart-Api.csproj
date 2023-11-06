@@ -26,4 +26,9 @@
     <ProjectReference Include="..\Application-Layer\Application-Layer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

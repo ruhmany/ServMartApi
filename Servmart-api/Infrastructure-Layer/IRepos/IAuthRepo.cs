@@ -1,7 +1,7 @@
 ﻿using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
 
-namespace Infrastructure_Layer.IRepos
+namespace ApplicationLayer.IRepos
 {
     public interface IAuthRepo : IBaseRepo<User>
     {

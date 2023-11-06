@@ -1,5 +1,5 @@
 ﻿using Domain_Layer.DTOs.UserDTOs;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers

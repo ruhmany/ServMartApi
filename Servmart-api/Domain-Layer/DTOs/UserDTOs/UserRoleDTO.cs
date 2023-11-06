@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationLayer.IRepos
+namespace Domain_Layer.DTOs.UserDTOs
 {
-    public interface IUnitOfWork
+    public class UserRoleDTO
     {
-        int CommitChanges();
+         public List <string> Roles { get; set; }
     }
 }

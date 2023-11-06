@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application_Layer.Configuration
+namespace InfrastructureLayer.Configuration
 {
     public class MessageConfiguration : IEntityTypeConfiguration<Message>
     {

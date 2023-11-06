@@ -1,4 +1,4 @@
-﻿namespace Application_Layer.Interfaces
+﻿namespace InfrastructureLayer.Interfaces
 {
     public interface IAuthService
     {

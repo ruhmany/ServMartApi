@@ -1,5 +1,5 @@
 ﻿using Domain_Layer.DTOs.UserDTOs;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

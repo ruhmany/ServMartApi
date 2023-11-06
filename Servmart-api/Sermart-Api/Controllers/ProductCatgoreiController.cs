@@ -1,8 +1,8 @@
-﻿using Application_Layer.Repos;
+﻿using InfrastructureLayer.Repos;
 using AutoMapper;
 using Domain_Layer.DTOs;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Mvc;
 using Sermart_Api.Helpers;
 
