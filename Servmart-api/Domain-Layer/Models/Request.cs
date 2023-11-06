@@ -13,8 +13,6 @@
         public float RateValue { get; set; }
         public string RateMassage { get; set; }
         public bool IsDirect { get; set; }
-
-
         public virtual User User { get; set; }
         public virtual ICollection<RequestMedia> Media { get; set; }
         public virtual ICollection<RequestOffer> RequestOffer { get; set; }

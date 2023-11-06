@@ -32,15 +32,16 @@ namespace Application_Layer.Repos
             var request = new Request()
             {
                 CleintID = requestDTO.ClientId,
-                Title = "asasa",
+                ID = Guid.NewGuid(),
+                Title = requestDTO.Title,
                 Details = requestDTO.Details,
-                RateMassage = requestDTO.RateMassage,
+                  RateMassage = requestDTO.RateMassage,
                 StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
                 ExpectSalary=requestDTO.Price,                          
                 State = requestDTO.Status,                
             };
-            request.Media = new List<RequestMedia>();
+            request.Media= new List<RequestMedia>();
             foreach (var item in requestDTO.picUrl)
             {
                 var resualt = await _photoService.AddPhotoAsync(item);
@@ -90,6 +91,11 @@ namespace Application_Layer.Repos
             return result;
         }
 
+        public List<Request> GetRequestList()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Request> GitbyId(Guid id)
         {
             return await _appDbContext.Request.FirstOrDefaultAsync(R => R.CleintID == id );
@@ -101,6 +107,7 @@ namespace Application_Layer.Repos
             var req = await _appDbContext.Request.FirstOrDefaultAsync(r => r.ID == requestDTO.ID);
             if (req != null)
             {
+                req.Title = requestDTO.Titles;
                 req.StartDate = requestDTO.StartDate;
                 req.EndDate = requestDTO.EndDate;
                 req.State = requestDTO.Status;
@@ -113,23 +120,6 @@ namespace Application_Layer.Repos
                 _unitOfWork.CommitChanges();
             }
             return req;
-            //var request = new Request()
-            //{
-            //    CleintID = requestDTO.ClientId,
-            //    ID = Guid.NewGuid(),
-            //    Details = requestDTO.Details,
-            //    RateMassage = requestDTO.RateMassage,
-            //    StartDate = requestDTO.StartDate,
-            //    EndDate = requestDTO.EndDate,
-            //    ExpectSalary = requestDTO.Price,
-            //    State = requestDTO.Status
-
-
-            //};
         }
-
-       
-
- 
     }
 }

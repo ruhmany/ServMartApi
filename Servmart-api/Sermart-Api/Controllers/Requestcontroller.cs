@@ -9,7 +9,7 @@ namespace Sermart_Api.Controllers
     public class Requestcontroller : ControllerBase
     {
         private readonly IRequestRepo _request;
-        
+
         public Requestcontroller(IRequestRepo request)
         {
             _request = request;
@@ -27,6 +27,7 @@ namespace Sermart_Api.Controllers
             request.ClientId = id;
             _request.UPDate(request);
             return Ok();
+
 
         }
         [HttpPost("Delet")]

@@ -11,6 +11,7 @@ namespace Domain_Layer.DTOs.RequestDTOS
     {
 
         public Guid ClientId { get; set; }
+        public string Title { get; set; }
         public string Details { get; set; }
         public decimal Price { get; set; }
         public int Status { get; set; } = 0;

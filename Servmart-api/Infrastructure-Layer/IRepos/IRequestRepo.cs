@@ -11,7 +11,7 @@ namespace Infrastructure_Layer.IRepos
     public interface IRequestRepo
     {
         Task<Request> AddRequest(RequestDTO requestDTO);
-        //  List<Request> GetRequestList();
+        List<Request> GetRequestList();
         //Task<RequestDTO> GetReqModel();
         Task<Request> UPDate(RequestUpdateDTO requestDTO);
         Task<IEnumerable<Request>> GetAllRequests();

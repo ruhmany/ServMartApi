@@ -4,6 +4,7 @@ using Application_Layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application_Layer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029123432_UpdateProductAsUser")]
+    partial class UpdateProductAsUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,9 +238,6 @@ namespace Application_Layer.Migrations
                     b.Property<decimal>("ExpectSalary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsDirect")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RateMassage")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -251,12 +251,6 @@ namespace Application_Layer.Migrations
 
                     b.Property<int>("State")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -295,16 +289,8 @@ namespace Application_Layer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("ExpectSalary")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<bool>("IsDirect")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ProviderID")
                         .IsRequired()
@@ -312,9 +298,6 @@ namespace Application_Layer.Migrations
 
                     b.Property<Guid>("RequestID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("State")
                         .HasMaxLength(15)
@@ -459,6 +442,7 @@ namespace Application_Layer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 

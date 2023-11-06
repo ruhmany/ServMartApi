@@ -11,8 +11,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Application_Layer.Interfaces;
 using Application_Layer.Services;
+using AutoMapper;
+using Sermart_Api.Mapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Features;
+using System.Reflection.PortableExecutable;
+
 
 namespace Sermart_Api
 {
@@ -31,6 +37,12 @@ namespace Sermart_Api
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IProduct, Products>();
+            builder.Services.AddScoped<IProductCatgory, ProductCatgoryRepo>();
+
+
+            builder.Services.AddAutoMapper(p=>p.AddProfile(new productProfile()));
+            builder.Services.AddAutoMapper(p=>p.AddProfile(new CatgoryProfile()));
             builder.Services.AddScoped<IRequestRepo, RequsestRepo>();
             builder.Services.AddScoped<IAuthRepo, AuthRepo>();
             builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
@@ -73,6 +85,14 @@ namespace Sermart_Api
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                 };
+            });
+
+            builder.Services.Configure<FormOptions>(Option =>
+            {
+                Option.ValueLengthLimit = int.MaxValue;
+                Option.MultipartBodyLengthLimit = int.MaxValue;
+                Option.MemoryBufferThreshold = int.MaxValue;
+
             });
 
 
