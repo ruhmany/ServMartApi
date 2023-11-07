@@ -4,7 +4,7 @@ namespace Domain_Layer.DTOs.RequestDTOS
 {
 	public class RequestDTO
 	{
-		public Guid ClientId { get; set; }
+		public string ClientId { get; set; }
 		public string? ProviderID { get; set; }
 		public string Title { get; set; }
 		public string Category { get; set; }

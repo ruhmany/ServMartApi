@@ -1,3 +1,5 @@
+using Application_Layer.Interfaces;
+using Application_Layer.Services;
 using ApplicationLayer.IRepos;
 using Domain_Layer.Models;
 using InfrastructureLayer;
@@ -30,7 +32,8 @@ namespace Sermart_Api
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPhotoService, PhotoService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IVideoService, VideoService>();
+			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProduct, Products>();
             builder.Services.AddScoped<IProductCatgory, ProductCatgoryRepo>();
 
@@ -47,7 +50,7 @@ namespace Sermart_Api
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString( "DefaultConnection" ),
-                    m => m.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));                
+                    m => m.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
             });
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {

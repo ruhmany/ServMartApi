@@ -1,8 +1,10 @@
-﻿using ApplicationLayer.IRepos;
+﻿using Application_Layer.Interfaces;
+using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace InfrastructureLayer.Repos
 {
@@ -11,20 +13,22 @@ namespace InfrastructureLayer.Repos
 		private readonly AppDbContext _appDbContext;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IPhotoService _photoService;
+		private readonly IVideoService _videoService;
 
 
-		public RequsestRepo(AppDbContext appContext, IUnitOfWork unitOfWork, IPhotoService photoService) : base(appContext)
+		public RequsestRepo( AppDbContext appContext, IUnitOfWork unitOfWork, IPhotoService photoService, IVideoService videoService ) : base( appContext )
 		{
 			_appDbContext = appContext;
 			_unitOfWork = unitOfWork;
 			_photoService = photoService;
+			_videoService = videoService;
 		}
 
-		public async Task<Request> AddRequest(RequestDTO requestDTO)
+		public async Task<Request> AddRequest( RequestDTO requestDTO )
 		{
 			var request = new Request()
 			{
-				CleintID = requestDTO.ClientId,
+				CleintID = Guid.Parse( requestDTO.ClientId ),
 				Title = requestDTO.Title,
 				Category = requestDTO.Category,
 				Details = requestDTO.Details,
@@ -37,7 +41,7 @@ namespace InfrastructureLayer.Repos
 				IsDirect = requestDTO.IsDirect,
 			};
 
-			if (requestDTO.IsDirect && !string.IsNullOrEmpty(requestDTO.ProviderID))
+			if ( requestDTO.IsDirect && !string.IsNullOrEmpty( requestDTO.ProviderID ) )
 			{
 				request.RequestOffer = new List<RequestOffer>()
 				{
@@ -51,31 +55,31 @@ namespace InfrastructureLayer.Repos
 				};
 			}
 			request.ImagesMedia = new List<RequestMedia>();
-			foreach (var item in requestDTO.Images)
+			foreach ( var item in requestDTO.Images )
 			{
-				var imageResualt = await _photoService.AddPhotoAsync(item);
-				request.ImagesMedia.Add(new RequestMedia() { MediaUrl = imageResualt.Url.ToString(), RequestID = request.ID });
+				var imageResualt = await _photoService.AddPhotoAsync( item );
+				request.ImagesMedia.Add( new RequestMedia() { MediaUrl = imageResualt.Url.ToString(), RequestID = request.ID } );
 			}
 
-			var videoResualt = await _photoService.AddPhotoAsync( requestDTO.Video );
+			var videoResualt = await _videoService.AddVideoAsync( requestDTO.Video );
 			request.VideoMedia = new RequestMedia()
 			{
 				MediaUrl = videoResualt.Url.ToString(),
 				RequestID = request.ID
 			};
 
-			var result = await _appDbContext.Request.AddAsync(request);
+			var result = await _appDbContext.Request.AddAsync( request );
 			_unitOfWork.CommitChanges();
 
 			return request;
 		}
 
-		public Request Delete(Guid id)
+		public Request Delete( Guid id )
 		{
-			var request = _appDbContext.Request.FirstOrDefault(x => x.ID == id);
-			if (request != null)
+			var request = _appDbContext.Request.FirstOrDefault( x => x.ID == id );
+			if ( request != null )
 			{
-				_appDbContext.Request.Remove(request);
+				_appDbContext.Request.Remove( request );
 			}
 			return request;
 
@@ -83,19 +87,19 @@ namespace InfrastructureLayer.Repos
 
 		}
 
-		public List<Request> filterReq(Guid Cleinrid, decimal Price, decimal? minPrice, decimal? maxPrice)
+		public List<Request> filterReq( Guid Cleinrid, decimal Price, decimal? minPrice, decimal? maxPrice )
 		{
 			IQueryable<Request> query = _appDbContext.Request;
-			query = query.Where(r => r.CleintID == Cleinrid);
-			query = query.Where(R => R.ExpectedSalary == Price);
-			if (minPrice.HasValue)
+			query = query.Where( r => r.CleintID == Cleinrid );
+			query = query.Where( R => R.ExpectedSalary == Price );
+			if ( minPrice.HasValue )
 			{
-				query = query.Where(r => r.ExpectedSalary >= minPrice.Value);
+				query = query.Where( r => r.ExpectedSalary >= minPrice.Value );
 
 			}
-			if (maxPrice.HasValue)
+			if ( maxPrice.HasValue )
 			{
-				query = query.Where(R => R.ExpectedSalary <= maxPrice.Value);
+				query = query.Where( R => R.ExpectedSalary <= maxPrice.Value );
 
 			}
 			return query.ToList();
@@ -112,16 +116,16 @@ namespace InfrastructureLayer.Repos
 			throw new NotImplementedException();
 		}
 
-		public async Task<Request> GitbyId(Guid id)
+		public async Task<Request> GitbyId( Guid id )
 		{
-			return await _appDbContext.Request.FirstOrDefaultAsync(R => R.CleintID == id);
+			return await _appDbContext.Request.FirstOrDefaultAsync( R => R.CleintID == id );
 
 		}
 
-		public async Task<Request> UPDate(RequestUpdateDTO requestDTO)
+		public async Task<Request> UPDate( RequestUpdateDTO requestDTO )
 		{
-			var req = await _appDbContext.Request.FirstOrDefaultAsync(r => r.ID == requestDTO.ID);
-			if (req != null)
+			var req = await _appDbContext.Request.FirstOrDefaultAsync( r => r.ID == requestDTO.ID );
+			if ( req != null )
 			{
 				req.Title = requestDTO.Titles;
 				req.StartDate = requestDTO.StartDate;
@@ -132,7 +136,7 @@ namespace InfrastructureLayer.Repos
 				req.Details = requestDTO.Details;
 
 
-				_appDbContext.Request.Update(req);
+				_appDbContext.Request.Update( req );
 				_unitOfWork.CommitChanges();
 			}
 			return req;
