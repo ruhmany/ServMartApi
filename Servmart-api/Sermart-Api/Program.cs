@@ -1,24 +1,18 @@
-using InfrastructureLayer;
-using InfrastructureLayer.Repos;
-using Domain_Layer.Models;
 using ApplicationLayer.IRepos;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Sermart_Api.Helpers;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Domain_Layer.Models;
+using InfrastructureLayer;
 using InfrastructureLayer.Interfaces;
+using InfrastructureLayer.Repos;
 using InfrastructureLayer.Services;
-using AutoMapper;
-using Sermart_Api.Mapper;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
-using System.Reflection.PortableExecutable;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Sermart_Api.Helpers;
+using Sermart_Api.Mapper;
+using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Sermart_Api
 {

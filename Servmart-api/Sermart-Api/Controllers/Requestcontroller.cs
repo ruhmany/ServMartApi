@@ -1,7 +1,5 @@
-﻿using InfrastructureLayer.Repos;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestDTOS;
-using ApplicationLayer.IRepos;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers

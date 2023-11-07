@@ -1,14 +1,8 @@
-﻿using InfrastructureLayer.Interfaces;
-using CloudinaryDotNet.Actions;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+using InfrastructureLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Repos
 {
@@ -46,7 +40,7 @@ namespace InfrastructureLayer.Repos
                     new RequestOffer()
                     {
                         ProviderID = requestDTO.ProviderID,
-                        Details =string.Empty,
+                        Details = string.Empty,
                         ExpectSalary = default,
                         EndDate = default
                     }
@@ -60,9 +54,7 @@ namespace InfrastructureLayer.Repos
             }
 
             var result = await _appDbContext.Request.AddAsync(request);
-
             _unitOfWork.CommitChanges();
-
 
             return request;
         }

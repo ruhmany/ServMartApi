@@ -1,16 +1,9 @@
 ﻿using InfrastructureLayer.Interfaces;
-using Domain_Layer.DTOs;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
 using ApplicationLayer.IRepos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Infrastructure_Layer.IRepos;
 
 namespace InfrastructureLayer.Repos
 {

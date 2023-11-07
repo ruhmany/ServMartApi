@@ -1,13 +1,9 @@
-﻿using InfrastructureLayer;
-using InfrastructureLayer.Repos;
-using InfrastructureLayer.Services;
+﻿using ApplicationLayer.IRepos;
 using AutoMapper;
 using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+using InfrastructureLayer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sermart_Api.Helpers;
 using System.Security.Claims;
 

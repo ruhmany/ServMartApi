@@ -1,11 +1,10 @@
-﻿using Domain_Layer.DTOs.UserDTOs;
-using ApplicationLayer.IRepos;
-using Microsoft.AspNetCore.Http;
+﻿using ApplicationLayer.IRepos;
+using Domain_Layer.DTOs.UserDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
 {
-	[Route( "api/[controller]" )]
+    [Route( "api/[controller]" )]
 	[ApiController]
 	public class AuthController : ControllerBase
 	{

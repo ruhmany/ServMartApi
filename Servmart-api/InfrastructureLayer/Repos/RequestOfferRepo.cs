@@ -1,10 +1,5 @@
-﻿using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApplicationLayer.IRepos;
+using Domain_Layer.Models;
 
 namespace InfrastructureLayer.Repos
 {

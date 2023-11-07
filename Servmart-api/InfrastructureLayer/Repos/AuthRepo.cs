@@ -1,21 +1,17 @@
-﻿using InfrastructureLayer.Interfaces;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Repos
 {
-	public class AuthRepo : BaseRepos<User>, IAuthRepo
+    public class AuthRepo : BaseRepos<User>, IAuthRepo
 	{
 
 

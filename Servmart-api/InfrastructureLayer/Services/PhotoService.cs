@@ -1,10 +1,8 @@
-﻿using InfrastructureLayer.Interfaces;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-
 
 namespace InfrastructureLayer.Services
 {
