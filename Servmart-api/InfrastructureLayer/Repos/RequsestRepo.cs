@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace InfrastructureLayer.Repos
 {
     public class RequsestRepo : BaseRepos<Request>, IRequestRepo
-    { 
+    {
         private readonly AppDbContext _appDbContext;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoService;
@@ -28,61 +28,74 @@ namespace InfrastructureLayer.Repos
 
         public async Task<Request> AddRequest(RequestDTO requestDTO)
         {
-
             var request = new Request()
             {
                 CleintID = requestDTO.ClientId,
-                ID = Guid.NewGuid(),
                 Title = requestDTO.Title,
                 Details = requestDTO.Details,
-                  RateMassage = requestDTO.RateMassage,
                 StartDate = DateTime.Now,
                 EndDate = requestDTO.EndDate,
-                ExpectSalary=requestDTO.Price,                          
-                State = requestDTO.Status,                
+                ExpectSalary = requestDTO.ExpectedSalary,
+                IsDirect = requestDTO.IsDirect,
+
             };
-            request.Media= new List<RequestMedia>();
+            if (requestDTO.IsDirect && !string.IsNullOrEmpty(requestDTO.ProviderID))
+            {
+                request.RequestOffer = new List<RequestOffer>()
+                {
+                    new RequestOffer()
+                    {
+                        ProviderID = requestDTO.ProviderID,
+                        Details =string.Empty,
+                        ExpectSalary = default,
+                        EndDate = default
+                    }
+                };
+            }
+            request.Media = new List<RequestMedia>();
             foreach (var item in requestDTO.picUrl)
             {
                 var resualt = await _photoService.AddPhotoAsync(item);
-                request.Media.Add(new RequestMedia() { MediaUrl = resualt.Url.ToString(), RequestID=request.ID });
+                request.Media.Add(new RequestMedia() { MediaUrl = resualt.Url.ToString(), RequestID = request.ID });
             }
 
-            await _appDbContext.Request.AddAsync(request);
-             _unitOfWork.CommitChanges();
+            var result = await _appDbContext.Request.AddAsync(request);
+
+            _unitOfWork.CommitChanges();
+
 
             return request;
         }
 
         public Request Delete(Guid id)
         {
-            var request= _appDbContext.Request.FirstOrDefault(x => x.ID == id);
+            var request = _appDbContext.Request.FirstOrDefault(x => x.ID == id);
             if (request != null)
             {
-                 _appDbContext.Request.Remove(request);
+                _appDbContext.Request.Remove(request);
             }
             return request;
 
 
-           
+
         }
 
         public List<Request> filterReq(Guid Cleinrid, decimal Price, decimal? minPrice, decimal? maxPrice)
         {
             IQueryable<Request> query = _appDbContext.Request;
-            query = query.Where(r => r.CleintID ==Cleinrid);
-            query =query.Where(R=>R.ExpectSalary == Price);
-             if (minPrice.HasValue)
+            query = query.Where(r => r.CleintID == Cleinrid);
+            query = query.Where(R => R.ExpectSalary == Price);
+            if (minPrice.HasValue)
             {
                 query = query.Where(r => r.ExpectSalary >= minPrice.Value);
 
             }
-             if (maxPrice.HasValue)
+            if (maxPrice.HasValue)
             {
-                query= query.Where(R=>R.ExpectSalary <= maxPrice.Value);
+                query = query.Where(R => R.ExpectSalary <= maxPrice.Value);
 
             }
-             return query.ToList();
+            return query.ToList();
         }
 
         public async Task<IEnumerable<Request>> GetAllRequests()
@@ -98,8 +111,8 @@ namespace InfrastructureLayer.Repos
 
         public async Task<Request> GitbyId(Guid id)
         {
-            return await _appDbContext.Request.FirstOrDefaultAsync(R => R.CleintID == id );
-          
+            return await _appDbContext.Request.FirstOrDefaultAsync(R => R.CleintID == id);
+
         }
 
         public async Task<Request> UPDate(RequestUpdateDTO requestDTO)
@@ -113,7 +126,7 @@ namespace InfrastructureLayer.Repos
                 req.State = requestDTO.Status;
                 req.RateMassage = requestDTO.RateMassage;
                 req.CleintID = requestDTO.ClientId;
-                req.Details= requestDTO.Details;
+                req.Details = requestDTO.Details;
 
 
                 _appDbContext.Request.Update(req);
