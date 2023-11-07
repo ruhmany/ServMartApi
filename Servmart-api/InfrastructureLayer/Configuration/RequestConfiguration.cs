@@ -4,26 +4,29 @@ using Domain_Layer.Models;
 
 namespace InfrastructureLayer.Configuration
 {
-    public class RequestConfiguration : IEntityTypeConfiguration<Request>
-    {
+	public class RequestConfiguration : IEntityTypeConfiguration<Request>
+	{
 
 
-        public void Configure(EntityTypeBuilder<Request> builder)
-        {
-            builder.ToTable("Request", "Service");
-            builder.HasKey(i => i.ID);
-            builder.Property(i => i.ID).ValueGeneratedOnAdd();
-            builder.Property(i => i.Details).IsRequired().HasMaxLength(500);
-            builder.Property(i=>i.Title).IsRequired().HasMaxLength(500);
-            builder.Property(i => i.ExpectSalary).IsRequired();
-            builder.Property(i => i.State).IsRequired();
-            builder.Property(i => i.StartDate).IsRequired();
-            builder.Property(i => i.EndDate).IsRequired();
-            builder.Property(i => i.RateValue).IsRequired();
-            builder.Property(i => i.RateMassage).IsRequired().HasMaxLength(500);
-            builder.Property(d => d.IsDirect).IsRequired().HasColumnType("bit");
+		public void Configure( EntityTypeBuilder<Request> builder )
+		{
+			builder.ToTable( "Request", "Service" );
+			builder.HasKey( i => i.ID );
+			builder.Property( i => i.ID ).ValueGeneratedOnAdd();
+			builder.Property( i => i.Details ).IsRequired().HasMaxLength( 500 );
+			builder.Property( i => i.Title ).IsRequired().HasMaxLength( 500 );
+			builder.Property( i => i.ExpectedSalary ).IsRequired();
+			builder.Property( i => i.Status ).IsRequired();
+			builder.Property( i => i.StartDate ).IsRequired();
+			builder.Property( i => i.EndDate ).IsRequired();
+			builder.Property( i => i.RateValue ).IsRequired();
+			builder.Property( i => i.RateMassage ).IsRequired().HasMaxLength( 500 );
+			builder.Property( d => d.IsDirect ).IsRequired().HasColumnType( "bit" );
 
-            //CLIENTID
-        }
-    }
+			//CLIENTID
+
+			builder.HasOne( x => x.Governorate ).WithMany( x => x.Request ).HasForeignKey( x => x.GovernorateId ).OnDelete(DeleteBehavior.NoAction).IsRequired();
+			builder.HasOne( x => x.City ).WithMany( x => x.Request ).HasForeignKey( x => x.CityId ).OnDelete(DeleteBehavior.NoAction).IsRequired();
+		}
+	}
 }

@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
 {
-    public class Requestcontroller : ControllerBase
+	[Route( "api/[controller]" )]
+	[ApiController]
+	public class Requestcontroller : ControllerBase
     {
         private readonly IRequestRepo _request;
 
@@ -20,7 +22,7 @@ namespace Sermart_Api.Controllers
             return Ok(request);
         }
         [HttpPost("Update")]
-        public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request) 
+        public IActionResult UpDate(Guid id,[FromBody] RequestUpdateDTO request)
         {
             request.ClientId = id;
             _request.UPDate(request);
