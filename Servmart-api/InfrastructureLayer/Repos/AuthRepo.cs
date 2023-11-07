@@ -11,7 +11,7 @@ using System.Text;
 
 namespace InfrastructureLayer.Repos
 {
-    public class AuthRepo : BaseRepos<User>, IAuthRepo
+	public class AuthRepo : BaseRepos<User>, IAuthRepo
 	{
 
 
@@ -131,7 +131,7 @@ namespace InfrastructureLayer.Repos
 				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),
-				new Claim("UserID", user.Id)
+				new Claim(ClaimTypes.NameIdentifier, user.Id)
 			}
 			.Union( userclaims )
 			.Union( roleclaim );
