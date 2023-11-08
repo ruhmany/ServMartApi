@@ -13,6 +13,7 @@ namespace Domain_Layer.Models
         public string Description { get; set; }
         public decimal UnitPrice { get; set; }
         public int Stoke { get; set; }
+       
         public Guid CategoryID { get; set; }
         public string ProviderId { get; set; }
         public virtual User ProductUser { get; set; }

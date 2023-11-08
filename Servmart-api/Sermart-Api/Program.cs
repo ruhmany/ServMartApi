@@ -29,6 +29,13 @@ namespace Sermart_Api
             // Add services to the container.
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
             builder.Services.Configure<CloudinraySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+            builder.Services.Configure<FormOptions>(Option =>
+            {
+                Option.ValueLengthLimit = int.MaxValue;
+                Option.MultipartBodyLengthLimit = int.MaxValue;
+                Option.MemoryBufferThreshold = int.MaxValue;
+
+            });
             builder.Services.AddScoped(typeof(IBaseRepo<>), typeof(BaseRepos<>));
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -61,7 +68,14 @@ namespace Sermart_Api
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
-            builder.Services.AddCors();
+            builder.Services.AddCors(option =>
+            {
+                option.AddDefaultPolicy(i => {
+                    i.AllowAnyOrigin();
+                    i.AllowAnyMethod();
+                    i.AllowAnyHeader();
+                });
+            });
 
             builder.Services.AddAuthentication(options =>
             {
@@ -84,13 +98,7 @@ namespace Sermart_Api
                 };
             });
 
-            builder.Services.Configure<FormOptions>(Option =>
-            {
-                Option.ValueLengthLimit = int.MaxValue;
-                Option.MultipartBodyLengthLimit = int.MaxValue;
-                Option.MemoryBufferThreshold = int.MaxValue;
-
-            });
+            
 
 
             var app = builder.Build();
