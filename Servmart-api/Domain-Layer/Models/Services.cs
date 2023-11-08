@@ -9,7 +9,8 @@
         public decimal ExpectedSalary { get; set; }
         public Guid CategoryID { get; set; }
         public string ProviderID { get; set; }
-               
+        public string PicUrl { get; set; }
+
         public virtual User User { get; set; }
         public virtual ServiceCategory ServiceCategory { get; set; }
         public virtual ICollection<ServiceRate> ServiceRates { get; set; }

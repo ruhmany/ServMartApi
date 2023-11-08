@@ -12,14 +12,12 @@ namespace InfrastructureLayer.Repos
         private readonly AppDbContext _appContext;
         private readonly UserManager<User> _usermanager;        
         private readonly IPhotoService _photoservice;
-        private readonly IUnitOfWork _unitofwork;
         public UserRepo(AppDbContext appContext, UserManager<User> userManager,
             IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
         {
             _appContext = appContext;
             _usermanager = userManager;
             _photoservice = photoservice;
-            _unitofwork = unitofwork;
         }
 
         public async Task<User> ChageEmail(ChangeEmailDTO dTO)
@@ -38,7 +36,6 @@ namespace InfrastructureLayer.Repos
             if (user is null)
                 return null;
             await _usermanager.ChangePasswordAsync(user, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
-            _unitofwork.CommitChanges();
             return user;
 
         }
@@ -64,7 +61,6 @@ namespace InfrastructureLayer.Repos
             user.LName = userDTO.LName;
             user.ProfilePic = result.Url.ToString();
             await _usermanager.UpdateAsync(user);
-            _unitofwork.CommitChanges();
             return user;
         }
 

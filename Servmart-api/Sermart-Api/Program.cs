@@ -1,7 +1,9 @@
 using Application_Layer.Interfaces;
+using Application_Layer.Repos;
 using Application_Layer.Services;
 using ApplicationLayer.IRepos;
 using Domain_Layer.Models;
+using Infrastructure_Layer.IRepos;
 using InfrastructureLayer;
 using InfrastructureLayer.Interfaces;
 using InfrastructureLayer.Repos;
@@ -43,6 +45,7 @@ namespace Sermart_Api
             builder.Services.AddScoped<IRequestRepo, RequsestRepo>();
             builder.Services.AddScoped<IAuthRepo, AuthRepo>();
             builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
+            builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

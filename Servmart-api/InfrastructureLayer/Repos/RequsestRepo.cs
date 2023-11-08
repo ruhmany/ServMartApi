@@ -11,15 +11,13 @@ namespace InfrastructureLayer.Repos
 	public class RequsestRepo : BaseRepos<Request>, IRequestRepo
 	{
 		private readonly AppDbContext _appDbContext;
-		private readonly IUnitOfWork _unitOfWork;
 		private readonly IPhotoService _photoService;
 		private readonly IVideoService _videoService;
 
 
-		public RequsestRepo( AppDbContext appContext, IUnitOfWork unitOfWork, IPhotoService photoService, IVideoService videoService ) : base( appContext )
+		public RequsestRepo( AppDbContext appContext, IPhotoService photoService, IVideoService videoService ) : base( appContext )
 		{
 			_appDbContext = appContext;
-			_unitOfWork = unitOfWork;
 			_photoService = photoService;
 			_videoService = videoService;
 		}
@@ -69,7 +67,6 @@ namespace InfrastructureLayer.Repos
 			};
 
 			var result = await _appDbContext.Request.AddAsync( request );
-			_unitOfWork.CommitChanges();
 
 			return request;
 		}
@@ -137,7 +134,6 @@ namespace InfrastructureLayer.Repos
 
 
 				_appDbContext.Request.Update( req );
-				_unitOfWork.CommitChanges();
 			}
 			return req;
 		}
