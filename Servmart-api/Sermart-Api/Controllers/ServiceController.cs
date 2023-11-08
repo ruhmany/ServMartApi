@@ -20,8 +20,29 @@ namespace Sermart_Api.Controllers
             _serviceRepo = serviceRepo;
             _unitofwork = unitofwork;
         }
+
+
+        [HttpGet("GetAllServices")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _serviceRepo.GetAll(); 
+            return Ok(result);
+        }
+
+        [HttpGet("GetByID")]
+        public async Task<IActionResult> GetAll(string ID)
+        {
+            var result = await _serviceRepo.GetByID(ID);
+            if(result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "ServiceProvider")]
         public async Task<IActionResult> AddService([FromForm] ServiceDTO serviceDTO)
         {
             if(!ModelState.IsValid)
@@ -33,5 +54,29 @@ namespace Sermart_Api.Controllers
             _unitofwork.CommitChanges();
             return Ok();
         }
+
+        [HttpPatch]
+        [Authorize(Roles = "ServiceProvider")]
+        public async Task<IActionResult> UpdateService(UpdateServiceDTO serviceDTO)
+        {
+
+            var result = await _serviceRepo.Update(serviceDTO);
+            if (result == null)
+                return BadRequest(result);
+            _unitofwork.CommitChanges();
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "ServiceProvider")]
+        public async Task<IActionResult> Delete(string Id)
+        {
+            var result = await _serviceRepo.Delete(Id);
+            if(result == null)
+                return BadRequest(result);
+            _unitofwork.CommitChanges();
+            return Ok(result);
+        }
+
     }
 }

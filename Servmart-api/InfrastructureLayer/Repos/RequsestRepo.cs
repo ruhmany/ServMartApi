@@ -89,12 +89,10 @@ namespace InfrastructureLayer.Repos
 			if ( minPrice.HasValue )
 			{
 				query = query.Where( r => r.ExpectedSalary >= minPrice.Value );
-
 			}
 			if ( maxPrice.HasValue )
 			{
 				query = query.Where( R => R.ExpectedSalary <= maxPrice.Value );
-
 			}
 			return query.ToList();
 		}

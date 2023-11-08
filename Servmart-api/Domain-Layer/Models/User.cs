@@ -16,6 +16,8 @@ namespace Domain_Layer.Models
 		//public virtual byte[] PasswordHash { get; set; }
 		//public virtual byte[] PasswordSalt { get; set; }
 		public string ProfilePic { get; set; }
+        public int CartID { get; set; }
+        public virtual Cart Cart { get; set; }
 		public virtual ICollection<Service> Services { get; set; }
 		public virtual ICollection<RequestOffer> RequestOffer { get; set; }
 		public virtual ICollection<Request> Request { get; set; }
