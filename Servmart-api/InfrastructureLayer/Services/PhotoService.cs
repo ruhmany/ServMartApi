@@ -23,7 +23,7 @@ namespace InfrastructureLayer.Services
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
-            {                
+            {
                 using var stream = file.OpenReadStream();
                 var uploadParams = new ImageUploadParams
                 {
@@ -32,15 +32,15 @@ namespace InfrastructureLayer.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
-
             return uploadResult;
         }
 
-        public Task<DeletionResult> DeletionPhotoAsync(string publicid)
-        {
-            var deleteParams = new DeletionParams(publicid);
-            var result = _cloudinary.DestroyAsync(deleteParams);
-            return result;
-        }
+            public Task<DeletionResult> DeletionPhotoAsync(string publicid)
+            {
+                var deleteParams = new DeletionParams(publicid);
+                var result = _cloudinary.DestroyAsync(deleteParams);
+                return result;
+            }
+        
     }
 }

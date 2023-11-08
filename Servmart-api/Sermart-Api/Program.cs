@@ -41,7 +41,7 @@ namespace Sermart_Api
 			builder.Services.AddScoped<IProductCatgory, ProductCatgoryRepo>();
 			builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 			builder.Services.AddScoped<IRequestServiceCategory, RequestServiceCategory>();
-
+			builder.Services.AddScoped<IcartItemRepo, CartItemRepo>();
 
 			builder.Services.AddAutoMapper( p => p.AddProfile( new productProfile() ) );
 			builder.Services.AddAutoMapper( p => p.AddProfile( new CatgoryProfile() ) );
@@ -52,7 +52,31 @@ namespace Sermart_Api
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
+			builder.Services.AddSwaggerGen(c =>
+			{
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					Description = "JWT Authorization header using bearer scheme",
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer"
+				});
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+					{
+						new OpenApiSecurityScheme
+						{
+							Reference = new OpenApiReference
+							{
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer"
+							}
+						},
+						new string[]{ }
+					}
+				});
+			});
 			builder.Services.AddDbContext<AppDbContext>( options =>
 			{
 				options.UseLazyLoadingProxies().UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ),
@@ -99,6 +123,7 @@ namespace Sermart_Api
 			} );
 
 
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -113,15 +138,13 @@ namespace Sermart_Api
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-            builder.Services.AddCors(option =>
-            {
-                option.AddDefaultPolicy(i => {
-                    i.AllowAnyOrigin();
-                    i.AllowAnyMethod();
-                    i.AllowAnyHeader();
-                });
-            });
-            app.MapControllers();
+
+			app.UseCors( o =>
+			{
+				o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+			} );
+			app.MapControllers();
+
 
 			app.Run();
 		}
