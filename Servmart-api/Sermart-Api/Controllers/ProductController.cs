@@ -1,8 +1,6 @@
 ﻿using ApplicationLayer.IRepos;
 using AutoMapper;
-using Azure.Core;
 using Domain_Layer.Models;
-using InfrastructureLayer;
 using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace InfrastructureLayer.Migrations
+namespace Application_Layer.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class removedShopError : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,7 @@ namespace InfrastructureLayer.Migrations
                     LName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     SSN = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Gender = table.Column<bool>(type: "bit", maxLength: 128, nullable: false),
                     ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -103,7 +104,8 @@ namespace InfrastructureLayer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    NameAr = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -217,55 +219,6 @@ namespace InfrastructureLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Request",
-                schema: "Service",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    CleintID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ExpectSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RateValue = table.Column<float>(type: "real", nullable: false),
-                    RateMassage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    IsDirect = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Request", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Request_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Shop",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shop", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Shop_AspNetUsers_UserID",
-                        column: x => x.UserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "City",
                 schema: "Address",
                 columns: table => new
@@ -289,6 +242,37 @@ namespace InfrastructureLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                schema: "Product",
+                columns: table => new
+                {
+                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Stoke = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProviderId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.ProductID);
+                    table.ForeignKey(
+                        name: "FK_Product_AspNetUsers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_ProductCategory_CategoryID",
+                        column: x => x.CategoryID,
+                        principalSchema: "Product",
+                        principalTable: "ProductCategory",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Service",
                 schema: "Service",
                 columns: table => new
@@ -299,7 +283,8 @@ namespace InfrastructureLayer.Migrations
                     Rate = table.Column<double>(type: "float", nullable: false),
                     ExpectedSalary = table.Column<double>(type: "float", nullable: false),
                     CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -320,180 +305,52 @@ namespace InfrastructureLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Chat",
-                schema: "Chat",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SecondUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Chat", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Chat_AspNetUsers_SecondUserId",
-                        column: x => x.SecondUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Chat_Request_RequestID",
-                        column: x => x.RequestID,
-                        principalSchema: "Service",
-                        principalTable: "Request",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RequestMedia",
+                name: "Request",
                 schema: "Service",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MediaUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RequestMedia", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_RequestMedia_Request_RequestID",
-                        column: x => x.RequestID,
-                        principalSchema: "Service",
-                        principalTable: "Request",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RequestOffer",
-                schema: "Service",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    State = table.Column<int>(type: "int", maxLength: 15, nullable: false),
-                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ExpectSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ExpectedSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RateValue = table.Column<float>(type: "real", nullable: false),
+                    RateMassage = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    IsDirect = table.Column<bool>(type: "bit", nullable: false),
+                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestOffer", x => x.ID);
+                    table.PrimaryKey("PK_Request", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_RequestOffer_AspNetUsers_ProviderID",
-                        column: x => x.ProviderID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RequestOffer_Request_RequestID",
-                        column: x => x.RequestID,
-                        principalSchema: "Service",
-                        principalTable: "Request",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Product",
-                schema: "Product",
-                columns: table => new
-                {
-                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Stoke = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShopID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.ProductID);
-                    table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_ProviderId",
+                        name: "FK_Request_AspNetUsers_ProviderId",
                         column: x => x.ProviderId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Product_ProductCategory_CategoryID",
-                        column: x => x.CategoryID,
-                        principalSchema: "Product",
-                        principalTable: "ProductCategory",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Request_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Product_Shop_ShopID",
-                        column: x => x.ShopID,
-                        principalTable: "Shop",
+                        name: "FK_Request_City_CityId",
+                        column: x => x.CityId,
+                        principalSchema: "Address",
+                        principalTable: "City",
                         principalColumn: "ID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ServiceRate",
-                schema: "Service",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ServiceID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    NominateToOthers = table.Column<float>(type: "real", nullable: false),
-                    WorkQuality = table.Column<float>(type: "real", nullable: false),
-                    RespectDeliveryTime = table.Column<float>(type: "real", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ServiceRate", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ServiceRate_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_ServiceRate_Service_ServiceID",
-                        column: x => x.ServiceID,
-                        principalSchema: "Service",
-                        principalTable: "Service",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Message",
-                schema: "Chat",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Message", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Message_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Message_Chat_ChatId",
-                        column: x => x.ChatId,
-                        principalSchema: "Chat",
-                        principalTable: "Chat",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Request_Governorate_GovernorateId",
+                        column: x => x.GovernorateId,
+                        principalSchema: "Address",
+                        principalTable: "Governorate",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -547,6 +404,145 @@ namespace InfrastructureLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ServiceRate",
+                schema: "Service",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    NominateToOthers = table.Column<float>(type: "real", nullable: false),
+                    WorkQuality = table.Column<float>(type: "real", nullable: false),
+                    RespectDeliveryTime = table.Column<float>(type: "real", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceRate", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ServiceRate_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ServiceRate_Service_ServiceID",
+                        column: x => x.ServiceID,
+                        principalSchema: "Service",
+                        principalTable: "Service",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chat",
+                schema: "Chat",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SecondUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chat", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Chat_AspNetUsers_SecondUserId",
+                        column: x => x.SecondUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Chat_Request_RequestID",
+                        column: x => x.RequestID,
+                        principalSchema: "Service",
+                        principalTable: "Request",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestMedia",
+                schema: "Service",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MediaUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestMedia", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_RequestMedia_Request_RequestID",
+                        column: x => x.RequestID,
+                        principalSchema: "Service",
+                        principalTable: "Request",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestOffer",
+                schema: "Service",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    State = table.Column<int>(type: "int", maxLength: 15, nullable: false),
+                    RequestID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ExpectSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestOffer", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_RequestOffer_AspNetUsers_ProviderID",
+                        column: x => x.ProviderID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequestOffer_Request_RequestID",
+                        column: x => x.RequestID,
+                        principalSchema: "Service",
+                        principalTable: "Request",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Message",
+                schema: "Chat",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SenderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Message_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Message_Chat_ChatId",
+                        column: x => x.ChatId,
+                        principalSchema: "Chat",
+                        principalTable: "Chat",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MessageMedia",
                 schema: "Chat",
                 columns: table => new
@@ -572,10 +568,10 @@ namespace InfrastructureLayer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2e7b8ccf-892c-4031-8c97-edd429f5d145", null, "Vendor", "VENDOR" },
-                    { "5ce6f929-090a-43ba-b14d-f00b91a5ac9d", null, "Customer", "CUSTOMER" },
-                    { "c8ff1f83-b099-4934-a518-322d91799cb0", null, "ServiceProvider", "SERVICEPROVIDER" },
-                    { "f7ef1b77-6dbc-440a-aaba-ff742f99ec8c", null, "Admin", "ADMIN" }
+                    { "064e917f-27a7-4087-8b11-dbe4bcf9a42b", null, "ServiceProvider", "SERVICEPROVIDER" },
+                    { "10f33124-7f79-448e-8627-42c07ebcdc73", null, "Vendor", "VENDOR" },
+                    { "82b817e4-3ecd-4a92-aff9-a9e6c4825b79", null, "Customer", "CUSTOMER" },
+                    { "d46e440c-2747-4afd-87d5-12d048bafa14", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -611,6 +607,62 @@ namespace InfrastructureLayer.Migrations
                     { 25, "قنا", "Qena" },
                     { 26, "شمال سيناء", "North Sinai" },
                     { 27, "سوهاج", "Sohag" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Service",
+                table: "ServiceCategory",
+                columns: new[] { "ID", "NameAr", "NameEn" },
+                values: new object[,]
+                {
+                    { new Guid("02f48749-8856-4963-8573-2b67c4e67c5a"), "الإعلان والتسويق", "Advertising and marketing" },
+                    { new Guid("08491cfd-2404-44a1-9e18-c8551d4ac431"), "الخدمات الطبية", "Medical services" },
+                    { new Guid("126cac67-937f-4456-b573-794438c7bc75"), "خدمات سيارات الأجرة", "Taxi services" },
+                    { new Guid("12db5367-bc2e-4913-9450-906c9a9deed4"), "المكتبات", "Libraries" },
+                    { new Guid("1c3bff4e-b9a8-4917-9d72-20f0901ce36c"), "تقديم الطعام", "Catering " },
+                    { new Guid("1e6b71ac-8b4e-463c-b876-a3967f946105"), "سباكة", "Plumbing" },
+                    { new Guid("20e49b46-286a-4f09-9917-161e68e4afe0"), "رعاية الحيوانات الاليفة", "Pet care" },
+                    { new Guid("2487ed2c-e932-4d8c-bd28-4bdb4b5785f5"), "إستشارات", "Consulting " },
+                    { new Guid("2cd13953-659c-4cb4-a76d-509143c7a006"), "التنظيف الجاف", "Dry cleaning" },
+                    { new Guid("3347148b-18ac-43aa-b481-d9f824c8f8ab"), "العقارات", "Real estate" },
+                    { new Guid("3ed45f3a-a20d-489e-8860-2e1584f743be"), "تسقيف", "Roofing" },
+                    { new Guid("439da446-24d4-4249-abf3-27e8f41bb595"), "خدمات حكومية", "Government services" },
+                    { new Guid("4e0eb368-686f-4146-9216-a99ec478d832"), "نجارة", "Carpenter " },
+                    { new Guid("5576fa5c-e2bf-468c-9f09-f8adc942e88a"), "حدائق و منتجعات ترفيهيه", "Parks and recreation" },
+                    { new Guid("613f46fa-ef81-4a86-b1d5-448107d50540"), "تنظيف حمام السباحة", "Swimming pool cleaning" },
+                    { new Guid("6ca2016b-b9ba-47da-a22e-3cdf8b85acf6"), "المحاسبة", "Accounting" },
+                    { new Guid("6d309b8d-7086-4d94-b4c3-7d3da985d77e"), "التخطيط للأحداث", "Event planning" },
+                    { new Guid("6f160814-d4f6-4e03-a280-ed87b217cf58"), "خدمات التوصيل", "Delivery services" },
+                    { new Guid("7167a588-50d1-41f9-9bc4-b99a71763380"), "خدمات النقل", "Transportation services" },
+                    { new Guid("72495378-c230-4608-8e41-09bdd96b5216"), "إدارة المكاتب", "Office management" },
+                    { new Guid("737253dd-a454-4db9-bd89-16e1407b2f94"), "البناء", "Construction" },
+                    { new Guid("73f9ee4d-db52-437d-92d9-ab0bffdbc276"), "توصيل طلبات الطعام", "Food delivery" },
+                    { new Guid("793625c8-a565-4ace-a3a4-bbcf7e27c2ca"), "العناية بالحديقة", "Garden care" },
+                    { new Guid("7d305e60-509c-4401-b8be-53d5c50a7a6b"), "تصميم وتطوير مواقع الويب", "Web design and development" },
+                    { new Guid("874d31a5-c72c-4c1c-b315-a490d9501c91"), "خدمات الترجمة", "Translation services" },
+                    { new Guid("89dcbb9e-bc1d-405c-b224-98674a30f464"), "رعاية الأطفال", "Childcare" },
+                    { new Guid("90c9d76a-2910-4313-b33d-8a9bbe34cf1e"), "الخدمات المالية", "Financial services" },
+                    { new Guid("93e030d9-c5fb-445d-b9b3-e7dc94abf3f5"), "تركيب و صيانة الاجهزة المنزلية", "Installation and maintenance of home appliances" },
+                    { new Guid("95278a91-0eef-4add-b72b-e13cc82e291c"), "ساتلايت ورسيفر", "Satellite and receiver" },
+                    { new Guid("95929785-95fb-4540-a89f-a8fd1aac6bc8"), "ضيافة", "Hospitality" },
+                    { new Guid("9963f0a8-201c-45be-9324-01fa2d5670c6"), "خدمات صناعة الأقفال", "Locksmith services" },
+                    { new Guid("9c907c21-0682-44ce-884f-9d4ad3975b2f"), "إصلاح الكمبيوتر", "Computer repair" },
+                    { new Guid("a11dd883-3198-40de-8645-113b76182119"), "صيانة سيارات", "Car maintenance" },
+                    { new Guid("b859413c-a70a-4113-ba23-3554ceb7e1ad"), "خدمات غسيل الملابس", "Laundry services" },
+                    { new Guid("beb432f8-3f6e-45c2-9ab6-5fc07059651d"), "خدمات التجميل", "Beauty services" },
+                    { new Guid("c1ed8870-4c67-4558-a513-80e8ec4aae26"), "مكافحة الحشرات والطيور", "Pest and bird control" },
+                    { new Guid("ccc581d5-79e7-44b9-96ff-bc01c850c24e"), "خدمات أخرى", "Other services" },
+                    { new Guid("d6330ebd-5576-4614-b75a-6980f5f0bc75"), "تدريب اللياقة البدنية", "Fitness training" },
+                    { new Guid("d8fe1dd0-27a0-4557-b1d2-ea03aaf5669b"), "تأمين", "Insurance" },
+                    { new Guid("da8e032c-7844-44c3-b144-b00d435cf3c7"), "خدمات تكنولوجيا المعلومات", "Information technology services" },
+                    { new Guid("df1ab498-8c10-4576-bc7d-a0528e5254f4"), "التكييف", "Air conditioning" },
+                    { new Guid("ea663a5f-352f-4e3f-8c3a-64eb18bac414"), "ترفيه", "Entertainment" },
+                    { new Guid("ede0025e-81e5-4f26-a6cd-74c691e810eb"), "الخدمات البيطرية", "Veterinary services" },
+                    { new Guid("f55326b3-2636-4949-ba88-5948162e8d9c"), "خدمات قانونية", "Legal services" },
+                    { new Guid("f5e98520-10fc-4776-a4b9-314ace5e79d6"), "خدمات التنظيف", "Cleaning services" },
+                    { new Guid("f878d782-470d-4b82-ae56-5fae03c2468c"), "الرياضة", "Sports" },
+                    { new Guid("fa5a0e67-e9a2-4407-9dca-64954c67ee8a"), "كهرباء", "Electricity" },
+                    { new Guid("fcaff786-ebe2-4364-a6eb-8b3bd1804980"), "نقاشة", "Painter" }
                 });
 
             migrationBuilder.InsertData(
@@ -1105,12 +1157,6 @@ namespace InfrastructureLayer.Migrations
                 column: "ProviderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ShopID",
-                schema: "Product",
-                table: "Product",
-                column: "ShopID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductMedia_ProductID",
                 schema: "Product",
                 table: "ProductMedia",
@@ -1129,10 +1175,28 @@ namespace InfrastructureLayer.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Request_UserId",
+                name: "IX_Request_CityId",
                 schema: "Service",
                 table: "Request",
-                column: "UserId");
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Request_GovernorateId",
+                schema: "Service",
+                table: "Request",
+                column: "GovernorateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Request_ProviderId",
+                schema: "Service",
+                table: "Request",
+                column: "ProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Request_UserID",
+                schema: "Service",
+                table: "Request",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RequestMedia_RequestID",
@@ -1175,12 +1239,6 @@ namespace InfrastructureLayer.Migrations
                 schema: "Service",
                 table: "ServiceRate",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shop_UserID",
-                table: "Shop",
-                column: "UserID",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -1200,10 +1258,6 @@ namespace InfrastructureLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "City",
-                schema: "Address");
 
             migrationBuilder.DropTable(
                 name: "MessageMedia",
@@ -1233,10 +1287,6 @@ namespace InfrastructureLayer.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Governorate",
-                schema: "Address");
-
-            migrationBuilder.DropTable(
                 name: "Message",
                 schema: "Chat");
 
@@ -1257,9 +1307,6 @@ namespace InfrastructureLayer.Migrations
                 schema: "Product");
 
             migrationBuilder.DropTable(
-                name: "Shop");
-
-            migrationBuilder.DropTable(
                 name: "ServiceCategory",
                 schema: "Service");
 
@@ -1269,6 +1316,14 @@ namespace InfrastructureLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "City",
+                schema: "Address");
+
+            migrationBuilder.DropTable(
+                name: "Governorate",
+                schema: "Address");
         }
     }
 }
