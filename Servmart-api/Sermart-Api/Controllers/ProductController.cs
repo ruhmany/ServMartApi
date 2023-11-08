@@ -56,7 +56,6 @@ namespace Sermart_Api.Controllers
         [Authorize(Roles = "Vendor")]
         public async Task<ActionResult<ProductViewModel>> Addproduct(ProductViewModel productVM)
         {
-
             productVM.ProviderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (ModelState.IsValid)

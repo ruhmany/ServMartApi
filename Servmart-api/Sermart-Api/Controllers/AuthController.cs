@@ -9,13 +9,15 @@ namespace Sermart_Api.Controllers
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthRepo _authRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-		public AuthController( IAuthRepo authRepo )
-		{
-			_authRepo = authRepo;
-		}
+        public AuthController(IAuthRepo authRepo, IUnitOfWork unitOfWork)
+        {
+            _authRepo = authRepo;
+            _unitOfWork = unitOfWork;
+        }
 
-		[HttpPost( "register" )]
+        [HttpPost( "register" )]
 		public async Task<IActionResult> Register( [FromBody] RegisterModel model )
 		{
 			if ( !ModelState.IsValid )
@@ -23,6 +25,7 @@ namespace Sermart_Api.Controllers
 				return BadRequest( "Model state is not valid" );
 			}
 			var result = await _authRepo.RegisterAsync( model );
+			_unitOfWork.CommitChanges();
 			if ( !result.IsAuthenticated )
 				return BadRequest( "error while registering" + result.Message );
 			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );

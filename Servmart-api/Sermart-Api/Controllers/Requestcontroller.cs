@@ -11,18 +11,19 @@ namespace Sermart_Api.Controllers
 	public class Requestcontroller : ControllerBase
 	{
 		private readonly IRequestRepo _request;
-
-		public Requestcontroller( IRequestRepo request )
-		{
-			_request = request;
-
-		}
-		[HttpPost( "Create" )]
+		private readonly IUnitOfWork _unitOfWork;
+        public Requestcontroller(IRequestRepo request, IUnitOfWork unitOfWork)
+        {
+            _request = request;
+            _unitOfWork = unitOfWork;
+        }
+        [HttpPost( "Create" )]
 		[Authorize]
 		public async Task<IActionResult> Create( [FromForm] RequestDTO requestDTO )
 		{
 			requestDTO.ClientId = User.FindFirstValue( ClaimTypes.NameIdentifier );
 			var request = await _request.AddRequest( requestDTO );
+			_unitOfWork.CommitChanges();
 			return Ok( request );
 		}
 		[HttpPost( "Update" )]
@@ -30,6 +31,7 @@ namespace Sermart_Api.Controllers
 		{
 			request.ClientId = id;
 			_request.UPDate( request );
+			_unitOfWork.CommitChanges();
 			return Ok();
 
 
@@ -38,6 +40,7 @@ namespace Sermart_Api.Controllers
 		public IActionResult Delete( Guid id )
 		{
 			_request.Delete( id );
+			_unitOfWork.CommitChanges();
 			return Ok();
 
 		}
