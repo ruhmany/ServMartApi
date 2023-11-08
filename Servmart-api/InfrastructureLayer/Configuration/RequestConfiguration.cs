@@ -25,8 +25,11 @@ namespace InfrastructureLayer.Configuration
 
 			//CLIENTID
 
-			builder.HasOne( x => x.Governorate ).WithMany( x => x.Request ).HasForeignKey( x => x.GovernorateId ).OnDelete(DeleteBehavior.NoAction).IsRequired();
-			builder.HasOne( x => x.City ).WithMany( x => x.Request ).HasForeignKey( x => x.CityId ).OnDelete(DeleteBehavior.NoAction).IsRequired();
+			builder.HasOne( x => x.User ).WithMany( x => x.Request ).HasForeignKey( x => x.UserID ).OnDelete( DeleteBehavior.NoAction ).IsRequired();
+
+			builder.HasOne( x => x.Governorate ).WithMany( x => x.Request ).HasForeignKey( x => x.GovernorateId ).OnDelete( DeleteBehavior.NoAction ).IsRequired();
+			builder.HasOne( x => x.City ).WithMany( x => x.Request ).HasForeignKey( x => x.CityId ).OnDelete( DeleteBehavior.NoAction ).IsRequired();
+
 		}
 	}
 }

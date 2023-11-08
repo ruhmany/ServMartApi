@@ -6,7 +6,6 @@
         public string MediaUrl { get; set; }
         public Guid RequestID { get; set; }
 
-        public  virtual Request RequestImages { get; set; }
-        public  virtual Request RequestVideo { get; set; }
+        public  virtual Request Request { get; set; }
     }
 }

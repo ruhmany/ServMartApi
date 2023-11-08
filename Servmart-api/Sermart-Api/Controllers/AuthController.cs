@@ -31,7 +31,6 @@ namespace Sermart_Api.Controllers
 			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );
 		}
 
-
 		[HttpPost( "login" )]
 		public async Task<IActionResult> Login( [FromBody] UserLoginDTO model )
 		{
