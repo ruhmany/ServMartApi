@@ -20,7 +20,6 @@ namespace InfrastructureLayer.Repos
 		private readonly RoleManager<IdentityRole> _rolemanager;
 		private readonly IConfiguration _config;
 		private readonly IPhotoService _photoservice;
-		private readonly IUnitOfWork _unitofwork;
 		public AuthRepo( AppDbContext appContext, UserManager<User> userManager,
 			RoleManager<IdentityRole> rolemanager, IConfiguration config,
 			IPhotoService photoservice, IUnitOfWork unitofwork ) : base( appContext )
@@ -30,7 +29,6 @@ namespace InfrastructureLayer.Repos
 			_rolemanager = rolemanager;
 			_config = config;
 			_photoservice = photoservice;
-			_unitofwork = unitofwork;
 		}
 
 
@@ -100,7 +98,6 @@ namespace InfrastructureLayer.Repos
 				await _usermanager.AddToRoleAsync( user, role );
 			}
 			var tokens = await CreateToken( user );
-			_unitofwork.CommitChanges();
 			return new AuthModel
 			{
 				IsAuthenticated = true,
@@ -128,9 +125,7 @@ namespace InfrastructureLayer.Repos
 			}
 			var claims = new[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.Email, user.Email),
 				new Claim(ClaimTypes.NameIdentifier, user.Id)
 			}
 			.Union( userclaims )
