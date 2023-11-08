@@ -1,5 +1,5 @@
-﻿using Domain_Layer.DTOs.UserDTOs;
-using Infrastructure_Layer.IRepos;
+﻿using ApplicationLayer.IRepos;
+using Domain_Layer.DTOs.UserDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
@@ -9,10 +9,12 @@ namespace Sermart_Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepo _userRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(IUserRepo userRepo)
+        public UserController(IUserRepo userRepo, IUnitOfWork unitOfWork)
         {
             _userRepo = userRepo;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -22,6 +24,7 @@ namespace Sermart_Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _userRepo.UpdateUser(userDTO);
+            _unitOfWork.CommitChanges();
             if (result is null)
                 return BadRequest();
             return Ok(result);

@@ -1,10 +1,8 @@
-﻿using Application_Layer.Repos;
+﻿using ApplicationLayer.IRepos;
 using AutoMapper;
 using Domain_Layer.DTOs;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
 using Microsoft.AspNetCore.Mvc;
-using Sermart_Api.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

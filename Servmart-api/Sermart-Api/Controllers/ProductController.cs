@@ -6,11 +6,9 @@ using AutoMapper;
 using Azure.Core;
 using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
-using Infrastructure_Layer.IRepos;
+using InfrastructureLayer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sermart_Api.Helpers;
 using System.Security.Claims;
 
