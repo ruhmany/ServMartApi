@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Application_Layer.Migrations
 {
     /// <inheritdoc />
-    public partial class removedShopError : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,6 +50,7 @@ namespace Application_Layer.Migrations
                     Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Gender = table.Column<bool>(type: "bit", maxLength: 128, nullable: false),
                     ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CartID = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -219,6 +220,24 @@ namespace Application_Layer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cart_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "City",
                 schema: "Address",
                 columns: table => new
@@ -351,6 +370,33 @@ namespace Application_Layer.Migrations
                         principalSchema: "Address",
                         principalTable: "Governorate",
                         principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Qauntety = table.Column<int>(type: "int", nullable: false),
+                    CartID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItem_Cart_CartID",
+                        column: x => x.CartID,
+                        principalTable: "Cart",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CartItem_Product_ProductID",
+                        column: x => x.ProductID,
+                        principalSchema: "Product",
+                        principalTable: "Product",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -568,10 +614,10 @@ namespace Application_Layer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "064e917f-27a7-4087-8b11-dbe4bcf9a42b", null, "ServiceProvider", "SERVICEPROVIDER" },
-                    { "10f33124-7f79-448e-8627-42c07ebcdc73", null, "Vendor", "VENDOR" },
-                    { "82b817e4-3ecd-4a92-aff9-a9e6c4825b79", null, "Customer", "CUSTOMER" },
-                    { "d46e440c-2747-4afd-87d5-12d048bafa14", null, "Admin", "ADMIN" }
+                    { "04f44e8e-3c73-4ca0-bd92-c73ffe59fe2a", null, "Vendor", "VENDOR" },
+                    { "4f739658-45d9-4b21-b9c6-08cf342d46e3", null, "ServiceProvider", "SERVICEPROVIDER" },
+                    { "66b2c7d5-ba11-4185-9396-7ed3d1b63a7a", null, "Customer", "CUSTOMER" },
+                    { "b92067ce-b187-48aa-8d56-a74d4d9e2175", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -615,54 +661,54 @@ namespace Application_Layer.Migrations
                 columns: new[] { "ID", "NameAr", "NameEn" },
                 values: new object[,]
                 {
-                    { new Guid("02f48749-8856-4963-8573-2b67c4e67c5a"), "الإعلان والتسويق", "Advertising and marketing" },
-                    { new Guid("08491cfd-2404-44a1-9e18-c8551d4ac431"), "الخدمات الطبية", "Medical services" },
-                    { new Guid("126cac67-937f-4456-b573-794438c7bc75"), "خدمات سيارات الأجرة", "Taxi services" },
-                    { new Guid("12db5367-bc2e-4913-9450-906c9a9deed4"), "المكتبات", "Libraries" },
-                    { new Guid("1c3bff4e-b9a8-4917-9d72-20f0901ce36c"), "تقديم الطعام", "Catering " },
-                    { new Guid("1e6b71ac-8b4e-463c-b876-a3967f946105"), "سباكة", "Plumbing" },
-                    { new Guid("20e49b46-286a-4f09-9917-161e68e4afe0"), "رعاية الحيوانات الاليفة", "Pet care" },
-                    { new Guid("2487ed2c-e932-4d8c-bd28-4bdb4b5785f5"), "إستشارات", "Consulting " },
-                    { new Guid("2cd13953-659c-4cb4-a76d-509143c7a006"), "التنظيف الجاف", "Dry cleaning" },
-                    { new Guid("3347148b-18ac-43aa-b481-d9f824c8f8ab"), "العقارات", "Real estate" },
-                    { new Guid("3ed45f3a-a20d-489e-8860-2e1584f743be"), "تسقيف", "Roofing" },
-                    { new Guid("439da446-24d4-4249-abf3-27e8f41bb595"), "خدمات حكومية", "Government services" },
-                    { new Guid("4e0eb368-686f-4146-9216-a99ec478d832"), "نجارة", "Carpenter " },
-                    { new Guid("5576fa5c-e2bf-468c-9f09-f8adc942e88a"), "حدائق و منتجعات ترفيهيه", "Parks and recreation" },
-                    { new Guid("613f46fa-ef81-4a86-b1d5-448107d50540"), "تنظيف حمام السباحة", "Swimming pool cleaning" },
-                    { new Guid("6ca2016b-b9ba-47da-a22e-3cdf8b85acf6"), "المحاسبة", "Accounting" },
-                    { new Guid("6d309b8d-7086-4d94-b4c3-7d3da985d77e"), "التخطيط للأحداث", "Event planning" },
-                    { new Guid("6f160814-d4f6-4e03-a280-ed87b217cf58"), "خدمات التوصيل", "Delivery services" },
-                    { new Guid("7167a588-50d1-41f9-9bc4-b99a71763380"), "خدمات النقل", "Transportation services" },
-                    { new Guid("72495378-c230-4608-8e41-09bdd96b5216"), "إدارة المكاتب", "Office management" },
-                    { new Guid("737253dd-a454-4db9-bd89-16e1407b2f94"), "البناء", "Construction" },
-                    { new Guid("73f9ee4d-db52-437d-92d9-ab0bffdbc276"), "توصيل طلبات الطعام", "Food delivery" },
-                    { new Guid("793625c8-a565-4ace-a3a4-bbcf7e27c2ca"), "العناية بالحديقة", "Garden care" },
-                    { new Guid("7d305e60-509c-4401-b8be-53d5c50a7a6b"), "تصميم وتطوير مواقع الويب", "Web design and development" },
-                    { new Guid("874d31a5-c72c-4c1c-b315-a490d9501c91"), "خدمات الترجمة", "Translation services" },
-                    { new Guid("89dcbb9e-bc1d-405c-b224-98674a30f464"), "رعاية الأطفال", "Childcare" },
-                    { new Guid("90c9d76a-2910-4313-b33d-8a9bbe34cf1e"), "الخدمات المالية", "Financial services" },
-                    { new Guid("93e030d9-c5fb-445d-b9b3-e7dc94abf3f5"), "تركيب و صيانة الاجهزة المنزلية", "Installation and maintenance of home appliances" },
-                    { new Guid("95278a91-0eef-4add-b72b-e13cc82e291c"), "ساتلايت ورسيفر", "Satellite and receiver" },
-                    { new Guid("95929785-95fb-4540-a89f-a8fd1aac6bc8"), "ضيافة", "Hospitality" },
-                    { new Guid("9963f0a8-201c-45be-9324-01fa2d5670c6"), "خدمات صناعة الأقفال", "Locksmith services" },
-                    { new Guid("9c907c21-0682-44ce-884f-9d4ad3975b2f"), "إصلاح الكمبيوتر", "Computer repair" },
-                    { new Guid("a11dd883-3198-40de-8645-113b76182119"), "صيانة سيارات", "Car maintenance" },
-                    { new Guid("b859413c-a70a-4113-ba23-3554ceb7e1ad"), "خدمات غسيل الملابس", "Laundry services" },
-                    { new Guid("beb432f8-3f6e-45c2-9ab6-5fc07059651d"), "خدمات التجميل", "Beauty services" },
-                    { new Guid("c1ed8870-4c67-4558-a513-80e8ec4aae26"), "مكافحة الحشرات والطيور", "Pest and bird control" },
-                    { new Guid("ccc581d5-79e7-44b9-96ff-bc01c850c24e"), "خدمات أخرى", "Other services" },
-                    { new Guid("d6330ebd-5576-4614-b75a-6980f5f0bc75"), "تدريب اللياقة البدنية", "Fitness training" },
-                    { new Guid("d8fe1dd0-27a0-4557-b1d2-ea03aaf5669b"), "تأمين", "Insurance" },
-                    { new Guid("da8e032c-7844-44c3-b144-b00d435cf3c7"), "خدمات تكنولوجيا المعلومات", "Information technology services" },
-                    { new Guid("df1ab498-8c10-4576-bc7d-a0528e5254f4"), "التكييف", "Air conditioning" },
-                    { new Guid("ea663a5f-352f-4e3f-8c3a-64eb18bac414"), "ترفيه", "Entertainment" },
-                    { new Guid("ede0025e-81e5-4f26-a6cd-74c691e810eb"), "الخدمات البيطرية", "Veterinary services" },
-                    { new Guid("f55326b3-2636-4949-ba88-5948162e8d9c"), "خدمات قانونية", "Legal services" },
-                    { new Guid("f5e98520-10fc-4776-a4b9-314ace5e79d6"), "خدمات التنظيف", "Cleaning services" },
-                    { new Guid("f878d782-470d-4b82-ae56-5fae03c2468c"), "الرياضة", "Sports" },
-                    { new Guid("fa5a0e67-e9a2-4407-9dca-64954c67ee8a"), "كهرباء", "Electricity" },
-                    { new Guid("fcaff786-ebe2-4364-a6eb-8b3bd1804980"), "نقاشة", "Painter" }
+                    { new Guid("0066d585-81b0-4f11-a220-6bd739ce93c1"), "تركيب و صيانة الاجهزة المنزلية", "Installation and maintenance of home appliances" },
+                    { new Guid("10c7451b-1e97-4672-b9ad-1615b09b4c27"), "كهرباء", "Electricity" },
+                    { new Guid("11ba5b85-2af5-47c4-8f7f-ea55da3238aa"), "ضيافة", "Hospitality" },
+                    { new Guid("1335a36e-6c87-4c11-aaf8-7d32fc53e8d0"), "نجارة", "Carpenter " },
+                    { new Guid("158ba452-86c0-4073-9827-b796f8ffa443"), "رعاية الأطفال", "Childcare" },
+                    { new Guid("1630b3ba-8632-4c96-9e1c-7a0f674ef2ae"), "توصيل طلبات الطعام", "Food delivery" },
+                    { new Guid("17b433f3-605c-42f7-90c4-ab57dc6c42ba"), "البناء", "Construction" },
+                    { new Guid("1eff8799-45bf-4a78-bd7a-89a335ae40c8"), "خدمات سيارات الأجرة", "Taxi services" },
+                    { new Guid("26e975e6-c44a-4788-b903-ec34c34e2bf4"), "ترفيه", "Entertainment" },
+                    { new Guid("2af9ee30-74b2-497c-b2a3-171b2fe5ce9b"), "خدمات الترجمة", "Translation services" },
+                    { new Guid("2fd23daa-ba2a-4f1b-b1ca-382f58304244"), "سباكة", "Plumbing" },
+                    { new Guid("33a49f8d-ee8a-4cb5-a3d6-4b678d3f641c"), "صيانة سيارات", "Car maintenance" },
+                    { new Guid("3593f604-522d-43f9-8647-8027480f146b"), "التنظيف الجاف", "Dry cleaning" },
+                    { new Guid("3c816dd8-a08d-48af-b934-e4e4b80df1c1"), "خدمات التنظيف", "Cleaning services" },
+                    { new Guid("42e29aef-9d0f-4837-99c8-6533e73112db"), "إصلاح الكمبيوتر", "Computer repair" },
+                    { new Guid("4650caae-08d0-48c1-84e1-9c500287151c"), "خدمات التجميل", "Beauty services" },
+                    { new Guid("48419c0d-ced6-411d-9715-e4544c8085fe"), "تنظيف حمام السباحة", "Swimming pool cleaning" },
+                    { new Guid("4bb28e80-cc7a-4c40-99b4-e77e5aa58a94"), "ساتلايت ورسيفر", "Satellite and receiver" },
+                    { new Guid("5bd799d1-5a37-40dc-bc70-ca6d8b9ae1bb"), "التكييف", "Air conditioning" },
+                    { new Guid("5deacb66-9fd2-4074-b59e-6618ccb278d8"), "الإعلان والتسويق", "Advertising and marketing" },
+                    { new Guid("5e84c489-c902-47f4-bd85-b452c6fc6a72"), "خدمات قانونية", "Legal services" },
+                    { new Guid("61e4f350-bf73-4566-8d38-389a91518520"), "الخدمات الطبية", "Medical services" },
+                    { new Guid("657503b3-3d49-4dad-a4f4-d8dddd7ae8c1"), "تقديم الطعام", "Catering " },
+                    { new Guid("667851f9-eaa7-4b98-a297-588e98d04b82"), "تدريب اللياقة البدنية", "Fitness training" },
+                    { new Guid("6954a968-428b-472b-999d-1ca049f79820"), "العقارات", "Real estate" },
+                    { new Guid("7a4ac380-0610-49c8-a33a-176f8fc13621"), "خدمات غسيل الملابس", "Laundry services" },
+                    { new Guid("7eeff933-64a1-4dfd-b68c-045ae2e95cb9"), "خدمات تكنولوجيا المعلومات", "Information technology services" },
+                    { new Guid("80358041-ed39-4813-8e91-cc9ae4eadede"), "الخدمات المالية", "Financial services" },
+                    { new Guid("8438bb1e-0eee-4e55-8554-ed2cac0929b4"), "خدمات صناعة الأقفال", "Locksmith services" },
+                    { new Guid("848e049e-b64e-4a23-8670-a414ecdb96c8"), "تسقيف", "Roofing" },
+                    { new Guid("86dedc58-15dc-4a74-9da5-c1f8eb71e2d1"), "مكافحة الحشرات والطيور", "Pest and bird control" },
+                    { new Guid("88fa2ee9-3cb8-4299-8d97-fe9306965e54"), "تصميم وتطوير مواقع الويب", "Web design and development" },
+                    { new Guid("8ca6bf2e-1b28-4d43-875f-d9d5b8423296"), "خدمات النقل", "Transportation services" },
+                    { new Guid("9dcfd7a6-5a31-4cc4-a440-c5dbe75e351b"), "خدمات حكومية", "Government services" },
+                    { new Guid("a9be4b94-ab52-402a-bf30-b0a0985d44cc"), "المكتبات", "Libraries" },
+                    { new Guid("ba4de3ff-504c-4ff5-8b9a-efae475baabb"), "الخدمات البيطرية", "Veterinary services" },
+                    { new Guid("c23e9396-0153-43fd-8ab8-349d02b5e01c"), "العناية بالحديقة", "Garden care" },
+                    { new Guid("c79af4a7-41a6-4ca5-a2bc-658a4eb502f7"), "رعاية الحيوانات الاليفة", "Pet care" },
+                    { new Guid("c80b5b5a-1d3d-4219-97f2-bdb0b79fb01f"), "التخطيط للأحداث", "Event planning" },
+                    { new Guid("dc434db9-7884-4434-919b-bcd721f43c01"), "الرياضة", "Sports" },
+                    { new Guid("ddcf7d68-be66-4b87-adbe-e868e28507d2"), "حدائق و منتجعات ترفيهيه", "Parks and recreation" },
+                    { new Guid("ddeb676a-5143-414c-a4bc-e548654c3262"), "المحاسبة", "Accounting" },
+                    { new Guid("e199bc8b-158d-450e-bc82-28aa693fd628"), "خدمات التوصيل", "Delivery services" },
+                    { new Guid("e3498297-327e-442e-984d-2f649ee41a5a"), "إدارة المكاتب", "Office management" },
+                    { new Guid("e77d366f-8f6d-4eab-beb5-b51542f740f2"), "تأمين", "Insurance" },
+                    { new Guid("e959c03a-c3a6-473c-98df-ec0f751c44bd"), "خدمات أخرى", "Other services" },
+                    { new Guid("eabf83c6-4af0-4b22-b845-a566400ec830"), "إستشارات", "Consulting " },
+                    { new Guid("fbef9228-05d3-45fa-a9bb-972532a95967"), "نقاشة", "Painter" }
                 });
 
             migrationBuilder.InsertData(
@@ -1109,6 +1155,22 @@ namespace Application_Layer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cart_UserId",
+                table: "Cart",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_CartID",
+                table: "CartItem",
+                column: "CartID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_ProductID",
+                table: "CartItem",
+                column: "ProductID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Chat_RequestID",
                 schema: "Chat",
                 table: "Chat",
@@ -1260,6 +1322,9 @@ namespace Application_Layer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CartItem");
+
+            migrationBuilder.DropTable(
                 name: "MessageMedia",
                 schema: "Chat");
 
@@ -1285,6 +1350,9 @@ namespace Application_Layer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "Message",

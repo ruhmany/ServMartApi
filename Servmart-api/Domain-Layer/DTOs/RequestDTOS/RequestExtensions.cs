@@ -8,6 +8,7 @@ namespace Domain_Layer.DTOs.RequestDTOS
 		{
 			return new RequestShowDTO()
 			{
+				Id = request.ID.ToString(),
 				ClientId = request.UserID,
 				Title = request.Title,
 				Details = request.Details,
