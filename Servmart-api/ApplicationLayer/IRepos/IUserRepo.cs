@@ -9,5 +9,6 @@ namespace ApplicationLayer.IRepos
         Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO);
         Task<User> ChageEmail(ChangeEmailDTO dTO);
         Task<IEnumerable<User>> GetAllUsers();
+        Task<AuthModel> ChangRole(UserRoleDTO userRoleDTO);
     }
 }

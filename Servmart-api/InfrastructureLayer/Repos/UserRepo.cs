@@ -10,7 +10,8 @@ namespace InfrastructureLayer.Repos
     public class UserRepo : BaseRepos<User>, IUserRepo
     {
         private readonly AppDbContext _appContext;
-        private readonly UserManager<User> _usermanager;        
+        private readonly UserManager<User> _usermanager;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoservice;
         public UserRepo(AppDbContext appContext, UserManager<User> userManager,
             IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
@@ -23,11 +24,16 @@ namespace InfrastructureLayer.Repos
         public async Task<User> ChageEmail(ChangeEmailDTO dTO)
         {
             var user = await _usermanager.FindByEmailAsync(dTO.OldEmail);
-            if(user != null)
+            if (user == null)
             {
+                return null;
 
             }
-            return user;                
+            user.Email = dTO.NewEmail;
+            var updateEmail = await _usermanager.UpdateAsync(user);
+            return user;
+
+
         }
 
         public async Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)
@@ -46,15 +52,28 @@ namespace InfrastructureLayer.Repos
         }
 
         public async Task<User> GetUser(string userId)
-           => await _appContext.Users.FirstOrDefaultAsync(y => y.Id==userId);
+           => await _appContext.Users.FirstOrDefaultAsync(y => y.Id == userId);
+
+        public async Task<AuthModel> ChangRole(UserRoleDTO userRoleDTO)
+        {
+            var user = await _appContext.Users.FirstOrDefaultAsync(y => y.Id == userRoleDTO.UserId);
+
+            foreach (var Role in userRoleDTO.Roles)
+            {
+                await _usermanager.AddToRoleAsync(user, Role);
+
+            }
+            return new AuthModel
+            {
+                Role = userRoleDTO.Roles
+            };
+        }
 
         public async Task<User> UpdateUser(UserUpdateDTO userDTO)
         {
-            if (await _usermanager.FindByEmailAsync(userDTO.Email) is null || await _usermanager.FindByNameAsync(userDTO.Username) is null)
-             return null;
+
             var user = await _usermanager.FindByEmailAsync(userDTO.Email);
             var result = await _photoservice.AddPhotoAsync(userDTO.ProfilePic);
-            user.Email = userDTO.Email;
             user.Address = userDTO.Address;
             user.UserName = userDTO.Username;
             user.FName = userDTO.FName;
@@ -66,4 +85,6 @@ namespace InfrastructureLayer.Repos
 
 
     }
+
 }
+
