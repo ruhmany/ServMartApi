@@ -112,13 +112,9 @@ namespace Sermart_Api
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-            builder.Services.AddCors(option =>
+            app.UseCors(option =>
             {
-                option.AddDefaultPolicy(i => {
-                    i.AllowAnyOrigin();
-                    i.AllowAnyMethod();
-                    i.AllowAnyHeader();
-                });
+				option.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
             app.MapControllers();
 

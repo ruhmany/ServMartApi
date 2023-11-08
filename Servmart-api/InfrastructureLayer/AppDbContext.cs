@@ -29,8 +29,6 @@ namespace InfrastructureLayer
 			builder.ApplyConfiguration<ServiceCategory>( new ServiceCategoryConfiguration() );
 			builder.ApplyConfiguration<Service>( new ServiceConfiguration() );
 			builder.ApplyConfiguration<ServiceRate>( new ServiceRateConfiguration() );
-			builder.ApplyConfiguration<Shop>( new ShopConfigtstion() );
-			//builder.ApplyConfiguration<User>( new UserConfiguration() );
 			builder.ApplyConfiguration<Governorate>( new GovernorateConfiguration() );
 			builder.ApplyConfiguration<City>( new CityConfiguration() );
 
@@ -56,7 +54,6 @@ namespace InfrastructureLayer
 		public DbSet<Service> Service { get; set; }
 		public DbSet<ServiceCategory> ServiceCategorie { get; set; }
 		public DbSet<ServiceRate> ServiceRate { get; set; }
-		//public DbSet<Shop> Shop { get; set; }
 		public DbSet<Governorate> Governorates { get; set; }
 		public DbSet<City> Cities { get; set; }
 

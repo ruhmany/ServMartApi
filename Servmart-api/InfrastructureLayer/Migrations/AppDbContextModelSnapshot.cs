@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace InfrastructureLayer.Migrations
+namespace Application_Layer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -3115,9 +3115,6 @@ namespace InfrastructureLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("ShopID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Stoke")
                         .HasColumnType("int");
 
@@ -3129,8 +3126,6 @@ namespace InfrastructureLayer.Migrations
                     b.HasIndex("CategoryID");
 
                     b.HasIndex("ProviderId");
-
-                    b.HasIndex("ShopID");
 
                     b.ToTable("Product", "Product");
                 });
@@ -3404,289 +3399,289 @@ namespace InfrastructureLayer.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("10b7e800-e6ca-4d1e-aafa-f84136940eed"),
+                            ID = new Guid("6ca2016b-b9ba-47da-a22e-3cdf8b85acf6"),
                             NameAr = "المحاسبة",
                             NameEn = "Accounting"
                         },
                         new
                         {
-                            ID = new Guid("94dff266-d688-4577-9ad6-50fff3640115"),
+                            ID = new Guid("02f48749-8856-4963-8573-2b67c4e67c5a"),
                             NameAr = "الإعلان والتسويق",
                             NameEn = "Advertising and marketing"
                         },
                         new
                         {
-                            ID = new Guid("f10bd98c-8732-4f50-8ebb-042cec6cb9c9"),
+                            ID = new Guid("2487ed2c-e932-4d8c-bd28-4bdb4b5785f5"),
                             NameAr = "إستشارات",
                             NameEn = "Consulting "
                         },
                         new
                         {
-                            ID = new Guid("667ae0f8-3655-4a16-896b-cc333e423684"),
+                            ID = new Guid("da8e032c-7844-44c3-b144-b00d435cf3c7"),
                             NameAr = "خدمات تكنولوجيا المعلومات",
                             NameEn = "Information technology services"
                         },
                         new
                         {
-                            ID = new Guid("a43fcf21-504f-41b7-b58d-349678bce832"),
+                            ID = new Guid("f55326b3-2636-4949-ba88-5948162e8d9c"),
                             NameAr = "خدمات قانونية",
                             NameEn = "Legal services"
                         },
                         new
                         {
-                            ID = new Guid("f9704502-122b-4695-825a-4b9fbb7c0883"),
+                            ID = new Guid("72495378-c230-4608-8e41-09bdd96b5216"),
                             NameAr = "إدارة المكاتب",
                             NameEn = "Office management"
                         },
                         new
                         {
-                            ID = new Guid("e902f193-4b25-4475-98a3-fad95d2e4007"),
+                            ID = new Guid("874d31a5-c72c-4c1c-b315-a490d9501c91"),
                             NameAr = "خدمات الترجمة",
                             NameEn = "Translation services"
                         },
                         new
                         {
-                            ID = new Guid("a2f3069b-5575-4d41-bb74-4ca4d867b53c"),
+                            ID = new Guid("7d305e60-509c-4401-b8be-53d5c50a7a6b"),
                             NameAr = "تصميم وتطوير مواقع الويب",
                             NameEn = "Web design and development"
                         },
                         new
                         {
-                            ID = new Guid("3019ca8e-8f8a-4823-b060-14a5ac4da57a"),
+                            ID = new Guid("a11dd883-3198-40de-8645-113b76182119"),
                             NameAr = "صيانة سيارات",
                             NameEn = "Car maintenance"
                         },
                         new
                         {
-                            ID = new Guid("16cabc64-761e-4214-ae1e-c1fd04d751b8"),
+                            ID = new Guid("beb432f8-3f6e-45c2-9ab6-5fc07059651d"),
                             NameAr = "خدمات التجميل",
                             NameEn = "Beauty services"
                         },
                         new
                         {
-                            ID = new Guid("9e072b4d-2d86-480d-9b92-2d889f40ccbe"),
+                            ID = new Guid("1c3bff4e-b9a8-4917-9d72-20f0901ce36c"),
                             NameAr = "تقديم الطعام",
                             NameEn = "Catering "
                         },
                         new
                         {
-                            ID = new Guid("d18ea9f1-04bd-43ab-8217-0d6c803aa75f"),
+                            ID = new Guid("89dcbb9e-bc1d-405c-b224-98674a30f464"),
                             NameAr = "رعاية الأطفال",
                             NameEn = "Childcare"
                         },
                         new
                         {
-                            ID = new Guid("45dd40a5-3b1a-4b69-bd1a-999932cada98"),
+                            ID = new Guid("f5e98520-10fc-4776-a4b9-314ace5e79d6"),
                             NameAr = "خدمات التنظيف",
                             NameEn = "Cleaning services"
                         },
                         new
                         {
-                            ID = new Guid("d227113d-7907-4147-9946-811e6f2ec988"),
+                            ID = new Guid("9c907c21-0682-44ce-884f-9d4ad3975b2f"),
                             NameAr = "إصلاح الكمبيوتر",
                             NameEn = "Computer repair"
                         },
                         new
                         {
-                            ID = new Guid("113fbf41-df3c-4bb9-8aca-d7280aa60da3"),
+                            ID = new Guid("6f160814-d4f6-4e03-a280-ed87b217cf58"),
                             NameAr = "خدمات التوصيل",
                             NameEn = "Delivery services"
                         },
                         new
                         {
-                            ID = new Guid("a52a6fb9-3c1b-4b3a-be18-024b474289ba"),
+                            ID = new Guid("2cd13953-659c-4cb4-a76d-509143c7a006"),
                             NameAr = "التنظيف الجاف",
                             NameEn = "Dry cleaning"
                         },
                         new
                         {
-                            ID = new Guid("c7a575d7-4767-4642-becd-e96ed3663e24"),
+                            ID = new Guid("6d309b8d-7086-4d94-b4c3-7d3da985d77e"),
                             NameAr = "التخطيط للأحداث",
                             NameEn = "Event planning"
                         },
                         new
                         {
-                            ID = new Guid("586af569-2717-4c02-a049-2cd4b796b66d"),
+                            ID = new Guid("90c9d76a-2910-4313-b33d-8a9bbe34cf1e"),
                             NameAr = "الخدمات المالية",
                             NameEn = "Financial services"
                         },
                         new
                         {
-                            ID = new Guid("fc6857fc-ce74-4c16-af21-d857c256762d"),
+                            ID = new Guid("d6330ebd-5576-4614-b75a-6980f5f0bc75"),
                             NameAr = "تدريب اللياقة البدنية",
                             NameEn = "Fitness training"
                         },
                         new
                         {
-                            ID = new Guid("bd5a8a6e-0683-4cce-9bb3-c8d335ebef61"),
+                            ID = new Guid("73f9ee4d-db52-437d-92d9-ab0bffdbc276"),
                             NameAr = "توصيل طلبات الطعام",
                             NameEn = "Food delivery"
                         },
                         new
                         {
-                            ID = new Guid("ea2141ff-74fb-481f-9594-c05d473b18bf"),
+                            ID = new Guid("d8fe1dd0-27a0-4557-b1d2-ea03aaf5669b"),
                             NameAr = "تأمين",
                             NameEn = "Insurance"
                         },
                         new
                         {
-                            ID = new Guid("26605b8d-ec81-463d-82d8-5c226456dd8f"),
+                            ID = new Guid("793625c8-a565-4ace-a3a4-bbcf7e27c2ca"),
                             NameAr = "العناية بالحديقة",
                             NameEn = "Garden care"
                         },
                         new
                         {
-                            ID = new Guid("9d4c3943-62be-4d19-a1f1-e5ed5100e6a1"),
+                            ID = new Guid("b859413c-a70a-4113-ba23-3554ceb7e1ad"),
                             NameAr = "خدمات غسيل الملابس",
                             NameEn = "Laundry services"
                         },
                         new
                         {
-                            ID = new Guid("a16b064c-de96-4d3b-86f9-40c0ba5e5cf5"),
+                            ID = new Guid("9963f0a8-201c-45be-9324-01fa2d5670c6"),
                             NameAr = "خدمات صناعة الأقفال",
                             NameEn = "Locksmith services"
                         },
                         new
                         {
-                            ID = new Guid("83ab18b1-8cad-4d00-ac4b-01779faed78b"),
+                            ID = new Guid("08491cfd-2404-44a1-9e18-c8551d4ac431"),
                             NameAr = "الخدمات الطبية",
                             NameEn = "Medical services"
                         },
                         new
                         {
-                            ID = new Guid("b90c2710-8cf7-466d-b967-d74637353114"),
+                            ID = new Guid("7167a588-50d1-41f9-9bc4-b99a71763380"),
                             NameAr = "خدمات النقل",
                             NameEn = "Transportation services"
                         },
                         new
                         {
-                            ID = new Guid("71602e03-551d-4fa2-9d28-9646a0c6e843"),
+                            ID = new Guid("20e49b46-286a-4f09-9917-161e68e4afe0"),
                             NameAr = "رعاية الحيوانات الاليفة",
                             NameEn = "Pet care"
                         },
                         new
                         {
-                            ID = new Guid("854063d6-fb66-4a0c-8eaf-2d81acce7afa"),
+                            ID = new Guid("ede0025e-81e5-4f26-a6cd-74c691e810eb"),
                             NameAr = "الخدمات البيطرية",
                             NameEn = "Veterinary services"
                         },
                         new
                         {
-                            ID = new Guid("bb63bd01-35f6-4123-9df7-5b9e87acceaa"),
+                            ID = new Guid("1e6b71ac-8b4e-463c-b876-a3967f946105"),
                             NameAr = "سباكة",
                             NameEn = "Plumbing"
                         },
                         new
                         {
-                            ID = new Guid("0ab123cc-9f25-45eb-95b9-63bc7f736816"),
+                            ID = new Guid("fa5a0e67-e9a2-4407-9dca-64954c67ee8a"),
                             NameAr = "كهرباء",
                             NameEn = "Electricity"
                         },
                         new
                         {
-                            ID = new Guid("f2c4d1e4-ae6d-4684-a67b-f7c365f94ae3"),
+                            ID = new Guid("4e0eb368-686f-4146-9216-a99ec478d832"),
                             NameAr = "نجارة",
                             NameEn = "Carpenter "
                         },
                         new
                         {
-                            ID = new Guid("c58cb72d-28e9-4ef4-b720-e306e614ffdf"),
+                            ID = new Guid("fcaff786-ebe2-4364-a6eb-8b3bd1804980"),
                             NameAr = "نقاشة",
                             NameEn = "Painter"
                         },
                         new
                         {
-                            ID = new Guid("dd4f51d2-337c-4a15-9f23-7a726366670f"),
+                            ID = new Guid("c1ed8870-4c67-4558-a513-80e8ec4aae26"),
                             NameAr = "مكافحة الحشرات والطيور",
                             NameEn = "Pest and bird control"
                         },
                         new
                         {
-                            ID = new Guid("21447d13-db89-4b4a-ba63-de1984c40e2c"),
+                            ID = new Guid("95278a91-0eef-4add-b72b-e13cc82e291c"),
                             NameAr = "ساتلايت ورسيفر",
                             NameEn = "Satellite and receiver"
                         },
                         new
                         {
-                            ID = new Guid("9c697de8-ede2-45a4-b731-6cb10b91d225"),
+                            ID = new Guid("df1ab498-8c10-4576-bc7d-a0528e5254f4"),
                             NameAr = "التكييف",
                             NameEn = "Air conditioning"
                         },
                         new
                         {
-                            ID = new Guid("df2390f4-a2ce-487f-b8a7-c62881164e7d"),
+                            ID = new Guid("93e030d9-c5fb-445d-b9b3-e7dc94abf3f5"),
                             NameAr = "تركيب و صيانة الاجهزة المنزلية",
                             NameEn = "Installation and maintenance of home appliances"
                         },
                         new
                         {
-                            ID = new Guid("a5885445-4ed4-41b0-9588-c25fb5210b4c"),
+                            ID = new Guid("613f46fa-ef81-4a86-b1d5-448107d50540"),
                             NameAr = "تنظيف حمام السباحة",
                             NameEn = "Swimming pool cleaning"
                         },
                         new
                         {
-                            ID = new Guid("d20acc39-b8e0-4e72-a3d2-cd2c3289de97"),
+                            ID = new Guid("3ed45f3a-a20d-489e-8860-2e1584f743be"),
                             NameAr = "تسقيف",
                             NameEn = "Roofing"
                         },
                         new
                         {
-                            ID = new Guid("1c621b4f-3ddd-4b00-a729-319b9b7ef17f"),
+                            ID = new Guid("126cac67-937f-4456-b573-794438c7bc75"),
                             NameAr = "خدمات سيارات الأجرة",
                             NameEn = "Taxi services"
                         },
                         new
                         {
-                            ID = new Guid("8437ad38-79ce-435c-b334-b3021d55598d"),
+                            ID = new Guid("439da446-24d4-4249-abf3-27e8f41bb595"),
                             NameAr = "خدمات حكومية",
                             NameEn = "Government services"
                         },
                         new
                         {
-                            ID = new Guid("380da619-5290-4fa5-ab85-3134172aef75"),
+                            ID = new Guid("12db5367-bc2e-4913-9450-906c9a9deed4"),
                             NameAr = "المكتبات",
                             NameEn = "Libraries"
                         },
                         new
                         {
-                            ID = new Guid("0d8e1d9c-6183-41c3-809f-7dfb683331ec"),
+                            ID = new Guid("5576fa5c-e2bf-468c-9f09-f8adc942e88a"),
                             NameAr = "حدائق و منتجعات ترفيهيه",
                             NameEn = "Parks and recreation"
                         },
                         new
                         {
-                            ID = new Guid("47d82bd8-53e3-47a7-bfe5-5e7104822564"),
+                            ID = new Guid("ea663a5f-352f-4e3f-8c3a-64eb18bac414"),
                             NameAr = "ترفيه",
                             NameEn = "Entertainment"
                         },
                         new
                         {
-                            ID = new Guid("feda9619-4cc1-4b20-ac57-b7e68e9195e4"),
+                            ID = new Guid("95929785-95fb-4540-a89f-a8fd1aac6bc8"),
                             NameAr = "ضيافة",
                             NameEn = "Hospitality"
                         },
                         new
                         {
-                            ID = new Guid("f27c0087-c96c-4d51-88c6-ace08cfc8e2f"),
+                            ID = new Guid("3347148b-18ac-43aa-b481-d9f824c8f8ab"),
                             NameAr = "العقارات",
                             NameEn = "Real estate"
                         },
                         new
                         {
-                            ID = new Guid("75ac46fd-9d3f-4378-9b02-6a84715cbe98"),
+                            ID = new Guid("f878d782-470d-4b82-ae56-5fae03c2468c"),
                             NameAr = "الرياضة",
                             NameEn = "Sports"
                         },
                         new
                         {
-                            ID = new Guid("7c2f7d90-9fb4-4a81-b28f-0a6ba720f84b"),
+                            ID = new Guid("737253dd-a454-4db9-bd89-16e1407b2f94"),
                             NameAr = "البناء",
                             NameEn = "Construction"
                         },
                         new
                         {
-                            ID = new Guid("1b24644a-14f7-4cce-88b2-01ce3ba6d0b0"),
+                            ID = new Guid("ccc581d5-79e7-44b9-96ff-bc01c850c24e"),
                             NameAr = "خدمات أخرى",
                             NameEn = "Other services"
                         });
@@ -3725,38 +3720,6 @@ namespace InfrastructureLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ServiceRate", "Service");
-                });
-
-            modelBuilder.Entity("Domain_Layer.Models.Shop", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.ToTable("Shop", "Shop");
                 });
 
             modelBuilder.Entity("Domain_Layer.Models.User", b =>
@@ -3882,25 +3845,25 @@ namespace InfrastructureLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "14ca193d-1987-444a-8236-f49ee1a0c5fe",
+                            Id = "d46e440c-2747-4afd-87d5-12d048bafa14",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3827e480-4024-4157-ba18-a6bf64effdde",
+                            Id = "82b817e4-3ecd-4a92-aff9-a9e6c4825b79",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "8ea73a3f-c411-4e3e-8265-a52e769d4ced",
+                            Id = "10f33124-7f79-448e-8627-42c07ebcdc73",
                             Name = "Vendor",
                             NormalizedName = "VENDOR"
                         },
                         new
                         {
-                            Id = "eb3a9817-8a94-4f06-b70d-cc9df0c8eb99",
+                            Id = "064e917f-27a7-4087-8b11-dbe4bcf9a42b",
                             Name = "ServiceProvider",
                             NormalizedName = "SERVICEPROVIDER"
                         });
@@ -4084,10 +4047,6 @@ namespace InfrastructureLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain_Layer.Models.Shop", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ShopID");
-
                     b.Navigation("Category");
 
                     b.Navigation("ProductUser");
@@ -4220,17 +4179,6 @@ namespace InfrastructureLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain_Layer.Models.Shop", b =>
-                {
-                    b.HasOne("Domain_Layer.Models.User", "Owner")
-                        .WithOne("Shop")
-                        .HasForeignKey("Domain_Layer.Models.Shop", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -4333,11 +4281,6 @@ namespace InfrastructureLayer.Migrations
                     b.Navigation("Services");
                 });
 
-            modelBuilder.Entity("Domain_Layer.Models.Shop", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("Domain_Layer.Models.User", b =>
                 {
                     b.Navigation("Chats");
@@ -4349,9 +4292,6 @@ namespace InfrastructureLayer.Migrations
                     b.Navigation("RequestOffer");
 
                     b.Navigation("Services");
-
-                    b.Navigation("Shop")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
