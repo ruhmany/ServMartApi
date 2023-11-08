@@ -1,12 +1,8 @@
-﻿using Application_Layer;
-using Application_Layer.Interfaces;
-using Application_Layer.Repos;
-using Application_Layer.Services;
+﻿using ApplicationLayer.IRepos;
 using AutoMapper;
 using Azure.Core;
-using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
-using InfrastructureLayer;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sermart_Api.Helpers;
