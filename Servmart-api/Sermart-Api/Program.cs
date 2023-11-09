@@ -123,6 +123,7 @@ namespace Sermart_Api
 			} );
 
 
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -137,11 +138,13 @@ namespace Sermart_Api
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+
 			app.UseCors( o =>
 			{
 				o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 			} );
 			app.MapControllers();
+
 
 			app.Run();
 		}

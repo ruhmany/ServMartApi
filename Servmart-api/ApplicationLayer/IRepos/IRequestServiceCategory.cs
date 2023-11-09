@@ -1,4 +1,5 @@
-﻿using Domain_Layer.Models;
+﻿using Domain_Layer.DTOs.RequestServiceCategoryDTOs;
+using Domain_Layer.Models;
 
 namespace Infrastructure_Layer.IRepos
 {
@@ -6,6 +7,6 @@ namespace Infrastructure_Layer.IRepos
 	{
 		Task AddCategory( ServiceCategory entity );
 		Task<ServiceCategory> GetCategoryById(string id);
-		Task<IEnumerable<ServiceCategory>> GetAllCategories();
+		Task<IEnumerable<RSCategoryWithIdDTO>> GetAllCategories();
 	}
 }

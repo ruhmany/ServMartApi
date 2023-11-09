@@ -1,4 +1,5 @@
 ﻿
+using Domain_Layer.DTOs.RequestServiceCategoryDTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
 using InfrastructureLayer;
@@ -17,9 +18,9 @@ namespace Application_Layer.Repos
 			await _context.ServiceCategorie.AddAsync( entity );
 		}
 
-		public async Task<IEnumerable<ServiceCategory>> GetAllCategories()
+		public async Task<IEnumerable<RSCategoryWithIdDTO>> GetAllCategories()
 		{
-			return await _context.ServiceCategorie.ToListAsync();
+			return await _context.ServiceCategorie.Select(x=>x.toDTO()).ToListAsync();
 		}
 
 		public async Task<ServiceCategory> GetCategoryById( string id )

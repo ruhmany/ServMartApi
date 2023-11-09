@@ -11,9 +11,9 @@ namespace Domain_Layer.DTOs.AddressDTOs
 
 	public class GovernorateDTO2
 	{
-		public int Id;
+		public int Id { get; set; }
 		public string NameAr { get; set; }
 		public string NameEn { get; set; }
-		public IEnumerable<CityDTO2> CityDTOs { get; set; }
+		public IEnumerable<CityDTO2> City { get; set; }
 	}
 }

@@ -28,6 +28,11 @@ namespace InfrastructureLayer.Repos
             return await _dbContext.Product.ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetUserProduct(string id)
+        {
+            return await _dbContext.Product.Where(x => x.ProviderId == id).ToListAsync();
+        }
+
         public async Task<Product> GetProductByid(Guid id)
         {
           return  await  _dbContext.Product.FindAsync(id);

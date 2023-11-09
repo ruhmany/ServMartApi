@@ -80,6 +80,7 @@ namespace InfrastructureLayer.Repos
 
 
 		}
+
 		public List<Request> filterReq( string UserId, decimal Price, decimal? minPrice, decimal? maxPrice )
 		{
 			IQueryable<Request> query = _appDbContext.Request;
@@ -96,9 +97,11 @@ namespace InfrastructureLayer.Repos
 			return query.ToList();
 		}
 
-		public async Task<IEnumerable<Request>> GetAllRequests()
+		public async Task<IEnumerable<RequestShowDTO>> GetAllRequests()
 		{
-			var result = await _appDbContext.Request.ToListAsync();
+			var test = base.GetAll();
+			var rest =  _appDbContext.Request.ToList();
+			var result = await _appDbContext.Request.Select(x=>x.toShowRequestDTO()).ToListAsync();
 			return result;
 		}
 

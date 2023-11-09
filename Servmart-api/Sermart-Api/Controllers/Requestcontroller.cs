@@ -28,6 +28,7 @@ namespace Sermart_Api.Controllers
 			_unitOfWork.CommitChanges();
 			return Ok( request );
 		}
+
 		[HttpPost( "Update" )]
 		public IActionResult UpDate( string id, [FromBody] RequestUpdateDTO request )
 		{
@@ -38,6 +39,7 @@ namespace Sermart_Api.Controllers
 
 
 		}
+
 		[HttpPost( "Delet" )]
 		public IActionResult Delete( string id )
 		{
@@ -48,13 +50,12 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpGet( "GetAll" )]
-
 		public async Task<IActionResult> Getall()
 		{
-
 			var request = await _request.GetAllRequests();
 			return Ok( request );
 		}
+
 		[HttpGet( "FilterRequest" )]
 		public IActionResult Filter( string userId, decimal price, decimal? minPrice, decimal? maxPrice )
 		{

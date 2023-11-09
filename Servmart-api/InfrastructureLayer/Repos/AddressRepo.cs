@@ -24,7 +24,7 @@ namespace Application_Layer.Repos
 
 		public async Task<IEnumerable<GovernorateDTO2>> GetAllGovernorates()
 		{
-			return await _context.Governorates.Include( x => x.Cities ).Select( x => x.ToDTO() ).ToListAsync();
+			return await _context.Governorates.Select( x => x.ToDTO() ).ToListAsync();
 		}
 
 		public async Task<CityDTO2> GetCityById( int id )

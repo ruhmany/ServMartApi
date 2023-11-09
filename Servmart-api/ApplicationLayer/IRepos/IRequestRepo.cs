@@ -9,7 +9,7 @@ namespace ApplicationLayer.IRepos
         List<Request> GetRequestList();
         //Task<RequestDTO> GetReqModel();
         Task<Request> UPDate(RequestUpdateDTO requestDTO);
-        Task<IEnumerable<Request>> GetAllRequests();
+        Task<IEnumerable<RequestShowDTO>> GetAllRequests();
         Request Delete(string id);
         Task<Request> GitbyId(string id);
         List<Request> filterReq(string id, decimal Price, decimal? minPrice, decimal? maxPrice);

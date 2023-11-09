@@ -8,7 +8,9 @@ namespace Sermart_Api.Mapper
     {
         public CatgoryProfile()
         {
-            CreateMap<ProductCatgoryViewModel, ProductCategory>().ReverseMap();
+            CreateMap<ProductCatgoryViewModel, ProductCategory>()
+                 .ForMember(item => item.Catagory, opt => opt.MapFrom(item => item.Catagory))
+                .ReverseMap();
         }
     }
 }
