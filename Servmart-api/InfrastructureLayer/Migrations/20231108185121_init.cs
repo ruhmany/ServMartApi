@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Application_Layer.Migrations
 {
     /// <inheritdoc />
+    public partial class initailCreate : Migration
 
-    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -617,11 +617,11 @@ namespace Application_Layer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6ed4bfad-2cd3-4c6d-b30f-586e94c84bac", null, "Customer", "CUSTOMER" },
-                    { "7135749e-bfe8-47ee-a4f4-de47ab1fd787", null, "Admin", "ADMIN" },
-                    { "887758f4-9b73-4e42-9a3d-84428d1a9d89", null, "ServiceProvider", "SERVICEPROVIDER" },
-                    { "92dd3ce6-9939-408e-bc17-9a5865915805", null, "Vendor", "VENDOR" }
-                });
+                    { "20e6e0e3-1ab3-4dc4-848c-385da4479e4e", null, "Admin", "ADMIN" },
+                    { "7a6bc53b-36b8-46f6-bf8c-fc78c5c99927", null, "Vendor", "VENDOR" },
+                    { "af7b2705-e605-4f54-bc9f-8576de22fd1d", null, "Customer", "CUSTOMER" },
+                    { "f4366997-79f1-4c28-9dc2-e13b407d5908", null, "ServiceProvider", "SERVICEPROVIDER" }
+               });
 
             migrationBuilder.InsertData(
                 schema: "Address",
@@ -664,6 +664,7 @@ namespace Application_Layer.Migrations
                 columns: new[] { "ID", "NameAr", "NameEn" },
                 values: new object[,]
                 {
+
                     { new Guid("0159358e-6c32-47ec-8aad-fdbd9014ffea"), "خدمات التنظيف", "Cleaning services" },
                     { new Guid("03cc98f6-61cb-4b87-9f56-d9d796ee25e0"), "نجارة", "Carpenter " },
                     { new Guid("0a2573e2-f890-4d91-96ad-45d26433bdb0"), "المحاسبة", "Accounting" },
