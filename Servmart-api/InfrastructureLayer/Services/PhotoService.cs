@@ -3,7 +3,6 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 
 namespace InfrastructureLayer.Services
@@ -34,7 +33,6 @@ namespace InfrastructureLayer.Services
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
-
             return uploadResult;
         }
 

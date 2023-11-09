@@ -39,6 +39,7 @@ namespace Sermart_Api
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProduct, Products>();
             builder.Services.AddScoped<IProductCatgory, ProductCatgoryRepo>();
+            builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
 
 
             builder.Services.AddAutoMapper(p=>p.AddProfile(new productProfile()));

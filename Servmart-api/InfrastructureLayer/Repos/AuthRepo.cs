@@ -128,14 +128,14 @@ namespace InfrastructureLayer.Repos
 			var roleclaim = new List<Claim>();
 			foreach ( var role in roles )
 			{
-				roleclaim.Add( new Claim( "roles", role ) );
+				roleclaim.Add( new Claim("roles", role ) );
 			}
 			var claims = new[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				new Claim(JwtRegisteredClaimNames.Email, user.Email),
-				new Claim("UserID", user.Id)
+				new Claim(ClaimTypes.NameIdentifier, user.Id)
 			}
 			.Union( userclaims )
 			.Union( roleclaim );
