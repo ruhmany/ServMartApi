@@ -29,7 +29,7 @@ namespace Application_Layer.Services
 				var uploadParams = new VideoUploadParams
 				{
 					File = new FileDescription( file.FileName, stream ),
-					Transformation = new Transformation().Height( 500 ).Width( 500 ).Crop( "fill" ).Gravity( "face" )
+					Transformation = new Transformation().Crop( "pad" )
 				};
 				uploadResult = await _cloudinary.UploadAsync( uploadParams );
 			}

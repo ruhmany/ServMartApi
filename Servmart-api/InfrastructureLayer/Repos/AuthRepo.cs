@@ -81,7 +81,8 @@ namespace InfrastructureLayer.Repos
 				SSN = userDTO.SSN,
 				Address = "Hello world",
 				PhoneNumber = userDTO.phoneNumber,
-				ProfilePic = "http://res.cloudinary.com/dc2rdhbgv/image/upload/v1698680178/hxzvksly2rbcwr80rgoi.png"
+				ProfilePic = "http://res.cloudinary.com/dc2rdhbgv/image/upload/v1698680178/hxzvksly2rbcwr80rgoi.png",
+				Cart = new Cart()
 			};
 			var result = await _usermanager.CreateAsync( user, userDTO.Password );
 			if ( !result.Succeeded )

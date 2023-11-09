@@ -12,12 +12,14 @@ namespace Sermart_Api.Controllers
 	{
 		private readonly IRequestRepo _request;
 		private readonly IUnitOfWork _unitOfWork;
-        public Requestcontroller(IRequestRepo request, IUnitOfWork unitOfWork)
-        {
-            _request = request;
-            _unitOfWork = unitOfWork;
-        }
-        [HttpPost( "Create" )]
+
+		public Requestcontroller( IRequestRepo request, IUnitOfWork unitOfWork )
+		{
+			_request = request;
+			_unitOfWork = unitOfWork;
+		}
+
+		[HttpPost( "Create" )]
 		[Authorize]
 		public async Task<IActionResult> Create( [FromForm] RequestDTO requestDTO )
 		{
@@ -27,7 +29,7 @@ namespace Sermart_Api.Controllers
 			return Ok( request );
 		}
 		[HttpPost( "Update" )]
-		public IActionResult UpDate( Guid id, [FromBody] RequestUpdateDTO request )
+		public IActionResult UpDate( string id, [FromBody] RequestUpdateDTO request )
 		{
 			request.ClientId = id;
 			_request.UPDate( request );
@@ -37,7 +39,7 @@ namespace Sermart_Api.Controllers
 
 		}
 		[HttpPost( "Delet" )]
-		public IActionResult Delete( Guid id )
+		public IActionResult Delete( string id )
 		{
 			_request.Delete( id );
 			_unitOfWork.CommitChanges();
@@ -54,9 +56,9 @@ namespace Sermart_Api.Controllers
 			return Ok( request );
 		}
 		[HttpGet( "FilterRequest" )]
-		public IActionResult Filter( Guid clientId, decimal price, decimal? minPrice, decimal? maxPrice )
+		public IActionResult Filter( string userId, decimal price, decimal? minPrice, decimal? maxPrice )
 		{
-			var filteredRequests = _request.filterReq( clientId, price, minPrice, maxPrice );
+			var filteredRequests = _request.filterReq( userId, price, minPrice, maxPrice );
 			return Ok( filteredRequests );
 		}
 

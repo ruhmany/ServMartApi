@@ -3,6 +3,7 @@ using InfrastructureLayer.Helpers;
 using Domain_Layer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Application_Layer.Configuration;
 
 namespace InfrastructureLayer
 {
@@ -33,7 +34,8 @@ namespace InfrastructureLayer
 			//builder.ApplyConfiguration<User>( new UserConfiguration() );
 			builder.ApplyConfiguration<Governorate>( new GovernorateConfiguration() );
 			builder.ApplyConfiguration<City>( new CityConfiguration() );
-
+			builder.ApplyConfiguration<Cart>(new CartConfigurations() );
+			builder.ApplyConfiguration<CartItem>(new CartItemConfiguration() );
 			builder.SeedRoles();
 			builder.SeedGovernorate();
 			builder.SeedCity();
@@ -59,7 +61,8 @@ namespace InfrastructureLayer
 		//public DbSet<Shop> Shop { get; set; }
 		public DbSet<Governorate> Governorates { get; set; }
 		public DbSet<City> Cities { get; set; }
-
+		public DbSet<Cart> Cart { get; set; }
+		public DbSet<CartItem> CartItem { get; set; }
 
 
 	}
