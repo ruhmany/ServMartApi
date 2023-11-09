@@ -1,30 +1,24 @@
-﻿using InfrastructureLayer.Interfaces;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Repos
 {
 	public class AuthRepo : BaseRepos<User>, IAuthRepo
 	{
-
-
 		private readonly AppDbContext _appContext;
 		private readonly UserManager<User> _usermanager;
 		private readonly RoleManager<IdentityRole> _rolemanager;
 		private readonly IConfiguration _config;
 		private readonly IPhotoService _photoservice;
-		private readonly IUnitOfWork _unitofwork;
+
 		public AuthRepo( AppDbContext appContext, UserManager<User> userManager,
 			RoleManager<IdentityRole> rolemanager, IConfiguration config,
 			IPhotoService photoservice, IUnitOfWork unitofwork ) : base( appContext )
@@ -34,9 +28,7 @@ namespace InfrastructureLayer.Repos
 			_rolemanager = rolemanager;
 			_config = config;
 			_photoservice = photoservice;
-			_unitofwork = unitofwork;
 		}
-
 
 		public async Task<AuthModel> LoginAsync( UserLoginDTO loginDTO )
 		{
@@ -87,7 +79,8 @@ namespace InfrastructureLayer.Repos
 				SSN = userDTO.SSN,
 				Address = "Hello world",
 				PhoneNumber = userDTO.phoneNumber,
-				ProfilePic = "http://res.cloudinary.com/dc2rdhbgv/image/upload/v1698680178/hxzvksly2rbcwr80rgoi.png"
+				ProfilePic = "http://res.cloudinary.com/dc2rdhbgv/image/upload/v1698680178/hxzvksly2rbcwr80rgoi.png",
+				Cart = new Cart()
 			};
 			var result = await _usermanager.CreateAsync( user, userDTO.Password );
 			if ( !result.Succeeded )
@@ -104,7 +97,6 @@ namespace InfrastructureLayer.Repos
 				await _usermanager.AddToRoleAsync( user, role );
 			}
 			var tokens = await CreateToken( user );
-			_unitofwork.CommitChanges();
 			return new AuthModel
 			{
 				IsAuthenticated = true,
@@ -120,7 +112,6 @@ namespace InfrastructureLayer.Repos
 			};
 		}
 
-
 		private async Task<JwtSecurityToken> CreateToken( User user )
 		{
 			var userclaims = await _usermanager.GetClaimsAsync( user );
@@ -132,9 +123,7 @@ namespace InfrastructureLayer.Repos
 			}
 			var claims = new[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.Email, user.Email),
 				new Claim(ClaimTypes.NameIdentifier, user.Id)
 			}
 			.Union( userclaims )

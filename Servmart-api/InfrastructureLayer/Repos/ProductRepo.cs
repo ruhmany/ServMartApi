@@ -1,11 +1,6 @@
-﻿using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+﻿using ApplicationLayer.IRepos;
+using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructureLayer.Repos
 {
@@ -31,6 +26,11 @@ namespace InfrastructureLayer.Repos
         public async Task<IEnumerable<Product>> GetAllProduct()
         {
             return await _dbContext.Product.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetUserProduct(string id)
+        {
+            return await _dbContext.Product.Where(x => x.ProviderId == id).ToListAsync();
         }
 
         public async Task<Product> GetProductByid(Guid id)

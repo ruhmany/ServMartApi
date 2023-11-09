@@ -6,6 +6,6 @@ namespace ApplicationLayer.IRepos
     public interface IRequestOfferRepo : IBaseRepo<RequestOffer>
     {
         Task<IEnumerable<RequestOffer>> GetAll();
-        Task<RequestOffer> Update(RequestOfferUpdateDTO offer);
+        Task<RequestOffer> Update(UpdateRequestOfferDTO updateRequestOfferDTO);
     }
 }

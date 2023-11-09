@@ -1,9 +1,8 @@
-﻿using InfrastructureLayer.Interfaces;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-
 
 namespace InfrastructureLayer.Services
 {
@@ -24,7 +23,7 @@ namespace InfrastructureLayer.Services
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
-            {                
+            {
                 using var stream = file.OpenReadStream();
                 var uploadParams = new ImageUploadParams
                 {
@@ -36,11 +35,12 @@ namespace InfrastructureLayer.Services
             return uploadResult;
         }
 
-        public Task<DeletionResult> DeletionPhotoAsync(string publicid)
-        {
-            var deleteParams = new DeletionParams(publicid);
-            var result = _cloudinary.DestroyAsync(deleteParams);
-            return result;
-        }
+            public Task<DeletionResult> DeletionPhotoAsync(string publicid)
+            {
+                var deleteParams = new DeletionParams(publicid);
+                var result = _cloudinary.DestroyAsync(deleteParams);
+                return result;
+            }
+        
     }
 }

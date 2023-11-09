@@ -8,5 +8,6 @@ namespace Domain_Layer.Models
 		public string NameEn { get; set; }
 
 		public virtual ICollection<City> Cities { get; set; }
+		public virtual ICollection<Request> Request { get; set; }
 	}
 }

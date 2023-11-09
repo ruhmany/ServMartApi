@@ -1,5 +1,4 @@
-﻿
-using Domain_Layer.Models;
+﻿using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

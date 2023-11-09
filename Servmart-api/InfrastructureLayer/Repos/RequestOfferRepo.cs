@@ -1,33 +1,33 @@
-﻿using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
-using Microsoft.EntityFrameworkCore;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestOfferDTOs;
+using Domain_Layer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InfrastructureLayer.Repos
 {
     public class RequestOfferRepo : BaseRepos<RequestOffer>, IRequestOfferRepo
     {
-        private readonly AppDbContext _dbContext;
-        public RequestOfferRepo(AppDbContext appContext, AppDbContext dbContext) : base(appContext)
+        private readonly AppDbContext _appDbContext;
+        public RequestOfferRepo(AppDbContext appContext, AppDbContext appDbContext) : base(appContext)
         {
-            _dbContext = dbContext;
+            _appDbContext = appDbContext;
         }
 
         public async Task<IEnumerable<RequestOffer>> GetAll()
         {
-            return await _dbContext.RequestOffer.ToListAsync<RequestOffer>();
+            return await _appDbContext.RequestOffer.ToListAsync();
         }
 
-        public async Task<RequestOffer> Update(RequestOfferUpdateDTO offer)
+        public async Task<RequestOffer> Update(UpdateRequestOfferDTO updateRequestOfferDTO)
         {
-            var requestoffer = await _dbContext.RequestOffer.FirstOrDefaultAsync<RequestOffer>(r => r.ID.ToString() == offer.ID );
-            if( requestoffer == null )
+            var requestoffer = await _appDbContext.RequestOffer.FirstOrDefaultAsync(x => x.ID.ToString() ==  updateRequestOfferDTO.ID);
+            if(requestoffer != null)
             {
-                return requestoffer;
+                requestoffer.ExpectSalary = updateRequestOfferDTO.ExpectedSalary;
+                _appDbContext.RequestOffer.Update(requestoffer);
             }
-            requestoffer.ExpectSalary = offer.ExpectSalary;
-            _dbContext.RequestOffer.Update(requestoffer);
             return requestoffer;
         }
+   
     }
 }

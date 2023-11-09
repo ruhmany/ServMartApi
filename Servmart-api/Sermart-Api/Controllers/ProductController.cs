@@ -1,13 +1,10 @@
-﻿using InfrastructureLayer;
-using InfrastructureLayer.Repos;
-using InfrastructureLayer.Services;
+﻿using ApplicationLayer.IRepos;
 using AutoMapper;
+using Domain_Layer.DTOs.ProductDTOs;
 using Domain_Layer.Models;
-using ApplicationLayer.IRepos;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Sermart_Api.Helpers;
 using System.Security.Claims;
 
@@ -15,91 +12,120 @@ using System.Security.Claims;
 
 namespace Sermart_Api.Controllers
 {
-    [Route("api/[controller]")]
+   
     [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IProduct _product;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly AppDbContext _dbContext;
+        private readonly IPhotoService _photo;
 
-        public ProductController(IProduct product, IUnitOfWork unitOfWork, IMapper mapper,AppDbContext dbContext)
+        public ProductController(IProduct product, IUnitOfWork unitOfWork, IMapper mapper,IPhotoService photo)
         {
 
             _product = product;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _dbContext = dbContext;
+           _photo = photo;
         }
         //GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        [Route("GetAllProduct")]
+        public async Task<ActionResult> GetAll()
         {
 
-            var result = await _product.GetAllProduct();
-            var mapper = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(result);
+            //var allProduct = await _product.GetAllProduct();
+            //var data = allProduct.Select(i => new ProductViewModel
+            //{
+            //    ProductID = i.ProductID,
+            //    ProductName = i.ProductName,
+            //    Description = i.Description,
+            //    UnitPrice = i.UnitPrice,
+            //    Stoke = i.Stoke,
+            //    CategoryID = i.CategoryID,
+            //    ProviderId = i.ProviderId,
+            //    PicsURL = i.ProductMedias.Select(p => p.MeadiUrl).ToList(),
 
-            _unitOfWork.CommitChanges();
+            //});
+
+            //return Ok(data);
+
+            var data = await _product.GetAllProduct();
+            var mapper = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(data);
             return Ok(mapper);
+        }
 
+        [HttpGet("GetAllUserProduct/{id}")]
+        public async Task<ActionResult> GetAllUserProduct(string id)
+        {
+            var data = await _product.GetUserProduct(id);
+            var mapper = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(data);
+            return Ok(mapper);
         }
 
         //GET api/<ProductController>/5
-        [HttpGet("{id}")]
+        [HttpGet("GetProductById/{id}")]
         public async Task<ActionResult<ProductViewModel>> GetByid(Guid id)
         {
-            var result = await _product.GetProductByid(id);
-            var mapper = _mapper.Map<Product, ProductViewModel>(result);
-            _unitOfWork.CommitChanges();
-            return Ok(mapper);
+            if (ModelState.IsValid)
+            {
+                var result = await _product.GetProductByid(id);
+                var mapper = _mapper.Map<Product, ProductViewModel>(result);
+                
+                return Ok(mapper);
+            }
+            return Ok();
         }
 
         //POST api/<ProductController>
-        [HttpPost]
+        [HttpPost("AddProduct")]
+        //[Route("AddProduct")]
         [Authorize(Roles = "Vendor")]
-        public async Task<ActionResult<ProductViewModel>> Addproduct(ProductViewModel productVM)
+        [DisableRequestSizeLimit]
+        public async Task<ActionResult<Product>> Addproduct([FromForm]AddProductDTO productVM)
         {
-
-            productVM.ProviderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             if (ModelState.IsValid)
             {
-                //foreach (IFormFile file in productVM.Images)
-                //{
-                //    FileStream fileStream = new FileStream(
-                //        Path.Combine(
-                //            Directory.GetCurrentDirectory(), "wwwroot", "Image", file.FileName),
-                //        FileMode.Create);
-                //    file.CopyTo(fileStream);
-                //    fileStream.Position = 0;
-                //    productVM.ImagesURL.Add(file.FileName);
-                //}
+                var request = new Product()
+                {
+                    ProductName = productVM.ProductName,
+                    Description = productVM.Description,
+                    UnitPrice = productVM.UnitPrice,
+                    Stoke = productVM.Stoke,
+                    CategoryID = productVM.CategoryID,
+                    ProviderId = User.FindFirstValue(ClaimTypes.NameIdentifier),
 
+                };
+                request.ProductMedias = new List<ProductMedia>();
+                foreach (var item in productVM.Pics)
+                {
+                    var resualt = await _photo.AddPhotoAsync(item);
+                    request.ProductMedias.Add(new ProductMedia() { MeadiUrl = resualt.Url.ToString() });
+                }
 
-                var mapper = _mapper.Map<ProductViewModel, Product>(productVM);
-                await _product.Add(mapper);
+                await _product.Add(request);
                 _unitOfWork.CommitChanges();
-
-                return Ok(mapper);
+                return new JsonResult ("add New product");
             }
-            return (productVM);
+            return Ok();
         }
 
         //PUT api/<ProductController>/5
-        [HttpPut()]
-
-        public ProductViewModel Update(ProductViewModel productVM)
+        [HttpPut("UpdateProduct/{id}")]
+        public async Task<ActionResult> Update(Guid id ,[FromForm]ProductViewModel productVM)
         {
-
+            productVM.ProductID=id;
+           
             if (ModelState.IsValid)
             {
+                    productVM.ProviderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 try
                 {
                     var mapper = _mapper.Map<ProductViewModel, Product>(productVM);
                     _product.Update(mapper);
                     _unitOfWork.CommitChanges();
-                    
+                    return new JsonResult("UPdate One Product Succfuly");
                 }
                 catch (Exception ex)
                 {
@@ -109,44 +135,37 @@ namespace Sermart_Api.Controllers
 
             }
 
-            return productVM;
+            return Ok(productVM);
         }
+     
+       
 
         //DELETE api/<ProductController>/5
-        [HttpDelete()]
-
-        public ActionResult Delete(ProductViewModel productVM)
+        [HttpDelete("DeleteProduct/{id}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
 
 
 
-            if (ModelState.IsValid)
-            {
+           
                 try
                 {
-                    var mapper = _mapper.Map<ProductViewModel, Product>(productVM);
-                    _product.Delete(mapper);
-                    _unitOfWork.CommitChanges();
-                    return Ok(mapper);
+                    var data = await _product.GetProductByid(id);
+                    _product.Delete(data);
+                     _unitOfWork.CommitChanges();
+                    return new JsonResult("Delete One Product");
                 }
                 catch (Exception ex)
                 {
 
                     ModelState.AddModelError(string.Empty, ex.Message);
+                    return Ok();
                 }
-            }
-
-            return Ok();
+           
 
         }
         
-        ////////[HttpDelete]
-        ////////public ActionResult GetAll( Product Cator)
-        ////////{
-          
-        ////////     _dbContext.Product.Remove(Cator);
-        ////////    return Ok();
-        ////////}
+        
 
 
        

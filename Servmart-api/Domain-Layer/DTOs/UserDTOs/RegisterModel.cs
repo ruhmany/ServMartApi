@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Net;
-using System.Runtime.Serialization;
-
+﻿
 namespace Domain_Layer.DTOs.UserDTOs
 {
     public class RegisterModel
