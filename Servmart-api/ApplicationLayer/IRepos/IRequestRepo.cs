@@ -12,6 +12,8 @@ namespace ApplicationLayer.IRepos
         Task<Request> GetById(string id);
         List<Request> FilterRequest( string id, decimal Price, decimal? minPrice, decimal? maxPrice);
         Task<int> GetTotalRequestItems();
+        List<Request> GetRequestList();
+
 
     }
 }

@@ -46,8 +46,14 @@ namespace Sermart_Api.Controllers
 			return Ok();
 
 		}
+        [HttpGet("GetAllrequest")]
+        public async Task<IActionResult> GetAllrequest()
+        {
+            var request = _request.GetRequestList();
+            return Ok(request);
+        }
 
-		[HttpGet( "GetAll" )]
+        [HttpGet( "GetAll" )]
 		public async Task<IActionResult> Getall( int page, int pageSize )
 		{
 			var request = await _request.GetAllRequests( page, pageSize );

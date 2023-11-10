@@ -10,5 +10,11 @@ namespace ApplicationLayer.IRepos
         Task<User> ChageEmail(ChangeEmailDTO dTO);
         Task<IEnumerable<User>> GetAllUsers();
         Task<AuthModel> ChangRole(UserRoleDTO userRoleDTO);
+        Task<IEnumerable<User>> GetAllUser();
+        Task<IEnumerable<User>> GetAllvendor();
+        Task<User> Delete(string ID);
+
+        Task<IEnumerable<User>> GetAllservicesprov();
+
     }
 }
