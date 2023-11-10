@@ -1,4 +1,5 @@
-﻿using Domain_Layer.Models;
+﻿using Domain_Layer.Helpers;
+using Domain_Layer.Models;
 
 namespace ApplicationLayer.IRepos
 {
@@ -10,5 +11,6 @@ namespace ApplicationLayer.IRepos
         Task<IEnumerable<Product>> GetAllProduct();
         Task<IEnumerable<Product>> GetUserProduct(string id);
         Task<Product> GetProductByid(Guid id);
+        IQueryable<Product> GetFilterdProducts(FilterModel<Product> filers);
     }
 }

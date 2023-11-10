@@ -1,4 +1,6 @@
-﻿using ApplicationLayer.IRepos;
+﻿using Application_Layer.Helpers;
+using ApplicationLayer.IRepos;
+using Domain_Layer.Helpers;
 using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +43,15 @@ namespace InfrastructureLayer.Repos
         public void Update(Product entity)
         {
             _dbContext.Product.Update(entity);
+        }
+
+
+        public IQueryable<Product> GetFilterdProducts(FilterModel<Product> filers)
+        {
+            var filter = new GenericFilter<Product>();
+            var query = _dbContext.Product.AsQueryable();
+            var filteredQuery = filter.ApplyFilter(query, filers);            
+            return filteredQuery;
         }
     }
 }
