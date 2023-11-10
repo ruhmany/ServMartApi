@@ -13,6 +13,7 @@ namespace Domain_Layer.DTOs.ServiceDTOs
         public string Title { get; set; }
         public string CategoryID { get; set; }
         public string Description { get; set; }
-        public ICollection<IFormFile> ServicePic { get; set; }
+        public decimal ExpectedSalary { get; set; }
+		public ICollection<IFormFile> ServicePic { get; set; }
     }
 }

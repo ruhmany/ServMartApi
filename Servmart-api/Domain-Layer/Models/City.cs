@@ -10,5 +10,6 @@ namespace Domain_Layer.Models
 
 		public virtual Governorate Governorate { get; set; }
 		public virtual ICollection<Request> Request { get; set; }
+		public virtual ICollection<User> Users { get; set; }
 	}
 }

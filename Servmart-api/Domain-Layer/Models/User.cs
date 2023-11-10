@@ -15,14 +15,18 @@ namespace Domain_Layer.Models
 		//public virtual string Email { get; set; }pro
 		//public virtual byte[] PasswordHash { get; set; }
 		//public virtual byte[] PasswordSalt { get; set; }
+		public int GovernorateId { get; set; }
+		public int CityId { get; set; }
 		public string ProfilePic { get; set; }
-        public int CartID { get; set; }
-        public virtual Cart Cart { get; set; }
+		public int CartID { get; set; }
+		public virtual Cart Cart { get; set; }
 		public virtual ICollection<Service> Services { get; set; }
 		public virtual ICollection<RequestOffer> RequestOffer { get; set; }
 		public virtual ICollection<Request> Request { get; set; }
 		public virtual ICollection<Chat> Chats { get; set; }
 		public virtual ICollection<Product> Products { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
-    }
+		public virtual ICollection<Order> Orders { get; set; }
+		public virtual Governorate Governorate { get; set; }
+		public virtual City City { get; set; }
+	}
 }

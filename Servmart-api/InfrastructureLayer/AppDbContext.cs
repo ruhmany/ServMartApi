@@ -29,6 +29,7 @@ namespace InfrastructureLayer
 			builder.ApplyConfiguration<RequestOffer>( new RequestOfferConfiguratoin() );
 			builder.ApplyConfiguration<ServiceCategory>( new ServiceCategoryConfiguration() );
 			builder.ApplyConfiguration<Service>( new ServiceConfiguration() );
+			builder.ApplyConfiguration<ServiceMedia>( new ServiceMediaConfiguration() );
 			builder.ApplyConfiguration<ServiceRate>( new ServiceRateConfiguration() );
 			builder.ApplyConfiguration<Governorate>( new GovernorateConfiguration() );
 			builder.ApplyConfiguration<City>( new CityConfiguration() );
@@ -56,6 +57,7 @@ namespace InfrastructureLayer
 		public DbSet<RequestMedia> RequestMedia { get; set; }
 		public DbSet<RequestOffer> RequestOffer { get; set; }
 		public DbSet<Service> Service { get; set; }
+		public DbSet<ServiceMedia> ServiceMedia { get; set; }
 		public DbSet<ServiceCategory> ServiceCategorie { get; set; }
 		public DbSet<ServiceRate> ServiceRate { get; set; }
 		public DbSet<Governorate> Governorates { get; set; }
