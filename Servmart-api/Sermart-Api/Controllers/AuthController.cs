@@ -25,10 +25,11 @@ namespace Sermart_Api.Controllers
 				return BadRequest( "Model state is not valid" );
 			}
 			var result = await _authRepo.RegisterAsync( model );
-			_unitOfWork.CommitChanges();
+			
 			if ( !result.IsAuthenticated )
 				return BadRequest( "error while registering" + result.Message );
-			return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );
+            _unitOfWork.CommitChanges();
+            return Ok( new { result.Token, result.ExpiresOn, result.Role, result.UserName, result.ProfilePic, result.Email, result.FName, result.LName, result.UserID } );
 		}
 
 		[HttpPost( "login" )]

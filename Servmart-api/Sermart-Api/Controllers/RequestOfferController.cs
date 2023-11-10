@@ -19,7 +19,7 @@ namespace Sermart_Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _repo.GetAll();

@@ -15,5 +15,6 @@ namespace Domain_Layer.Models
         public virtual ProductCategory Category { get; set; }
         public virtual ICollection<ProductMedia> ProductMedias { get; set; }
         public virtual ICollection<ProductRate> ProductRates { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

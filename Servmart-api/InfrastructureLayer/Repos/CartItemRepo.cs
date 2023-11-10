@@ -3,6 +3,8 @@ using Domain_Layer.DTOs.CartItemDTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
 using InfrastructureLayer;
+using InfrastructureLayer.Repos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,20 +14,31 @@ using System.Threading.Tasks;
 
 namespace Application_Layer.Repos
 {
-    public class CartItemRepo : IcartItemRepo
+    public class CartItemRepo : BaseRepos<CartItem> ,IcartItemRepo
     {
         private readonly AppDbContext _context;
-        public CartItemRepo(AppDbContext dbContext) { _context = dbContext; }
+        public CartItemRepo(AppDbContext dbContext) : base(dbContext)
+        {
+            _context = dbContext; 
+        }
 
         public async Task<CartItem> Add(string ProducID, string userID)
         {
-            var item = new CartItem
+            var user = _context.Users.FirstOrDefault(i => i.Id == userID);
+            if (user != null)
             {
-                ProductID = new Guid(ProducID),
-                Qauntety = 1
-            };
-            await _context.CartItem.AddAsync(item);
-            return item;
+                if (user.Cart.Items.Where(c => c.ProductID == new Guid(ProducID)).Count() != 0)
+                    return null;
+                var item = new CartItem
+                {
+                    CartID = user.Cart.Id,
+                    ProductID = new Guid(ProducID),
+                    Qauntety = 1
+                };
+                await _context.CartItem.AddAsync(item);
+                return item;
+            }
+            return null;
         }
 
         public async Task<CartItem> Delete(int id)
@@ -36,9 +49,20 @@ namespace Application_Layer.Repos
             return item;
         }
 
-        public async Task<IEnumerable<CartItem>> GetAllItems()
+        public async void Empty(string id)
         {
-            return await _context.CartItem.ToListAsync();
+            var user = _context.Users.FirstOrDefault(i => i.Id == id);
+            if (user != null)
+            {
+                foreach (var item in user.Cart.Items)
+                {
+                    _context.CartItem.Remove(item);
+                }
+            }
+        }
+        public async Task<IEnumerable<CartItem>> GetAllItems(string UserId)
+        {
+            return await _context.CartItem.Where(c=>c.Cart.UserId == UserId).ToListAsync();
         }
 
         public async Task<CartItem> Update(CartItemUpdateDTO cartItemUpdateDTO)
@@ -49,11 +73,6 @@ namespace Application_Layer.Repos
             item.Qauntety = cartItemUpdateDTO.Quantity;
             _context.CartItem.Update(item);
             return item;
-        }
-
-        IEnumerable<CartItem> IBaseRepo<CartItem>.GetAll()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -8,12 +8,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Application_Layer.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-    public partial class UpdatedServiceMedia : Migration
-========
+    public partial class initailCreate : Migration
 
-    public partial class init : Migration
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -239,12 +235,8 @@ namespace Application_Layer.Migrations
                         name: "FK_Cart_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-                        principalColumn: "Id");
-========
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
                 });
 
             migrationBuilder.CreateTable(
@@ -312,7 +304,8 @@ namespace Application_Layer.Migrations
                     Rate = table.Column<double>(type: "float", nullable: false),
                     ExpectedSalary = table.Column<double>(type: "float", nullable: false),
                     CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProviderID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PicUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -398,23 +391,15 @@ namespace Application_Layer.Migrations
                         name: "FK_CartItem_Cart_CartID",
                         column: x => x.CartID,
                         principalTable: "Cart",
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-                        principalColumn: "Id");
-========
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
                     table.ForeignKey(
                         name: "FK_CartItem_Product_ProductID",
                         column: x => x.ProductID,
                         principalSchema: "Product",
                         principalTable: "Product",
                         principalColumn: "ProductID",
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-                        onDelete: ReferentialAction.Cascade);
-========
                         onDelete: ReferentialAction.NoAction);
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
                 });
 
             migrationBuilder.CreateTable(
@@ -543,12 +528,6 @@ namespace Application_Layer.Migrations
                         principalSchema: "Service",
                         principalTable: "Request",
                         principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_RequestMedia_Service_RequestID",
-                        column: x => x.RequestID,
-                        principalSchema: "Service",
-                        principalTable: "Service",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -638,18 +617,11 @@ namespace Application_Layer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-                    { "05646598-335c-4999-90a3-73cb89b233e3", null, "ServiceProvider", "SERVICEPROVIDER" },
-                    { "b7491fbf-3df2-4137-b47f-16be7402887b", null, "Vendor", "VENDOR" },
-                    { "cacde495-d0b9-420d-aada-9daf0ea215d6", null, "Admin", "ADMIN" },
-                    { "fed7a9fb-ab6d-4e82-9198-d91ee2c65150", null, "Customer", "CUSTOMER" }
-========
-                    { "6ed4bfad-2cd3-4c6d-b30f-586e94c84bac", null, "Customer", "CUSTOMER" },
-                    { "7135749e-bfe8-47ee-a4f4-de47ab1fd787", null, "Admin", "ADMIN" },
-                    { "887758f4-9b73-4e42-9a3d-84428d1a9d89", null, "ServiceProvider", "SERVICEPROVIDER" },
-                    { "92dd3ce6-9939-408e-bc17-9a5865915805", null, "Vendor", "VENDOR" }
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
-                });
+                    { "20e6e0e3-1ab3-4dc4-848c-385da4479e4e", null, "Admin", "ADMIN" },
+                    { "7a6bc53b-36b8-46f6-bf8c-fc78c5c99927", null, "Vendor", "VENDOR" },
+                    { "af7b2705-e605-4f54-bc9f-8576de22fd1d", null, "Customer", "CUSTOMER" },
+                    { "f4366997-79f1-4c28-9dc2-e13b407d5908", null, "ServiceProvider", "SERVICEPROVIDER" }
+               });
 
             migrationBuilder.InsertData(
                 schema: "Address",
@@ -692,56 +664,7 @@ namespace Application_Layer.Migrations
                 columns: new[] { "ID", "NameAr", "NameEn" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Servmart-api/InfrastructureLayer/Migrations/20231109223438_UpdatedServiceMedia.cs
-                    { new Guid("01e394c3-1d23-47cc-8097-b67e0cdc5cc6"), "خدمات تكنولوجيا المعلومات", "Information technology services" },
-                    { new Guid("072d790b-05a4-4846-b729-c0b4b9b849a2"), "ضيافة", "Hospitality" },
-                    { new Guid("0a7370a6-af14-4c67-9341-3abf06a45179"), "نجارة", "Carpenter " },
-                    { new Guid("11cadbad-52ba-4437-a43f-42e22d7eebad"), "المحاسبة", "Accounting" },
-                    { new Guid("11e7d931-65cb-4930-ac03-475b6a606a22"), "سباكة", "Plumbing" },
-                    { new Guid("3088a948-0f1e-4f42-9159-4235d16c44d5"), "خدمات التجميل", "Beauty services" },
-                    { new Guid("349b26b4-000a-4e4b-82db-0e68140b2947"), "خدمات التوصيل", "Delivery services" },
-                    { new Guid("3c844172-eba2-4826-850f-2460d158acad"), "خدمات غسيل الملابس", "Laundry services" },
-                    { new Guid("3e0b9368-ce08-474d-b2dc-cecad4716651"), "خدمات التنظيف", "Cleaning services" },
-                    { new Guid("43eb7e92-9751-485c-ba0b-40e20fd4683a"), "البناء", "Construction" },
-                    { new Guid("4842fa15-2f1c-46c7-a34d-984a5d03b92f"), "خدمات أخرى", "Other services" },
-                    { new Guid("4cb5618d-572c-4d54-aac8-fad46e07d156"), "مكافحة الحشرات والطيور", "Pest and bird control" },
-                    { new Guid("4e50c373-8c3c-43a2-9204-ee15b8d67def"), "الإعلان والتسويق", "Advertising and marketing" },
-                    { new Guid("51e01c45-3d1f-45b2-92a5-0d5348e1e41a"), "الرياضة", "Sports" },
-                    { new Guid("5292c41f-ae84-4d25-8c5b-11425e8bcfa4"), "تركيب و صيانة الاجهزة المنزلية", "Installation and maintenance of home appliances" },
-                    { new Guid("5bb4034e-7a5e-4181-8648-c529cb9704fe"), "توصيل طلبات الطعام", "Food delivery" },
-                    { new Guid("5d8ca634-71bf-4062-a085-01434560cf07"), "خدمات صناعة الأقفال", "Locksmith services" },
-                    { new Guid("64b3fc36-94f7-4464-b6b3-51a7f0a8ab41"), "تقديم الطعام", "Catering " },
-                    { new Guid("6e06c9e2-487e-415d-8448-4ceb9fd7519b"), "المكتبات", "Libraries" },
-                    { new Guid("76093fc9-421e-4fd7-b3a7-2bbfda58ab68"), "نقاشة", "Painter" },
-                    { new Guid("777e5017-583c-41d5-a3d9-1a4f9a262d3e"), "تصميم وتطوير مواقع الويب", "Web design and development" },
-                    { new Guid("79ef631c-45ee-45c1-8d04-98d3556e93ca"), "خدمات النقل", "Transportation services" },
-                    { new Guid("826f93eb-8844-40ef-8ca5-e5e350bf1a0a"), "تأمين", "Insurance" },
-                    { new Guid("829b0472-ced9-4194-a53c-d6f5c0efed45"), "خدمات الترجمة", "Translation services" },
-                    { new Guid("85b04d30-86b3-4c1a-b782-d86f3bdad425"), "خدمات حكومية", "Government services" },
-                    { new Guid("8ca9ad2a-1ee1-4381-8da7-fc831a2be56c"), "تسقيف", "Roofing" },
-                    { new Guid("909bba64-5b63-489f-82c8-7c95be3ab91e"), "خدمات قانونية", "Legal services" },
-                    { new Guid("a806cf01-4830-444b-b106-13f1242545ad"), "ترفيه", "Entertainment" },
-                    { new Guid("ae1ea94a-e163-421e-ac9d-b0dab6d8474f"), "تدريب اللياقة البدنية", "Fitness training" },
-                    { new Guid("b130fdb5-dcf7-45bf-9a83-78845f318fba"), "رعاية الأطفال", "Childcare" },
-                    { new Guid("b75af6be-0815-4013-8902-eca3734deaf9"), "إدارة المكاتب", "Office management" },
-                    { new Guid("bf07916b-e757-4d13-ac66-eea8f62cfccc"), "ساتلايت ورسيفر", "Satellite and receiver" },
-                    { new Guid("c05533d3-e63e-49b3-8700-ae5b8f4f072c"), "خدمات سيارات الأجرة", "Taxi services" },
-                    { new Guid("c0952d5b-30c4-4f7a-8505-c94b1710d396"), "الخدمات المالية", "Financial services" },
-                    { new Guid("c0e297fa-0d11-494a-af11-741137cbf0f6"), "التخطيط للأحداث", "Event planning" },
-                    { new Guid("c1b5c8b8-66da-44c0-ba48-3f1799711c7c"), "التنظيف الجاف", "Dry cleaning" },
-                    { new Guid("c2169138-23e2-4f77-a38e-7bccb4da105f"), "حدائق و منتجعات ترفيهيه", "Parks and recreation" },
-                    { new Guid("c54b2faf-5eca-4e3c-a7bc-ad0175bdb4f9"), "العناية بالحديقة", "Garden care" },
-                    { new Guid("c87af6a2-1e6d-44cd-b4c3-b28ec866ee95"), "إصلاح الكمبيوتر", "Computer repair" },
-                    { new Guid("c9eaa0a2-6c83-49df-8dbc-5b4a9ca3829c"), "صيانة سيارات", "Car maintenance" },
-                    { new Guid("cf2b1081-42c2-4f0f-a2ab-cfea9c7b87db"), "رعاية الحيوانات الاليفة", "Pet care" },
-                    { new Guid("cfac7050-6dd6-423f-bdee-0af35f987e21"), "الخدمات البيطرية", "Veterinary services" },
-                    { new Guid("d8f0abd7-ef17-4ea1-b90d-9b9a8e350569"), "كهرباء", "Electricity" },
-                    { new Guid("da25a30c-d431-4431-a6b7-c9f8ec6a2bd3"), "تنظيف حمام السباحة", "Swimming pool cleaning" },
-                    { new Guid("dd0d4e06-ca81-4b0b-bdd2-10c4d7fc11f0"), "إستشارات", "Consulting " },
-                    { new Guid("e190c9c4-0cb9-4464-93b4-9ad0fa309f01"), "التكييف", "Air conditioning" },
-                    { new Guid("e7fd84b1-a458-45f4-a73d-e13f22e2a49b"), "العقارات", "Real estate" },
-                    { new Guid("ed1cbe3f-7d8c-4256-a2bf-0e74f0ada446"), "الخدمات الطبية", "Medical services" }
-========
+
                     { new Guid("0159358e-6c32-47ec-8aad-fdbd9014ffea"), "خدمات التنظيف", "Cleaning services" },
                     { new Guid("03cc98f6-61cb-4b87-9f56-d9d796ee25e0"), "نجارة", "Carpenter " },
                     { new Guid("0a2573e2-f890-4d91-96ad-45d26433bdb0"), "المحاسبة", "Accounting" },
@@ -790,7 +713,6 @@ namespace Application_Layer.Migrations
                     { new Guid("f385d206-c3b6-4560-aece-6fe70c954f78"), "ضيافة", "Hospitality" },
                     { new Guid("f3e79426-0816-4849-80ca-200e1b870e54"), "تقديم الطعام", "Catering " },
                     { new Guid("f91a3749-9e67-4c8b-892c-15e083dab08c"), "مكافحة الحشرات والطيور", "Pest and bird control" }
->>>>>>>> ae2374a10b1845e5aaad29b92e4da57ddc69e24d:Servmart-api/InfrastructureLayer/Migrations/20231109110234_initailCreate.cs
                 });
 
             migrationBuilder.InsertData(

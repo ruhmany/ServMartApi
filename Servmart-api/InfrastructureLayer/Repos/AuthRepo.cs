@@ -13,13 +13,12 @@ namespace InfrastructureLayer.Repos
 {
 	public class AuthRepo : BaseRepos<User>, IAuthRepo
 	{
-
-
 		private readonly AppDbContext _appContext;
 		private readonly UserManager<User> _usermanager;
 		private readonly RoleManager<IdentityRole> _rolemanager;
 		private readonly IConfiguration _config;
 		private readonly IPhotoService _photoservice;
+
 		public AuthRepo( AppDbContext appContext, UserManager<User> userManager,
 			RoleManager<IdentityRole> rolemanager, IConfiguration config,
 			IPhotoService photoservice, IUnitOfWork unitofwork ) : base( appContext )
@@ -30,7 +29,6 @@ namespace InfrastructureLayer.Repos
 			_config = config;
 			_photoservice = photoservice;
 		}
-
 
 		public async Task<AuthModel> LoginAsync( UserLoginDTO loginDTO )
 		{
@@ -114,7 +112,6 @@ namespace InfrastructureLayer.Repos
 			};
 		}
 
-
 		private async Task<JwtSecurityToken> CreateToken( User user )
 		{
 			var userclaims = await _usermanager.GetClaimsAsync( user );
@@ -122,7 +119,7 @@ namespace InfrastructureLayer.Repos
 			var roleclaim = new List<Claim>();
 			foreach ( var role in roles )
 			{
-				roleclaim.Add( new Claim( "roles", role ) );
+				roleclaim.Add( new Claim("roles", role ) );
 			}
 			var claims = new[]
 			{

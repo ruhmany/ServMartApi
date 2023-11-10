@@ -23,5 +23,6 @@ namespace Domain_Layer.Models
 		public virtual ICollection<Request> Request { get; set; }
 		public virtual ICollection<Chat> Chats { get; set; }
 		public virtual ICollection<Product> Products { get; set; }
-	}
+        public virtual ICollection<Order> Orders { get; set; }
+    }
 }

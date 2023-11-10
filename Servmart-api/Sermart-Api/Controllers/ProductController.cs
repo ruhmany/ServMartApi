@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.IRepos;
 using AutoMapper;
+using Domain_Layer.DTOs.ProductDTOs;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -82,7 +83,7 @@ namespace Sermart_Api.Controllers
         //[Route("AddProduct")]
         [Authorize(Roles = "Vendor")]
         [DisableRequestSizeLimit]
-        public async Task<ActionResult<Product>> Addproduct([FromForm]ProductViewModel productVM)
+        public async Task<ActionResult<Product>> Addproduct([FromForm]AddProductDTO productVM)
         {
             if (ModelState.IsValid)
             {
