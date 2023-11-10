@@ -9,9 +9,10 @@ namespace Domain_Layer.DTOs.ServiceDTOs
 {
     public class ServiceDTO
     {
-        public string Name { get; set; }
+        public string UserId { get; set; }
+        public string Title { get; set; }
         public string CategoryID { get; set; }
-        public string Describtion { get; set; }
-        public IFormFile ServicePic { get; set; }
+        public string Description { get; set; }
+        public ICollection<IFormFile> ServicePic { get; set; }
     }
 }
