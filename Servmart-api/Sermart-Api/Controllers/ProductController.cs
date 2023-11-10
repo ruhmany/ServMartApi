@@ -56,9 +56,10 @@ namespace Sermart_Api.Controllers
             return Ok(mapper);
         }
 
-        [HttpGet("GetAllUserProduct/{id}")]
-        public async Task<ActionResult> GetAllUserProduct(string id)
+        [HttpGet("GetAllUserProduct")]
+        public async Task<ActionResult> GetAllUserProduct()
         {
+          string id= User.FindFirstValue(ClaimTypes.NameIdentifier);
             var data = await _product.GetUserProduct(id);
             var mapper = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(data);
             return Ok(mapper);
