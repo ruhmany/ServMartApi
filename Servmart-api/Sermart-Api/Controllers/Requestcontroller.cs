@@ -46,8 +46,14 @@ namespace Sermart_Api.Controllers
 			return Ok();
 
 		}
+        [HttpGet("GetAllrequest")]
+        public async Task<IActionResult> GetAllrequest()
+        {
+            var request = _request.GetRequestList();
+            return Ok(request);
+        }
 
-		[HttpGet( "GetAll" )]
+        [HttpGet( "GetAll" )]
 		public async Task<IActionResult> Getall( int page, int pageSize )
 		{
 			var request = await _request.GetAllRequests( page, pageSize );
@@ -67,5 +73,21 @@ namespace Sermart_Api.Controllers
 			var count = await _request.GetTotalRequestItems();
 			return Ok(count);
 		}
-	}
+        [HttpGet("Getrequest")]
+        public async Task<IActionResult> GetRequest(string ID)
+        {
+            var request = _request.GetById(ID);
+            return Ok(request);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Dellete(string Id)
+        {
+            var result = _request.Delete(Id);
+            if (result == null)
+                return BadRequest(result);
+            _unitOfWork.CommitChanges();
+            return Ok(result);
+        }
+    }
+
 }

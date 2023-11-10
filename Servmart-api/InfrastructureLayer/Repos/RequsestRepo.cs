@@ -78,8 +78,12 @@ namespace InfrastructureLayer.Repos
 			}
 			return request;
 		}
-
-		public List<Request> FilterRequest( string UserId, decimal Price, decimal? minPrice, decimal? maxPrice )
+        public List<Request> GetRequestList()
+        {
+            var result = _appDbContext.Request.ToList();
+            return result;
+        }
+        public List<Request> FilterRequest( string UserId, decimal Price, decimal? minPrice, decimal? maxPrice )
 		{
 			IQueryable<Request> query = _appDbContext.Request;
 			query = query.Where( r => r.UserID == UserId );

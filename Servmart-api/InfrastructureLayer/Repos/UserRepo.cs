@@ -82,7 +82,71 @@ namespace InfrastructureLayer.Repos
             return user;
         }
 
-        
+        public async Task<IEnumerable<User>> GetAllUser()
+        {
+            var Users = new List<User>();
+
+            foreach (var user in await _appContext.Users.ToListAsync())
+            {
+                var roles = await GetRolesAsync(user);
+
+                if (roles.Contains("Customer"))
+                {
+                    Users.Add(user);
+                }
+            }
+
+            return Users;
+        }
+
+        public async Task<IEnumerable<User>> GetAllservicesprov()
+        {
+            var Users = new List<User>();
+
+            foreach (var user in await _appContext.Users.ToListAsync())
+            {
+                var roles = await GetRolesAsync(user);
+
+                if (roles.Contains("ServiceProvider"))
+                {
+                    Users.Add(user);
+                }
+            }
+
+            return Users;
+        }
+
+        public async Task<IEnumerable<User>> GetAllvendor()
+        {
+            var Users = new List<User>();
+
+            foreach (var user in await _appContext.Users.ToListAsync())
+            {
+                var roles = await GetRolesAsync(user);
+
+                if (roles.Contains("Vendor"))
+                {
+                    Users.Add(user);
+                }
+            }
+
+            return Users;
+        }
+
+        private async Task<IList<string>> GetRolesAsync(User user)
+        {
+            return await _usermanager.GetRolesAsync(user);
+        }
+        public async Task<User> Delete(string ID)
+        {
+            var User = await _appContext.Users.Include(u => u.Cart).FirstOrDefaultAsync(x => x.Id == ID);
+            if (User != null)
+                _appContext.Cart.RemoveRange(User.Cart);
+            _appContext.Users.Remove(User);
+            _appContext.SaveChanges();
+
+            return User;
+        }
 
     }
 

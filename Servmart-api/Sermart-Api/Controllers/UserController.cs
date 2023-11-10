@@ -61,6 +61,31 @@ namespace Sermart_Api.Controllers
         {
             return Ok(await _userRepo.GetAllUsers());
         }
+
+        [HttpGet("GetAllCustomer")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            return Ok(await _userRepo.GetAllUser());
+        }
+        [HttpGet("GetAllVendor")]
+        public async Task<IActionResult> GetAllvendor()
+        {
+            return Ok(await _userRepo.GetAllvendor());
+        }
+        [HttpGet("GetAllUser")]
+        public async Task<IActionResult> GetAllservicesprov()
+        {
+            return Ok(await _userRepo.GetAllservicesprov());
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string Id)
+        {
+            var result = await _userRepo.Delete(Id);
+            if (result == null)
+                return BadRequest(result);
+            _unitOfWork.CommitChanges();
+            return Ok(result);
+        }
         [HttpPost("UpdateEmail")]
         public async Task<ActionResult<User>> ChangeEmail(ChangeEmailDTO changeEmailDTO)
         {
