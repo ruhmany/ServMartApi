@@ -1,6 +1,8 @@
-﻿using ApplicationLayer.IRepos;
+﻿using Application_Layer.Helpers;
+using ApplicationLayer.IRepos;
 using AutoMapper;
 using Domain_Layer.DTOs.ProductDTOs;
+using Domain_Layer.Helpers;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -56,9 +58,10 @@ namespace Sermart_Api.Controllers
             return Ok(mapper);
         }
 
-        [HttpGet("GetAllUserProduct/{id}")]
-        public async Task<ActionResult> GetAllUserProduct(string id)
+        [HttpGet("GetAllUserProduct")]
+        public async Task<ActionResult> GetAllUserProduct()
         {
+          string id= User.FindFirstValue(ClaimTypes.NameIdentifier);
             var data = await _product.GetUserProduct(id);
             var mapper = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(data);
             return Ok(mapper);
@@ -164,13 +167,15 @@ namespace Sermart_Api.Controllers
            
 
         }
-        
-        
 
 
-       
-       
-   
-
+        [HttpPost("Filter")]
+        public IActionResult GetFilterdData([FromBody] FilterModel<Product> filters)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = _product.GetFilterdProducts(filters).ToList();
+            return Ok(result);
+        }
     }
 }
