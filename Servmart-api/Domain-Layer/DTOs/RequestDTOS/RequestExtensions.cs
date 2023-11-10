@@ -8,6 +8,7 @@ namespace Domain_Layer.DTOs.RequestDTOS
 		{
 			return new RequestShowDTO()
 			{
+				Id = request.ID.ToString(),
 				ClientId = request.UserID,
 				Title = request.Title,
 				Details = request.Details,
@@ -17,8 +18,11 @@ namespace Domain_Layer.DTOs.RequestDTOS
 				Address = request.Address,
 				EndDate = request.EndDate,
 				ExpectedSalary = request.ExpectedSalary,
-				Images = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) == false ).Select( x => x.MediaUrl ).ToList(),
-				Video = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
+				Images = request.RequestMedia?.Where( x => x.MediaUrl != null && !x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).ToList(),
+				Video = request.RequestMedia?.Where( x => x.MediaUrl != null && x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
+
+				//Images = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) == false ).Select( x => x.MediaUrl ).ToList(),
+				//Video = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
 			};
 		}
 	}

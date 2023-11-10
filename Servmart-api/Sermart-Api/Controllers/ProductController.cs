@@ -1,6 +1,8 @@
-﻿using ApplicationLayer.IRepos;
+﻿using Application_Layer.Helpers;
+using ApplicationLayer.IRepos;
 using AutoMapper;
 using Domain_Layer.DTOs.ProductDTOs;
+using Domain_Layer.Helpers;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -165,13 +167,15 @@ namespace Sermart_Api.Controllers
            
 
         }
-        
-        
 
 
-       
-       
-   
-
+        [HttpPost("Filter")]
+        public IActionResult GetFilterdData([FromBody] FilterModel<Product> filters)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var result = _product.GetFilterdProducts(filters).ToList();
+            return Ok(result);
+        }
     }
 }

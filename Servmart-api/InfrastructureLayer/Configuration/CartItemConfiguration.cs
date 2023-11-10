@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace Application_Layer.Configuration
 {
-    public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
-    {
-        public void Configure(EntityTypeBuilder<CartItem> builder)
-        {
-            builder.HasKey(x=> x.Id);
-            builder.HasOne(x => x.Cart).WithMany(x => x.Items).HasForeignKey(x=>x.CartID);
+	public class CartItemConfiguration : IEntityTypeConfiguration<CartItem>
+	{
+		public void Configure( EntityTypeBuilder<CartItem> builder )
+		{
+			builder.HasKey( x => x.Id );
+			builder.Property( x => x.Id ).ValueGeneratedOnAdd();
+			builder.HasOne( x => x.Cart ).WithMany( x => x.Items ).HasForeignKey( x => x.CartID ).OnDelete(DeleteBehavior.NoAction);
 
-        }
-    }
+		}
+	}
 }

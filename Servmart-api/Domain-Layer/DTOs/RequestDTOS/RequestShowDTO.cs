@@ -5,6 +5,7 @@ namespace Domain_Layer.DTOs.RequestDTOS
 {
 	public class RequestShowDTO
 	{
+		public string Id { get; set; }
 		public string ClientId { get; set; }
 		public string Title { get; set; }
 		public string Category { get; set; }
