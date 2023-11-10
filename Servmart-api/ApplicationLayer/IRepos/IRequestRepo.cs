@@ -6,15 +6,12 @@ namespace ApplicationLayer.IRepos
     public interface IRequestRepo
     {
         Task<Request> AddRequest( RequestDTO requestDTO );
-        List<Request> GetRequestList();
-        //Task<RequestDTO> GetReqModel();
-        Task<Request> UPDate(RequestUpdateDTO requestDTO);
-        Task<IEnumerable<RequestShowDTO>> GetAllRequests();
+        Task<Request> Update(RequestUpdateDTO requestDTO);
+        Task<IEnumerable<RequestShowDTO>> GetAllRequests( int page, int pageSize );
         Request Delete(string id);
-        Task<Request> GitbyId(string id);
-        List<Request> filterReq(string id, decimal Price, decimal? minPrice, decimal? maxPrice);
-
-
+        Task<Request> GetById(string id);
+        List<Request> FilterRequest( string id, decimal Price, decimal? minPrice, decimal? maxPrice);
+        Task<int> GetTotalRequestItems();
 
     }
 }

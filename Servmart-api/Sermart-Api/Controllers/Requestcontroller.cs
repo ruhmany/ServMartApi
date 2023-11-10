@@ -33,11 +33,9 @@ namespace Sermart_Api.Controllers
 		public IActionResult UpDate( string id, [FromBody] RequestUpdateDTO request )
 		{
 			request.ClientId = id;
-			_request.UPDate( request );
+			_request.Update( request );
 			_unitOfWork.CommitChanges();
 			return Ok();
-
-
 		}
 
 		[HttpPost( "Delet" )]
@@ -50,18 +48,24 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpGet( "GetAll" )]
-		public async Task<IActionResult> Getall()
+		public async Task<IActionResult> Getall( int page, int pageSize )
 		{
-			var request = await _request.GetAllRequests();
+			var request = await _request.GetAllRequests( page, pageSize );
 			return Ok( request );
 		}
 
 		[HttpGet( "FilterRequest" )]
 		public IActionResult Filter( string userId, decimal price, decimal? minPrice, decimal? maxPrice )
 		{
-			var filteredRequests = _request.filterReq( userId, price, minPrice, maxPrice );
+			var filteredRequests = _request.FilterRequest( userId, price, minPrice, maxPrice );
 			return Ok( filteredRequests );
 		}
 
+		[HttpGet( "GetRequestCount" )]
+		public async Task<IActionResult> GetRequestCount()
+		{
+			var count = await _request.GetTotalRequestItems();
+			return Ok(count);
+		}
 	}
 }

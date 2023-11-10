@@ -14,6 +14,7 @@ namespace InfrastructureLayer.Configuration
 			builder.Property( m => m.MediaUrl ).IsRequired().HasMaxLength( 500 );
 
 			builder.HasOne( i => i.Request ).WithMany( i => i.RequestMedia ).HasForeignKey( i => i.RequestID ).OnDelete(DeleteBehavior.NoAction).IsRequired();
+			builder.HasOne( i => i.Service ).WithMany( i => i.ServiceMedia ).HasForeignKey( i => i.RequestID ).OnDelete(DeleteBehavior.NoAction).IsRequired();
 		}
 	}
 }

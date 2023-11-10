@@ -13,65 +13,79 @@ using System.Threading.Tasks;
 
 namespace Application_Layer.Repos
 {
-    public class ServiceRepo : BaseRepos<Service>, IServiceRepo
-    {
-        private readonly AppDbContext _appDbContext;
-        private readonly IPhotoService _photoService;
-        public ServiceRepo(AppDbContext appContext, AppDbContext appDbContext, IPhotoService photoService) : base(appContext)
-        {
-            _appDbContext = appDbContext;
-            _photoService = photoService;
-        }
+	public class ServiceRepo : BaseRepos<Service>, IServiceRepo
+	{
+		private readonly AppDbContext _appDbContext;
+		private readonly IPhotoService _photoService;
 
-        public async Task<Service> GetByID(string ID)
-        {
-            return await _appDbContext.Service
-                    .FirstOrDefaultAsync(x => x.ID.ToString() == ID);
-        }
+		public ServiceRepo( AppDbContext appContext, AppDbContext appDbContext, IPhotoService photoService ) : base( appContext )
+		{
+			_appDbContext = appDbContext;
+			_photoService = photoService;
+		}
 
-        public async Task<IEnumerable<Service>> GetAll()
-        {
-            return await _appDbContext.Service.ToListAsync();
-        }
+		public async Task<Service> GetByID( string ID )
+		{
+			return await _appDbContext.Service.FirstOrDefaultAsync( x => x.ID.ToString() == ID );
+		}
 
-        public async Task<Service> Update(UpdateServiceDTO serviceDTO)
-        {
-            var service = await _appDbContext.Service.FirstOrDefaultAsync(x => x.ID.ToString() == serviceDTO.ID);
-            if(service != null)
-            {
-                service.Discription = serviceDTO.Describtion;
-                service.Title = serviceDTO.Name;
-                var pic = await _photoService.AddPhotoAsync(serviceDTO.ServicePic);
-                service.PicUrl = pic.Url.ToString();
-                _appDbContext.Service.Update(service);
-            }
-            return service;
-        }
+		public async Task<IEnumerable<Service>> GetAll()
+		{
+			return await _appDbContext.Service.ToListAsync();
+		}
 
-        public async Task<Service> Delete(string ID)
-        {
-            var serivce = await _appDbContext.Service.FirstOrDefaultAsync(x => x.ID.ToString() == ID);
-            if(serivce != null) 
-                _appDbContext.Service.Remove(serivce);
-            return serivce;
-        }
+		public async Task<Service> Update( UpdateServiceDTO serviceDTO )
+		{
+			var service = await _appDbContext.Service.FirstOrDefaultAsync( x => x.ID.ToString() == serviceDTO.Id );
+			if ( service != null )
+			{
+				service.Discription = serviceDTO.Description;
+				service.Title = serviceDTO.Title;
 
-        public async Task<Service> AddService(ServiceDTO serviceDTO, string providerID)
-        {
-            var pic = await _photoService.AddPhotoAsync(serviceDTO.ServicePic);
-            var serivce = new Service()
-            {
-                Title = serviceDTO.Name,
-                Discription = serviceDTO.Describtion,
-                CategoryID = new Guid(serviceDTO.CategoryID),
-                Rate = 0,
-                ExpectedSalary = 0,
-                ProviderID = providerID,
-                PicUrl = pic.Url.ToString(),
-            };
+				if ( serviceDTO.ServicePic != null )
+				{
+					service.ServiceMedia.Clear();
+					foreach ( var image in serviceDTO.ServicePic )
+					{
+						var pic = await _photoService.AddPhotoAsync( image );
+						service.ServiceMedia.Add( new RequestMedia() { MediaUrl = pic.Url.ToString(), RequestID = service.ID } );
+					}
+				}
 
-            await _appDbContext.Service.AddAsync(serivce);
-            return serivce;
-        }
-    }
+				_appDbContext.Service.Update( service );
+			}
+			return service;
+		}
+
+		public async Task<Service> Delete( string ID )
+		{
+			var serivce = await _appDbContext.Service.FirstOrDefaultAsync( x => x.ID.ToString() == ID );
+			if ( serivce != null )
+				_appDbContext.Service.Remove( serivce );
+			return serivce;
+		}
+
+		public async Task<Service> AddService( ServiceDTO serviceDTO )
+		{
+			var service = new Service()
+			{
+				Title = serviceDTO.Title,
+				Discription = serviceDTO.Description,
+				CategoryID = Guid.Parse( serviceDTO.CategoryID ),
+				Rate = 0,
+				ExpectedSalary = 0,
+				ProviderID = serviceDTO.UserId,
+			};
+
+			service.ServiceMedia = new List<RequestMedia>();
+			foreach ( var image in serviceDTO.ServicePic )
+			{
+				var pic = await _photoService.AddPhotoAsync( image );
+				service.ServiceMedia.Add( new RequestMedia() { MediaUrl = pic.Url.ToString(), RequestID = service.ID } );
+			}
+
+			await _appDbContext.Service.AddAsync( service );
+			return service;
+		}
+	}
 }

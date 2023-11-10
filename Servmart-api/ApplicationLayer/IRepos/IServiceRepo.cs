@@ -11,10 +11,10 @@ namespace Infrastructure_Layer.IRepos
 {
     public interface IServiceRepo : IBaseRepo<Service>
     {
-        Task<Service> AddService(ServiceDTO serviceDTO, string providerID);
+        Task<Service> AddService(ServiceDTO serviceDTO);
         Task<Service> GetByID(string ID);
         Task<IEnumerable<Service>> GetAll();
         Task<Service> Update(UpdateServiceDTO serviceDTO);
         Task<Service> Delete(string ID);
-    }
+	}
 }

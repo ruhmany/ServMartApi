@@ -14,7 +14,6 @@ namespace InfrastructureLayer.Repos
 		private readonly IPhotoService _photoService;
 		private readonly IVideoService _videoService;
 
-
 		public RequsestRepo( AppDbContext appContext, IPhotoService photoService, IVideoService videoService ) : base( appContext )
 		{
 			_appDbContext = appContext;
@@ -37,6 +36,8 @@ namespace InfrastructureLayer.Repos
 				Address = requestDTO.Address,
 				StartDate = DateTime.Now,
 				IsDirect = requestDTO.IsDirect,
+				RateValue = 0,
+				RateMassage = string.Empty
 			};
 
 			if ( requestDTO.IsDirect && !string.IsNullOrEmpty( requestDTO.ProviderID ) )
@@ -76,12 +77,9 @@ namespace InfrastructureLayer.Repos
 				_appDbContext.Request.Remove( request );
 			}
 			return request;
-
-
-
 		}
 
-		public List<Request> filterReq( string UserId, decimal Price, decimal? minPrice, decimal? maxPrice )
+		public List<Request> FilterRequest( string UserId, decimal Price, decimal? minPrice, decimal? maxPrice )
 		{
 			IQueryable<Request> query = _appDbContext.Request;
 			query = query.Where( r => r.UserID == UserId );
@@ -97,26 +95,29 @@ namespace InfrastructureLayer.Repos
 			return query.ToList();
 		}
 
-		public async Task<IEnumerable<RequestShowDTO>> GetAllRequests()
+		public async Task<IEnumerable<RequestShowDTO>> GetAllRequests( int page, int pageSize )
 		{
-			var test = base.GetAll();
-			var rest =  _appDbContext.Request.ToList();
-			var result = await _appDbContext.Request.Select(x=>x.toShowRequestDTO()).ToListAsync();
+			var query = _appDbContext.Request.Select( x => x.toShowRequestDTO() );
+			if ( page > 0 && pageSize > 0 )
+			{
+				int recordsToSkip = ( page - 1 ) * pageSize;
+				query = query.Skip( recordsToSkip ).Take( pageSize );
+			}
+			var result = await query.ToListAsync();
 			return result;
 		}
 
-		public List<Request> GetRequestList()
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<Request> GitbyId( string id )
+		public async Task<Request> GetById( string id )
 		{
 			return await _appDbContext.Request.FirstOrDefaultAsync( R => R.UserID == id );
-
 		}
 
-		public async Task<Request> UPDate( RequestUpdateDTO requestDTO )
+		public async Task<int> GetTotalRequestItems()
+		{
+			return await _appDbContext.Request.CountAsync();
+		}
+
+		public async Task<Request> Update( RequestUpdateDTO requestDTO )
 		{
 			var req = await _appDbContext.Request.FirstOrDefaultAsync( r => r.ID == requestDTO.ID );
 			if ( req != null )
