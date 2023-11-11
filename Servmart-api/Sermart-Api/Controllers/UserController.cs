@@ -19,7 +19,6 @@ namespace Sermart_Api.Controllers
             _unitOfWork = unitOfWork;
         }
 
-
         [HttpPost("update")]
         public async Task<IActionResult> UpdateUser([FromForm] UserUpdateDTO userDTO)
         {
@@ -44,7 +43,6 @@ namespace Sermart_Api.Controllers
             if (result is null) return BadRequest();
             return Ok(result);
         }
-
         [HttpPost("UpDateRole")]
         public async Task<IActionResult> UPDateRole([FromBody]UserRoleDTO userRoleDTO)
         
@@ -56,9 +54,6 @@ namespace Sermart_Api.Controllers
             _unitOfWork.CommitChanges();
             if (Result is null) return BadRequest(); return Ok(Result);
         }
-
-
-
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {

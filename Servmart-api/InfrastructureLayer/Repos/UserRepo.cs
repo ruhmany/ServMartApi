@@ -20,9 +20,6 @@ namespace InfrastructureLayer.Repos
             _usermanager = userManager;
             _photoservice = photoservice;
         }
-
-     
-
         public async Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
             var user = await _usermanager.Users.FirstOrDefaultAsync(r=>r.Id==changePasswordDTO.userID);
@@ -32,12 +29,10 @@ namespace InfrastructureLayer.Repos
             return user;
 
         }
-        
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _appContext.Users.ToListAsync();
         }
-
         public async Task<User> GetUser(string userId)
            => await _appContext.Users.FirstOrDefaultAsync(y => y.Id == userId);
 
