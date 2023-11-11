@@ -16,7 +16,7 @@ namespace Application_Layer.Configuration
             builder.HasKey(oi => oi.ID);
             builder.Property(oi => oi.ID).ValueGeneratedOnAdd();
             builder.HasOne(oi => oi.Order).WithMany(o => o.Items).HasForeignKey(oi => oi.OrderID);
-            builder.HasOne(oi => oi.Product).WithMany(p => p.OrderItems).HasForeignKey(oi => oi.ProductID);
+            builder.HasOne(oi => oi.Product).WithMany(p => p.OrderItems).HasForeignKey(oi => oi.ProductID).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

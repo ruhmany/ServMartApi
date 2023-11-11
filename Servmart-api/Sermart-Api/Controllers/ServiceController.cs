@@ -21,9 +21,9 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpGet( "GetAllServices" )]
-		public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAll( int page, int pageSize )
 		{
-			var result = await _serviceRepo.GetAll();
+			var result = await _serviceRepo.GetAll( page, pageSize );
 			return Ok( result );
 		}
 
@@ -42,14 +42,17 @@ namespace Sermart_Api.Controllers
 		[Authorize( Roles = "ServiceProvider" )]
 		public async Task<IActionResult> AddService( [FromForm] ServiceDTO serviceDTO )
 		{
+
 			if ( !ModelState.IsValid )
 			{
 				return BadRequest( ModelState );
 			}
+
 			serviceDTO.UserId = User.FindFirstValue( ClaimTypes.NameIdentifier );
-			_serviceRepo.AddService( serviceDTO );
+			var service = await _serviceRepo.AddService( serviceDTO );
 			_unitofwork.CommitChanges();
-			return Ok();
+
+			return Ok( service );
 		}
 
 		[HttpPut( "UpdateService" )]
@@ -75,11 +78,62 @@ namespace Sermart_Api.Controllers
 			return Ok( result );
 		}
 
-		//[HttpGet("GetProviders")]
-		//public Task<IActionResult> GetProviders()
-		//{
-		//    return null;
-		//}
+		[HttpGet( "GetUserService" )]
+		public async Task<IActionResult> GetUserService()
+		{
+			var userId = User.FindFirstValue( ClaimTypes.NameIdentifier );
+			var services = await _serviceRepo.GetUserServices( userId );
+			return Ok( services );
+		}
+
+		[HttpGet( "GetUserServiceById" )]
+		public async Task<IActionResult> GetUserServiceById( string userId )
+		{
+			var services = await _serviceRepo.GetUserServices( userId );
+			return Ok( services );
+		}
+
+		[HttpGet( "GetTotalUserServicesItems" )]
+		public async Task<IActionResult> GetTotalUserServicesItems( string userId)
+		{
+			var count = await _serviceRepo.GetTotalUserServicesItems(userId);
+			return Ok( count );
+		}
+
+		[HttpGet( "GetUserServicesCount" )]
+		public async Task<IActionResult> GetUserServicesCount( string userId )
+		{
+			var count = await _serviceRepo.GetTotalUserServicesItems( userId );
+			return Ok( count );
+		}
+
+		[HttpGet( "GetServicesProviders" )]
+		public async Task<IActionResult> GetServicesProviders( int page, int pageSize )
+		{
+			var result = await _serviceRepo.GetServicesProviders( page, pageSize );
+			return Ok( result );
+		}
+
+		[HttpGet( "GetTotalServicesProviders" )]
+		public async Task<IActionResult> GetTotalServicesProvidersCount()
+		{
+			var result = await _serviceRepo.GetTotalServicesProviders( );
+			return Ok( result );
+		}
+
+		[ HttpGet( "GetUserRate" )]
+		public async Task<IActionResult> GetUserRate( string userId, int page, int pageSize )
+		{
+			var result = await _serviceRepo.GetUserServicesRates( userId, page, pageSize );
+			return Ok( result );
+		}
+
+		[HttpGet( "GetTotaUserRatesCount" )]
+		public async Task<IActionResult> GetTotaUserRatesCount( string id )
+		{
+			var count = await _serviceRepo.GetTotaUserRatesCount( id );
+			return Ok( count );
+		}
 
 	}
 }

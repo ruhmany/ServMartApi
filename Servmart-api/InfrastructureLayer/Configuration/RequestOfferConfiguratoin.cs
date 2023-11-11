@@ -8,12 +8,12 @@ namespace InfrastructureLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<RequestOffer> builder)
         {
-            builder.ToTable("RequestOffer", "Service");
+            builder.ToTable("RequestOffer", "Request" );
             builder.HasKey(i => i.ID);
             builder.Property(i => i.ID).ValueGeneratedOnAdd();
             builder.Property(s => s.State).IsRequired().HasMaxLength(15);
             builder.Property(i => i.StartDate).IsRequired();
-            builder.Property(i => i.EndDate).IsRequired(); 
+            builder.Property(i => i.EndDate).IsRequired();
             builder.Property(i => i.Details).IsRequired().HasMaxLength(500);
             builder.Property(i => i.ExpectSalary).IsRequired();
 

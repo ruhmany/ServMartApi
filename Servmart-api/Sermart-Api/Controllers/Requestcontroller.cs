@@ -38,7 +38,7 @@ namespace Sermart_Api.Controllers
 			return Ok();
 		}
 
-		[HttpPost( "Delet" )]
+		[HttpPost( "Delete" )]
 		public IActionResult Delete( string id )
 		{
 			_request.Delete( id );

@@ -13,7 +13,7 @@
         public virtual User User { get; set; }
         public virtual ServiceCategory ServiceCategory { get; set; }
         public virtual ICollection<ServiceRate> ServiceRates { get; set; }
-        public virtual ICollection<RequestMedia> ServiceMedia { get; set; }
+        public virtual ICollection<ServiceMedia> ServiceMedia { get; set; }
 
 	}
 }

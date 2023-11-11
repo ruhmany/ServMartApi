@@ -4,7 +4,6 @@ using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace InfrastructureLayer.Repos
 {

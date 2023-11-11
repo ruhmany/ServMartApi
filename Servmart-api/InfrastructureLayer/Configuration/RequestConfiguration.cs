@@ -10,7 +10,7 @@ namespace InfrastructureLayer.Configuration
 
 		public void Configure( EntityTypeBuilder<Request> builder )
 		{
-			builder.ToTable( "Request", "Service" );
+			builder.ToTable( "Request", "Request" );
 			builder.HasKey( i => i.ID );
 			builder.Property( i => i.ID ).ValueGeneratedOnAdd();
 			builder.Property( i => i.Details ).IsRequired().HasMaxLength( 500 );
