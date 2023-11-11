@@ -13,6 +13,7 @@ namespace InfrastructureLayer.Repos
         private readonly UserManager<User> _usermanager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPhotoService _photoservice;
+
         public UserRepo(AppDbContext appContext, UserManager<User> userManager,
             IPhotoService photoservice, IUnitOfWork unitofwork) : base(appContext)
         {
@@ -82,7 +83,7 @@ namespace InfrastructureLayer.Repos
             return user;
         }
 
-        
+
 
     }
 

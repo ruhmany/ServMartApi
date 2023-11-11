@@ -86,10 +86,24 @@ namespace Sermart_Api.Controllers
 			return Ok( services );
 		}
 
-		[HttpGet( "GetServicesCount" )]
-		public async Task<IActionResult> GetServicesCount()
+		[HttpGet( "GetUserServiceById" )]
+		public async Task<IActionResult> GetUserServiceById( string userId )
 		{
-			var count = await _serviceRepo.GetTotalRequestItems();
+			var services = await _serviceRepo.GetUserServices( userId );
+			return Ok( services );
+		}
+
+		[HttpGet( "GetTotalUserServicesItems" )]
+		public async Task<IActionResult> GetTotalUserServicesItems( string userId)
+		{
+			var count = await _serviceRepo.GetTotalUserServicesItems(userId);
+			return Ok( count );
+		}
+
+		[HttpGet( "GetUserServicesCount" )]
+		public async Task<IActionResult> GetUserServicesCount( string userId )
+		{
+			var count = await _serviceRepo.GetTotalUserServicesItems( userId );
 			return Ok( count );
 		}
 
@@ -98,6 +112,27 @@ namespace Sermart_Api.Controllers
 		{
 			var result = await _serviceRepo.GetServicesProviders( page, pageSize );
 			return Ok( result );
+		}
+
+		[HttpGet( "GetTotalServicesProviders" )]
+		public async Task<IActionResult> GetTotalServicesProvidersCount()
+		{
+			var result = await _serviceRepo.GetTotalServicesProviders( );
+			return Ok( result );
+		}
+
+		[ HttpGet( "GetUserRate" )]
+		public async Task<IActionResult> GetUserRate( string userId, int page, int pageSize )
+		{
+			var result = await _serviceRepo.GetUserServicesRates( userId, page, pageSize );
+			return Ok( result );
+		}
+
+		[HttpGet( "GetTotaUserRatesCount" )]
+		public async Task<IActionResult> GetTotaUserRatesCount( string id )
+		{
+			var count = await _serviceRepo.GetTotaUserRatesCount( id );
+			return Ok( count );
 		}
 
 	}

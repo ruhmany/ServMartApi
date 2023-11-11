@@ -15,8 +15,8 @@ namespace Domain_Layer.Models
 		//public virtual string Email { get; set; }pro
 		//public virtual byte[] PasswordHash { get; set; }
 		//public virtual byte[] PasswordSalt { get; set; }
-		public int GovernorateId { get; set; }
-		public int CityId { get; set; }
+		public int? GovernorateId { get; set; }
+		public int? CityId { get; set; }
 		public string ProfilePic { get; set; }
 		public int CartID { get; set; }
 		public virtual Cart Cart { get; set; }

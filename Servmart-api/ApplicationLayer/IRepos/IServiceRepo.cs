@@ -12,7 +12,10 @@ namespace Infrastructure_Layer.IRepos
 		Task<Service> Update( UpdateServiceDTO serviceDTO );
 		Task<Service> Delete( string ID );
 		Task<IEnumerable<Service>> GetUserServices( string userId );
-		Task<int> GetTotalRequestItems();
+		Task<int> GetTotalServicesProviders();
+		Task<int> GetTotalUserServicesItems( string userId );
 		Task<IEnumerable<ServiceUser>> GetServicesProviders( int page, int pageSize );
+		Task<IEnumerable<ServiceRate>> GetUserServicesRates( string userId, int page, int pageSize );
+		Task<int> GetTotaUserRatesCount( string userId );
 	}
 }

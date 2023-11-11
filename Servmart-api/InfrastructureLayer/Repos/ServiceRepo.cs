@@ -1,6 +1,4 @@
-﻿using CloudinaryDotNet.Actions;
-using Domain_Layer.DTOs.RequestDTOS;
-using Domain_Layer.DTOs.ServiceDTOs;
+﻿using Domain_Layer.DTOs.ServiceDTOs;
 using Domain_Layer.Models;
 using Infrastructure_Layer.IRepos;
 using InfrastructureLayer;
@@ -8,12 +6,8 @@ using InfrastructureLayer.Interfaces;
 using InfrastructureLayer.Repos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing.Printing;
 
 namespace Application_Layer.Repos
 {
@@ -106,9 +100,9 @@ namespace Application_Layer.Repos
 			return await _appDbContext.Service.Where( x => x.ProviderID == userId ).ToListAsync();
 		}
 
-		public async Task<int> GetTotalRequestItems()
+		public async Task<int> GetTotalUserServicesItems( string userId )
 		{
-			return await _appDbContext.Service.CountAsync();
+			return await _appDbContext.Service.Where( s => s.User.Id == userId ).CountAsync();
 		}
 
 		public async Task<IEnumerable<ServiceUser>> GetServicesProviders( int page, int pageSize )
@@ -123,11 +117,11 @@ namespace Application_Layer.Repos
 					FName = user.FName,
 					LName = user.LName,
 					ProfilePic = user.ProfilePic,
-					GovernorateAr = user.Governorate.NameAr,
-					GovernorateEn = user.Governorate.NameEn,
-					CityAr = user.City.NameAr,
-					CityEn = user.City.NameEn,
-					Rate = user.Services.Average( x => x.Rate ),
+					GovernorateAr = user.Governorate != null ? user.Governorate.NameAr : null,
+					GovernorateEn = user.Governorate != null ? user.Governorate.NameEn : null,
+					CityAr = user.City != null ? user.City.NameAr : null,
+					CityEn = user.City != null ? user.City.NameEn : null,
+					Rate = user.Services.DefaultIfEmpty().Average( service => service?.Rate ?? 0 ),
 					ServiceCount = user.Services.Count(),
 				} )
 				.Skip( recordsToSkip )
@@ -136,6 +130,34 @@ namespace Application_Layer.Repos
 			return ServiceProvider;
 		}
 
+		public async Task<int> GetTotalServicesProviders()
+		{
+			var role = "ServiceProvider";
+			var count = await _userManager.GetUsersInRoleAsync( role );
+			return count.Count();
+		}
+
+		public async Task<IEnumerable<ServiceRate>> GetUserServicesRates( string userId, int page, int pageSize )
+		{
+			var query = _appDbContext.ServiceRate
+				.Include( sr => sr.User )
+				.Where( sr => sr.User.Id == userId );
+			if ( page > 0 && pageSize > 0 )
+			{
+				int recordsToSkip = ( page - 1 ) * pageSize;
+				query = query.Skip( recordsToSkip ).Take( pageSize );
+			}
+			var result = await query.ToListAsync();
+			return result;
+		}
+
+		public async Task<int> GetTotaUserRatesCount( string userId )
+		{
+			var result = await _appDbContext.ServiceRate
+				.Include( s => s.User )
+				.Where( s => s.User.Id == userId ).CountAsync();
+			return result;
+		}
 
 	}
 }
