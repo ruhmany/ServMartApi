@@ -14,7 +14,7 @@ namespace Application_Layer.Configuration
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
             builder.HasKey(x=> x.Id);
-            builder.HasOne(x => x.Cart).WithMany(x => x.Items).HasForeignKey(x=>x.CartID);
+            builder.HasOne(x => x.Cart).WithMany(x => x.Items).HasForeignKey(x=>x.CartID).OnDelete(DeleteBehavior.NoAction);
 
         }
     }

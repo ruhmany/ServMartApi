@@ -18,7 +18,7 @@ namespace Sermart_Api.Controllers
         }
 
         [HttpPost( "register" )]
-		public async Task<IActionResult> Register( [FromBody] RegisterModel model )
+		public async Task<IActionResult> Register( [FromForm] RegisterModel model )
 		{
 			if ( !ModelState.IsValid )
 			{

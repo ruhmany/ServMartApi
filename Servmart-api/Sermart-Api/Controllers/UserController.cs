@@ -2,6 +2,7 @@
 using Domain_Layer.DTOs.UserDTOs;
 using Domain_Layer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Sermart_Api.Controllers
 {
@@ -45,10 +46,12 @@ namespace Sermart_Api.Controllers
         }
 
         [HttpPost("UpDateRole")]
-        public async Task<IActionResult> UPDateRole([FromForm] UserRoleDTO userRoleDTO)
+        public async Task<IActionResult> UPDateRole([FromBody]UserRoleDTO userRoleDTO)
+        
         {
             if (!ModelState.IsValid)
             { return BadRequest(ModelState); }
+            userRoleDTO.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var Result = await _userRepo.ChangRole(userRoleDTO);
             _unitOfWork.CommitChanges();
             if (Result is null) return BadRequest(); return Ok(Result);
@@ -64,8 +67,15 @@ namespace Sermart_Api.Controllers
         [HttpPost("UpdateEmail")]
         public async Task<ActionResult<User>> ChangeEmail(ChangeEmailDTO changeEmailDTO)
         {
+             if (!ModelState.IsValid)
+            { return BadRequest(ModelState); }
+            changeEmailDTO.Userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var updatedUser = await _userRepo.ChageEmail(changeEmailDTO);
+            _unitOfWork.CommitChanges();
+
             return Ok(updatedUser);
+        
+        
         }
     }
 }

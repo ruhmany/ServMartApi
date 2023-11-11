@@ -15,7 +15,7 @@ namespace Application_Layer.Configuration
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.HasOne(x => x.User).WithOne(x => x.Cart);
+            builder.HasOne(x => x.User).WithOne(x => x.Cart).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

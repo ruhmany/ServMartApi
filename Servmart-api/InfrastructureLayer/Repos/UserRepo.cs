@@ -21,24 +21,11 @@ namespace InfrastructureLayer.Repos
             _photoservice = photoservice;
         }
 
-        public async Task<User> ChageEmail(ChangeEmailDTO dTO)
-        {
-            var user = await _usermanager.FindByEmailAsync(dTO.OldEmail);
-            if (user == null)
-            {
-                return null;
-
-            }
-            user.Email = dTO.NewEmail;
-            var updateEmail = await _usermanager.UpdateAsync(user);
-            return user;
-
-
-        }
+     
 
         public async Task<User> ChangePassword(ChangePasswordDTO changePasswordDTO)
         {
-            var user = await _usermanager.FindByEmailAsync(changePasswordDTO.Email);
+            var user = await _usermanager.Users.FirstOrDefaultAsync(r=>r.Id==changePasswordDTO.userID);
             if (user is null)
                 return null;
             await _usermanager.ChangePasswordAsync(user, changePasswordDTO.OldPassword, changePasswordDTO.NewPassword);
@@ -58,15 +45,37 @@ namespace InfrastructureLayer.Repos
         {
             var user = await _appContext.Users.FirstOrDefaultAsync(y => y.Id == userRoleDTO.UserId);
 
-            foreach (var Role in userRoleDTO.Roles)
+            foreach (var Role in userRoleDTO.Role)
             {
-                await _usermanager.AddToRoleAsync(user, Role);
-
+                var hasRole = await _usermanager.IsInRoleAsync(user, Role);
+                var userRoles = await _usermanager.GetRolesAsync(user);
+                var roleWillDelete = userRoles.Where(x => !userRoleDTO.Role.Contains(x));
+                if (roleWillDelete.Any())
+                    await _usermanager.RemoveFromRolesAsync(user, roleWillDelete);
+                if (!hasRole)
+                    await _usermanager.AddToRoleAsync(user, Role);
             }
             return new AuthModel
             {
-                Role = userRoleDTO.Roles
+                Role = userRoleDTO.Role
             };
+        }
+        public async Task<User> ChageEmail(ChangeEmailDTO dTO)
+        {
+            var user = await _appContext.Users.FirstOrDefaultAsync(X=>X.Id ==dTO.Userid);
+            if (user == null)
+            {
+                return null;
+
+            }
+            user.Email = dTO.NewEmail;
+            var update= await _usermanager.UpdateAsync(user);
+
+            //user.Email = dTO.NewEmail;
+            //var updateEmail = await _usermanager.UpdateAsync(user);
+            return user;
+
+
         }
 
         public async Task<User> UpdateUser(UserUpdateDTO userDTO)
