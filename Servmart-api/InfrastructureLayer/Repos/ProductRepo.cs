@@ -20,9 +20,13 @@ namespace InfrastructureLayer.Repos
             await _dbContext.Product.AddAsync(entity);
         }
 
-        public   void Delete(Product entity)
+        public   void Delete(string id)
         {
-            _dbContext.Set<Product>().Remove(entity);
+            var Delete = _dbContext.Product.Include(i => i.OrderItems).FirstOrDefault(i => i.ProductID.ToString() == id);
+
+            var x =_dbContext.Remove(Delete);
+
+          
         }
 
         public async Task<IEnumerable<Product>> GetAllProduct()

@@ -90,5 +90,22 @@ namespace Sermart_Api.Controllers
             }
         }
 
+
+        [HttpPatch()]
+
+        public IActionResult ChangeOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+            {
+                return NotFound($"Order with ID {orderId} not found");
+            }
+
+            _orderRepo.UpdateOrderStatus(orderId, newStatus);
+
+            return Ok($"Order status changed to {newStatus}");
+        }
+
     }
 }

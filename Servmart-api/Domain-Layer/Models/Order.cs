@@ -24,9 +24,9 @@ namespace Domain_Layer.Models
     }
     public enum OrderStatus
     {
-        Pending,
-        Canceled,
-        Completed,
-        NoTheWay
+        Pending=0,
+        Canceled=1,
+        Completed=2,
+        NoTheWay=3
     }
 }

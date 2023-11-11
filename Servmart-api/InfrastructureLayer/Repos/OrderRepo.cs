@@ -32,7 +32,7 @@ namespace Application_Layer.Repos
                 TotalAmount = i.Quantity,
                 Governorate = i.Order.Governorate.NameAr,
                 City = i.Order.City.NameAr,
-                CreateAt = i.Order.CreateAt,
+                CreateAt = i.Order.CreateAt.Date,
                 Details = i.Order.Details,
                 OrderID = i.OrderID,
                 TotalPrice =i.ToltalPrice
@@ -71,6 +71,21 @@ namespace Application_Layer.Repos
             return order;
         }
 
+        public Order GetOrderById(int orderId)
+        {
+            return _appDbContext.Order.Find(orderId);
+        }
+
+        public async void UpdateOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            var order = await _appDbContext.Order.FindAsync(orderId);
+
+            if (order != null)
+            {
+                order.OrderStatus = newStatus;
+                _appDbContext.SaveChanges();
+            }
+        }
 
     }
 }

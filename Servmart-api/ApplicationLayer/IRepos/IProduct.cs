@@ -7,7 +7,7 @@ namespace ApplicationLayer.IRepos
     {
         Task Add(Product entity);
         void Update(Product entity);
-        void Delete(Product entity);
+        void Delete(string id);
         Task<IEnumerable<Product>> GetAllProduct();
         Task<IEnumerable<Product>> GetUserProduct(string id);
         Task<Product> GetProductByid(Guid id);

@@ -14,6 +14,8 @@ namespace Infrastructure_Layer.IRepos
         Task<Order> MakeOrder(Order order);
         Task<IEnumerable<OrderDTO>> GetAllOrderForCustomer(string UserID);
         Task<IEnumerable<ShowOrderDTO>> GetAllOrderForVendor(string VendorID);
+        Order GetOrderById(int orderId);
+         void UpdateOrderStatus(int orderId, OrderStatus newStatus);
 
     }
 }

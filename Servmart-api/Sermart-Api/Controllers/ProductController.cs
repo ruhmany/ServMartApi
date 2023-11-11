@@ -59,6 +59,7 @@ namespace Sermart_Api.Controllers
         }
 
         [HttpGet("GetAllUserProduct")]
+        [Authorize(Roles = "Vendor")]
         public async Task<ActionResult> GetAllUserProduct()
         {
           string id= User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -145,7 +146,7 @@ namespace Sermart_Api.Controllers
 
         //DELETE api/<ProductController>/5
         [HttpDelete("DeleteProduct/{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(string id)
         {
 
 
@@ -153,8 +154,8 @@ namespace Sermart_Api.Controllers
            
                 try
                 {
-                    var data = await _product.GetProductByid(id);
-                    _product.Delete(data);
+                    
+                    _product.Delete(id);
                      _unitOfWork.CommitChanges();
                     return new JsonResult("Delete One Product");
                 }
