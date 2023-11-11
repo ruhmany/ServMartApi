@@ -32,7 +32,7 @@ namespace InfrastructureLayer.Repos
             return user;
 
         }
-
+        
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _appContext.Users.ToListAsync();
@@ -47,18 +47,19 @@ namespace InfrastructureLayer.Repos
 
             foreach (var Role in userRoleDTO.Role)
             {
+                
                 var hasRole = await _usermanager.IsInRoleAsync(user, Role);
                 var userRoles = await _usermanager.GetRolesAsync(user);
                 var roleWillDelete = userRoles.Where(x => !userRoleDTO.Role.Contains(x));
                 if (roleWillDelete.Any())
                     await _usermanager.RemoveFromRolesAsync(user, roleWillDelete);
-                if (!hasRole)
+                if (!hasRole) 
                     await _usermanager.AddToRoleAsync(user, Role);
             }
             return new AuthModel
             {
                 Role = userRoleDTO.Role
-            };
+            };     
         }
         public async Task<User> ChageEmail(ChangeEmailDTO dTO)
         {
@@ -80,7 +81,6 @@ namespace InfrastructureLayer.Repos
 
         public async Task<User> UpdateUser(UserUpdateDTO userDTO)
         {
-
             var user = await _usermanager.FindByEmailAsync(userDTO.Email);
             var result = await _photoservice.AddPhotoAsync(userDTO.ProfilePic);
             user.Address = userDTO.Address;
@@ -92,6 +92,7 @@ namespace InfrastructureLayer.Repos
             return user;
         }
 
+        
 
     }
 
