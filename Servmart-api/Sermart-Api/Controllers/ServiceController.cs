@@ -93,17 +93,10 @@ namespace Sermart_Api.Controllers
 			return Ok( services );
 		}
 
-		[HttpGet( "GetTotalUserServicesItems" )]
-		public async Task<IActionResult> GetTotalUserServicesItems( string userId)
-		{
-			var count = await _serviceRepo.GetTotalUserServicesItems(userId);
-			return Ok( count );
-		}
-
 		[HttpGet( "GetUserServicesCount" )]
-		public async Task<IActionResult> GetUserServicesCount( string userId )
+		public async Task<IActionResult> GetUserServicesCount( string Id )
 		{
-			var count = await _serviceRepo.GetTotalUserServicesItems( userId );
+			var count = await _serviceRepo.GetTotalUserServicesItems( Id );
 			return Ok( count );
 		}
 
@@ -134,6 +127,8 @@ namespace Sermart_Api.Controllers
 			var count = await _serviceRepo.GetTotaUserRatesCount( id );
 			return Ok( count );
 		}
+
+
 
 	}
 }

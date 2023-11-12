@@ -80,7 +80,7 @@ namespace Application_Layer.Repos
 				Discription = serviceDTO.Description,
 				CategoryID = Guid.Parse( serviceDTO.CategoryID ),
 				Rate = 0,
-				ExpectedSalary = 0,
+				ExpectedSalary = serviceDTO.ExpectedSalary,
 				ProviderID = serviceDTO.UserId,
 			};
 
@@ -88,7 +88,7 @@ namespace Application_Layer.Repos
 			foreach ( var image in serviceDTO.ServicePic )
 			{
 				var pic = await _photoService.AddPhotoAsync( image );
-				service.ServiceMedia.Add( new ServiceMedia() { MediaUrl = pic.Url.ToString(), ServiceID = service.ID } );
+				service.ServiceMedia.Add( new ServiceMedia() { MediaUrl = pic.Url.ToString() } );
 			}
 
 			await _appDbContext.Service.AddAsync( service );

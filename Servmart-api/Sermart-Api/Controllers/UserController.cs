@@ -69,10 +69,18 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpGet( "GetUser" )]
-		public async Task<IActionResult> GetUser( string id )
+		public async Task<IActionResult> GetUserData( string id )
 		{
 			var user = await _userRepo.GetUser( id );
-			return Ok( user );
+
+			if ( user == null )
+			{
+				return NotFound( $"User not found" );
+			}
+
+			var roles = _userRepo.GetUserRoles( user );
+
+			return Ok( new { User = user, Roles = roles.Result } );
 		}
 
 	}

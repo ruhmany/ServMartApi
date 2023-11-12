@@ -54,6 +54,13 @@ namespace Sermart_Api.Controllers
 			return Ok( request );
 		}
 
+		[HttpGet( "GetRequestById" )]
+		public async Task<IActionResult> GetRequestById( string requestId )
+		{
+			var request = await _request.GetById( requestId );
+			return Ok( request );
+		}
+
 		[HttpGet( "FilterRequest" )]
 		public IActionResult Filter( string userId, decimal price, decimal? minPrice, decimal? maxPrice )
 		{
@@ -65,7 +72,36 @@ namespace Sermart_Api.Controllers
 		public async Task<IActionResult> GetRequestCount()
 		{
 			var count = await _request.GetTotalRequestItems();
-			return Ok(count);
+			return Ok( count );
+		}
+
+		[HttpGet( "GetServiceProviderOrders" )]
+		public async Task<IActionResult> GetServiceProviderOrders( string providerId, int page, int pageSize )
+		{
+			var request = await _request.GetProviderRequestsOrders( providerId, page, pageSize );
+			return Ok( request );
+		}
+
+		//Get Provider Requests Orders Count
+		[HttpGet( "GetProviderOrdersCount" )]
+		public async Task<IActionResult> GetServiceProviderOrdersCount( string providerId )
+		{
+			var request = await _request.GetProviderOrdersCount( providerId );
+			return Ok( request );
+		}
+
+		[HttpGet( "GetUserRequestsById" )]
+		public async Task<IActionResult> GetUserRequests( string userId, int page, int pageSize )
+		{
+			var request = await _request.GetUserRequests( userId, page, pageSize );
+			return Ok( request );
+		}
+
+		[HttpGet( "GetUserRequestsCountById" )]
+		public async Task<IActionResult> GetUserRequestsCount( string userId )
+		{
+			var request = await _request.GetUserRequestCount( userId );
+			return Ok( request );
 		}
 	}
 }

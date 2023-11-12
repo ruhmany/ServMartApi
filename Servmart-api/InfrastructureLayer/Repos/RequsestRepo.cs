@@ -25,6 +25,7 @@ namespace InfrastructureLayer.Repos
 			var request = new Request()
 			{
 				UserID = requestDTO.ClientId,
+				ProviderId = requestDTO.ProviderID,
 				Title = requestDTO.Title,
 				Category = requestDTO.Category,
 				Details = requestDTO.Details,
@@ -106,14 +107,44 @@ namespace InfrastructureLayer.Repos
 			return result;
 		}
 
+		public async Task<IEnumerable<RequestShowDTO>> GetUserRequests( string userId, int page, int pageSize )
+		{
+			var query = _appDbContext.Request.Where( r => r.UserID == userId ).Select( x => x.toShowRequestDTO() );
+			if ( page > 0 && pageSize > 0 )
+			{
+				int recordsToSkip = ( page - 1 ) * pageSize;
+				query = query.Skip( recordsToSkip ).Take( pageSize );
+			}
+			var result = await query.ToListAsync();
+			return result;
+		}
+
+		public async Task<int> GetUserRequestCount( string userId )
+		{
+			return await _appDbContext.Request.Where( r => r.UserID == userId ).CountAsync();
+		}
+
+
 		public async Task<Request> GetById( string id )
 		{
-			return await _appDbContext.Request.FirstOrDefaultAsync( R => R.UserID == id );
+			return await _appDbContext.Request.FindAsync( Guid.Parse( id ) );
 		}
 
 		public async Task<int> GetTotalRequestItems()
 		{
 			return await _appDbContext.Request.CountAsync();
+		}
+
+		public async Task<IEnumerable<Request>> GetProviderRequestsOrders( string providerId, int page, int pageSize )
+		{
+			var query = _appDbContext.Request.Where( r => r.ProviderId == providerId );
+			if ( page > 0 && pageSize > 0 )
+			{
+				int recordsToSkip = ( page - 1 ) * pageSize;
+				query = query.Skip( recordsToSkip ).Take( pageSize );
+			}
+			var result = await query.ToListAsync();
+			return result;
 		}
 
 		public async Task<Request> Update( RequestUpdateDTO requestDTO )
@@ -133,6 +164,11 @@ namespace InfrastructureLayer.Repos
 				_appDbContext.Request.Update( req );
 			}
 			return req;
+		}
+
+		public async Task<int> GetProviderOrdersCount( string providerId )
+		{
+			return await _appDbContext.Request.Where( r => r.ProviderId == providerId ).CountAsync();
 		}
 	}
 }

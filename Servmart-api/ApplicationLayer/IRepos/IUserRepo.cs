@@ -11,5 +11,6 @@ namespace ApplicationLayer.IRepos
 		Task<IEnumerable<User>> GetAllUsers();
 		Task<AuthModel> ChangRole( UserRoleDTO userRoleDTO );
 		Task<User> GetUser( string id );
+		Task<IEnumerable<string>> GetUserRoles( User user );
 	}
 }
