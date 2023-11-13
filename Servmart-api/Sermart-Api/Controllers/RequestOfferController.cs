@@ -1,42 +1,70 @@
-﻿using ApplicationLayer.IRepos;
+﻿using ApplicationLayer.Enums;
+using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestOfferDTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Sermart_Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]    
-    public class RequestOfferController : ControllerBase
-    {
-        private readonly IRequestOfferRepo _repo;
-        private readonly IUnitOfWork _unitOfWork;
+	[Route( "api/[controller]" )]
+	[ApiController]
+	public class RequestOfferController : ControllerBase
+	{
+		private readonly IRequestOfferRepo _reqOfferRepo;
+		private readonly IUnitOfWork _unitOfWork;
 
-        public RequestOfferController(IRequestOfferRepo repo, IUnitOfWork unitOfWork)
-        {
-            _repo = repo;
-            _unitOfWork = unitOfWork;
-        }
+		public RequestOfferController( IRequestOfferRepo repo, IUnitOfWork unitOfWork )
+		{
+			_reqOfferRepo = repo;
+			_unitOfWork = unitOfWork;
+		}
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _repo.GetAll();
-            return Ok(result);
-        }
+		[HttpGet( "GetAll" )]
+		public async Task<IActionResult> GetAll( string providerId, int page, int pageSize )
+		{
+			var result = await _reqOfferRepo.GetAll( providerId, page, pageSize );
+			return Ok( result );
+		}
 
-        [HttpPatch]
-        public async Task<IActionResult> Update(UpdateRequestOfferDTO updateRequestOfferDTO)
-        {
-            var result = await _repo.Update(updateRequestOfferDTO);
-            _unitOfWork.CommitChanges();
-            if(result == null)
-            {
-                return BadRequest("Failed to update this request");
-            }
-            return Ok(result);
-        }
+		[HttpGet( "GetAllByStatus" )]
+		public async Task<IActionResult> GetAllByStatus( string providerId, OfferStatus status, int page, int pageSize )
+		{
+			var result = await _reqOfferRepo.GetAllByStatus( providerId, status, page, pageSize );
+			return Ok( result );
+		}
 
-    }
+		[HttpPost( "CreateOffer" )]
+		public async Task<IActionResult> CreateOffer( [FromBody] AddRequestOfferDTO offerDTO )
+		{
+			var providerId = User.FindFirstValue( ClaimTypes.NameIdentifier );
+			offerDTO.ProviderId = providerId;
+
+			if ( !ModelState.IsValid )
+			{
+				return BadRequest( "Data is not accureid" );
+			}
+
+			var result = await _reqOfferRepo.AddAsync( offerDTO );
+			_unitOfWork.CommitChanges();
+
+			if ( result == null )
+			{
+				return BadRequest( "Failed to create offer" );
+			}
+			return Ok( result );
+		}
+
+		[HttpPut( "update" )]
+		public async Task<IActionResult> Update( UpdateRequestOfferDTO updateRequestOfferDTO )
+		{
+			var result = await _reqOfferRepo.Update( updateRequestOfferDTO );
+			_unitOfWork.CommitChanges();
+			if ( result == null )
+			{
+				return BadRequest( "Failed to update this request" );
+			}
+			return Ok( result );
+		}
+
+	}
 }

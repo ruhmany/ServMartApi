@@ -13,16 +13,16 @@ namespace Domain_Layer.DTOs.RequestDTOS
 				Title = request.Title,
 				Details = request.Details,
 				Category = request.Category,
-				CityId = request.CityId,
-				GovernorateId = request.GovernorateId,
+				CityAr = request.City.NameAr,
+				CityEn = request.City.NameEn,
+				GovernorateAr = request.Governorate.NameAr,
+				GovernorateEn = request.Governorate.NameEn,
 				Address = request.Address,
 				EndDate = request.EndDate,
+				StartDate = request.StartDate,
 				ExpectedSalary = request.ExpectedSalary,
 				Images = request.RequestMedia?.Where( x => x.MediaUrl != null && !x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).ToList(),
 				Video = request.RequestMedia?.Where( x => x.MediaUrl != null && x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
-
-				//Images = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) == false ).Select( x => x.MediaUrl ).ToList(),
-				//Video = request.RequestMedia.Where( x => x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
 			};
 		}
 	}

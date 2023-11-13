@@ -3,6 +3,7 @@ using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestDTOS;
 using Domain_Layer.Models;
 using InfrastructureLayer.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace InfrastructureLayer.Repos
@@ -49,7 +50,9 @@ namespace InfrastructureLayer.Repos
 						ProviderID = requestDTO.ProviderID,
 						Details = string.Empty,
 						ExpectSalary = default,
-						EndDate = default
+						Duration = default,
+						Status = 0,
+						IsDirect = true
 					}
 				};
 			}

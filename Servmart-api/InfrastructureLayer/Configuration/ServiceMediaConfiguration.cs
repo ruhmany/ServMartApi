@@ -13,7 +13,7 @@ namespace Application_Layer.Configuration
 			builder.Property( i => i.ID ).ValueGeneratedOnAdd();
 			builder.Property( m => m.MediaUrl ).IsRequired().HasMaxLength( 500 );
 
-			builder.HasOne( i => i.Service ).WithMany( i => i.ServiceMedia ).HasForeignKey( i => i.ServiceID ).OnDelete( DeleteBehavior.NoAction ).IsRequired();
+			builder.HasOne( i => i.Service ).WithMany( i => i.ServiceMedia ).HasForeignKey( i => i.ServiceID ).OnDelete( DeleteBehavior.Cascade ).IsRequired();
 		}
 	}
 }

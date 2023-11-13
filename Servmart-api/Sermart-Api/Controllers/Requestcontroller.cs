@@ -21,7 +21,7 @@ namespace Sermart_Api.Controllers
 
 		[HttpPost( "Create" )]
 		[Authorize]
-		public async Task<IActionResult> Create( [FromForm] RequestDTO requestDTO )
+		public async Task<IActionResult> Create( [FromBody] RequestDTO requestDTO )
 		{
 			requestDTO.ClientId = User.FindFirstValue( ClaimTypes.NameIdentifier );
 			var request = await _request.AddRequest( requestDTO );
