@@ -15,7 +15,8 @@ namespace Domain_Layer.DTOs.RequestDTOS
 		public decimal ExpectedSalary { get; set; }
 		public ICollection<IFormFile> Images { get; set; }
 		public IFormFile Video { get; set; }
-		public DateTime EndDate { get; set; }
+		public DateTime CreatedAt { get; set; }
 		public bool IsDirect { get; set; } = false;
+		public int Duration { get; set; }
 	}
 }

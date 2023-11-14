@@ -12,9 +12,8 @@ namespace Domain_Layer.Models
 		public string Details { get; set; }
 		public decimal ExpectedSalary { get; set; }
 		public int Status { get; set; }
-		//public DateTime CreatedAt { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
+		public DateTime CreatedAt { get; set; }
+		public int Duration { get; set; }
 		public float? RateValue { get; set; }
 		public string? RateMassage { get; set; }
 		public bool IsDirect { get; set; }

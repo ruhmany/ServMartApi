@@ -31,11 +31,11 @@ namespace InfrastructureLayer.Repos
 				Category = requestDTO.Category,
 				Details = requestDTO.Details,
 				ExpectedSalary = requestDTO.ExpectedSalary,
-				EndDate = requestDTO.EndDate,
+				CreatedAt = requestDTO.CreatedAt,
 				GovernorateId = requestDTO.GovernorateId,
 				CityId = requestDTO.CityId,
 				Address = requestDTO.Address,
-				StartDate = DateTime.Now,
+				Duration = requestDTO.Duration,
 				IsDirect = requestDTO.IsDirect,
 				RateValue = 0,
 				RateMassage = string.Empty
@@ -100,7 +100,7 @@ namespace InfrastructureLayer.Repos
 
 		public async Task<IEnumerable<RequestShowDTO>> GetAllRequests( int page, int pageSize )
 		{
-			var query = _appDbContext.Request.Select( x => x.toShowRequestDTO() );
+			var query = _appDbContext.Request.Where(r=>r.IsDirect == false).Select( x => x.toShowRequestDTO() );
 			if ( page > 0 && pageSize > 0 )
 			{
 				int recordsToSkip = ( page - 1 ) * pageSize;
@@ -156,8 +156,8 @@ namespace InfrastructureLayer.Repos
 			if ( req != null )
 			{
 				req.Title = requestDTO.Titles;
-				req.StartDate = requestDTO.StartDate;
-				req.EndDate = requestDTO.EndDate;
+				req.CreatedAt = requestDTO.CreatedAt;
+				req.Duration = requestDTO.Duration;
 				req.Status = requestDTO.Status;
 				req.RateMassage = requestDTO.RateMassage;
 				req.UserID = requestDTO.ClientId;

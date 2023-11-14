@@ -17,8 +17,8 @@ namespace InfrastructureLayer.Configuration
 			builder.Property( i => i.Title ).IsRequired().HasMaxLength( 500 );
 			builder.Property( i => i.ExpectedSalary ).IsRequired();
 			builder.Property( i => i.Status ).IsRequired();
-			builder.Property( i => i.StartDate ).IsRequired();
-			builder.Property( i => i.EndDate ).IsRequired();
+			builder.Property( i => i.CreatedAt ).IsRequired();
+			builder.Property( i => i.Duration ).IsRequired();
 			builder.Property( i => i.RateValue ).IsRequired();
 			builder.Property( i => i.RateMassage ).IsRequired().HasMaxLength( 500 );
 			builder.Property( d => d.IsDirect ).IsRequired().HasColumnType( "bit" );

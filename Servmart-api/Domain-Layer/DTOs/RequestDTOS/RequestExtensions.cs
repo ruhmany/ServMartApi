@@ -18,8 +18,8 @@ namespace Domain_Layer.DTOs.RequestDTOS
 				GovernorateAr = request.Governorate.NameAr,
 				GovernorateEn = request.Governorate.NameEn,
 				Address = request.Address,
-				EndDate = request.EndDate,
-				StartDate = request.StartDate,
+				CreatedAt = request.CreatedAt,
+				Duration = request.Duration,
 				ExpectedSalary = request.ExpectedSalary,
 				Images = request.RequestMedia?.Where( x => x.MediaUrl != null && !x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).ToList(),
 				Video = request.RequestMedia?.Where( x => x.MediaUrl != null && x.MediaUrl.Contains( ".mp4" ) ).Select( x => x.MediaUrl ).FirstOrDefault()
