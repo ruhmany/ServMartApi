@@ -1,7 +1,9 @@
-﻿using ApplicationLayer.Enums;
+﻿using Application_Layer.Helpers;
 using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestOfferDTOs;
+using Domain_Layer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace Sermart_Api.Controllers
@@ -13,10 +15,13 @@ namespace Sermart_Api.Controllers
 		private readonly IRequestOfferRepo _reqOfferRepo;
 		private readonly IUnitOfWork _unitOfWork;
 
-		public RequestOfferController( IRequestOfferRepo repo, IUnitOfWork unitOfWork )
+		private readonly IHubContext<NotificationHub> _hubContext;
+
+		public RequestOfferController( IRequestOfferRepo repo, IUnitOfWork unitOfWork, IHubContext<NotificationHub> hubContext )
 		{
 			_reqOfferRepo = repo;
 			_unitOfWork = unitOfWork;
+			_hubContext = hubContext;
 		}
 
 		[HttpGet( "GetAll" )]
@@ -60,6 +65,9 @@ namespace Sermart_Api.Controllers
 			{
 				return BadRequest( "Failed to create offer" );
 			}
+
+			await _hubContext.Clients.User( offerDTO.ProviderId ).SendAsync( "SendNotificationToUser", "offer added" );
+
 			return Ok( result );
 		}
 

@@ -1,4 +1,4 @@
-﻿namespace ApplicationLayer.Enums
+﻿namespace Domain_Layer.Enums
 {
 	public enum OfferStatus
 	{
