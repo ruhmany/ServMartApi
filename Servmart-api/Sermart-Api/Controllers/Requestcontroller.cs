@@ -21,7 +21,7 @@ namespace Sermart_Api.Controllers
 
 		[HttpPost( "Create" )]
 		[Authorize]
-		public async Task<IActionResult> Create( [FromBody] RequestDTO requestDTO )
+		public async Task<IActionResult> Create( [FromForm] RequestDTO requestDTO )
 		{
 			requestDTO.ClientId = User.FindFirstValue( ClaimTypes.NameIdentifier );
 			var request = await _request.AddRequest( requestDTO );
@@ -30,7 +30,7 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpPost( "Update" )]
-		public IActionResult UpDate( string id, [FromBody] RequestUpdateDTO request )
+		public IActionResult UpDate( string id, [FromForm] RequestUpdateDTO request )
 		{
 			request.ClientId = id;
 			_request.Update( request );
