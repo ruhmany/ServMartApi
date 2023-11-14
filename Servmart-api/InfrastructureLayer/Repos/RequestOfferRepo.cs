@@ -1,5 +1,4 @@
-﻿using ApplicationLayer.Enums;
-using ApplicationLayer.IRepos;
+﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestOfferDTOs;
 using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -33,15 +32,20 @@ namespace InfrastructureLayer.Repos
 			return await query.ToListAsync();
 		}
 
-		public async Task<IEnumerable<ViewRequestOfferDTO>> GetAllByStatus( string providerId, OfferStatus status, int page, int pageSize )
+		public async Task<IEnumerable<ViewRequestOfferDTO>> GetProviderOffersByStatus( string providerId, int status, int page, int pageSize )
 		{
-			var query = _appDbContext.RequestOffer.Where( o => o.ProviderID == providerId && o.Status == ( (int)status ) && o.IsDirect == false );
+			var query = _appDbContext.RequestOffer.Where( o => o.ProviderID == providerId && o.Status == status && o.IsDirect == false );
 			if ( page > 0 && pageSize > 0 )
 			{
 				int recordsToSkip = ( page - 1 ) * pageSize;
 				query = query.Skip( recordsToSkip ).Take( pageSize );
 			}
 			return await query.Select( o => o.ToViewModel() ).ToListAsync();
+		}
+
+		public Task<int> GetProviderOffersByStatusCount( string providerId, int status )
+		{
+			return _appDbContext.RequestOffer.Where( o => o.ProviderID == providerId && o.Status == status && o.IsDirect == false ).CountAsync();
 		}
 
 		public async Task<RequestOffer> GetOfferById( string offerId )
@@ -60,5 +64,20 @@ namespace InfrastructureLayer.Repos
 			return requestoffer;
 		}
 
+		public async Task<IEnumerable<ViewRequestOfferDTO>> GetUserRequestOffers( string requestId, int page, int pageSize )
+		{
+			var query = _appDbContext.RequestOffer.Where( o => o.RequestID == Guid.Parse( requestId ) );
+			if ( page > 0 && pageSize > 0 )
+			{
+				int recordsToSkip = ( page - 1 ) * pageSize;
+				query = query.Skip( recordsToSkip ).Take( pageSize );
+			}
+			return await query.Select( o => o.ToViewModel() ).ToListAsync();
+		}
+
+		public Task<int> GetUserRequestOffersCount( string requestId )
+		{
+			return _appDbContext.RequestOffer.Where( o => o.RequestID == Guid.Parse( requestId ) ).CountAsync();
+		}
 	}
 }

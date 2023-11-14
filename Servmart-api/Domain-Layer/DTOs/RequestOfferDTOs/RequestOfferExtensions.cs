@@ -1,4 +1,5 @@
-﻿using Domain_Layer.Models;
+﻿using Domain_Layer.DTOs.RequestDTOS;
+using Domain_Layer.Models;
 
 namespace Domain_Layer.DTOs.RequestOfferDTOs
 {
@@ -23,7 +24,7 @@ namespace Domain_Layer.DTOs.RequestOfferDTOs
 			return new ViewRequestOfferDTO
 			{
 				ID = offer.ID.ToString(),
-				RequestID = offer.RequestID.ToString(),
+				Request = offer.Request.toShowRequestDTO(),
 				Details = offer.Details,
 				ExpectSalary = offer.ExpectSalary,
 				Duration = offer.Duration,

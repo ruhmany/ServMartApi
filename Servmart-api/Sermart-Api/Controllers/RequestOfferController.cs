@@ -26,10 +26,19 @@ namespace Sermart_Api.Controllers
 			return Ok( result );
 		}
 
-		[HttpGet( "GetAllByStatus" )]
-		public async Task<IActionResult> GetAllByStatus( string providerId, OfferStatus status, int page, int pageSize )
+		[HttpGet( "GetProviderOffersByStatus" )]
+		public async Task<IActionResult> GetAllByStatus( int status, int page, int pageSize )
 		{
-			var result = await _reqOfferRepo.GetAllByStatus( providerId, status, page, pageSize );
+			var providerId = User.FindFirstValue( ClaimTypes.NameIdentifier );
+			var result = await _reqOfferRepo.GetProviderOffersByStatus( providerId, status, page, pageSize );
+			return Ok( result );
+		}
+
+		[HttpGet( "ProviderOffersByStatusCount" )]
+		public async Task<IActionResult> ProviderOffersByStatusCount( int status )
+		{
+			var providerId = User.FindFirstValue( ClaimTypes.NameIdentifier );
+			var result = await _reqOfferRepo.GetProviderOffersByStatusCount( providerId, status );
 			return Ok( result );
 		}
 
@@ -65,6 +74,21 @@ namespace Sermart_Api.Controllers
 			}
 			return Ok( result );
 		}
+
+		[HttpGet( "GetUserRequestOffers" )]
+		public async Task<IActionResult> GetRequestOffers( string requestId, int page, int pageSize )
+		{
+			var result = await _reqOfferRepo.GetUserRequestOffers( requestId, page, pageSize );
+			return Ok( result );
+		}
+
+		[HttpGet( "UserRequestOffersCount" )]
+		public async Task<IActionResult> UserRequestOffersCount( string requestId )
+		{
+			var result = await _reqOfferRepo.GetUserRequestOffersCount( requestId );
+			return Ok( result );
+		}
+
 
 	}
 }

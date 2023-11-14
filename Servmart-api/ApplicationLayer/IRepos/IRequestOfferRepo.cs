@@ -1,5 +1,4 @@
-﻿using ApplicationLayer.Enums;
-using Domain_Layer.DTOs.RequestOfferDTOs;
+﻿using Domain_Layer.DTOs.RequestOfferDTOs;
 using Domain_Layer.Models;
 
 namespace ApplicationLayer.IRepos
@@ -7,7 +6,10 @@ namespace ApplicationLayer.IRepos
 	public interface IRequestOfferRepo : IBaseRepo<RequestOffer>
 	{
 		Task<IEnumerable<RequestOffer>> GetAll( string providerId, int page, int pageSize );
-		Task<IEnumerable<ViewRequestOfferDTO>> GetAllByStatus( string providerId, OfferStatus Status, int page, int pageSize );
+		Task<IEnumerable<ViewRequestOfferDTO>> GetProviderOffersByStatus( string providerId, int status, int page, int pageSize );
+		Task<IEnumerable<ViewRequestOfferDTO>> GetUserRequestOffers( string requestId, int page, int pageSize );
+		Task<int> GetProviderOffersByStatusCount( string providerId, int status );
+		Task<int> GetUserRequestOffersCount( string requestId );
 		Task<RequestOffer> AddAsync( AddRequestOfferDTO offer );
 		Task<RequestOffer> GetOfferById( string offerId );
 		Task<RequestOffer> Update( UpdateRequestOfferDTO updateRequestOfferDTO );
