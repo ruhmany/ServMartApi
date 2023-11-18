@@ -1,4 +1,3 @@
-
 using Application_Layer.Repos;
 using Application_Layer.Services;
 using ApplicationLayer.IRepos;
@@ -19,6 +18,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Application_Layer.Interfaces;
 using Microsoft.OpenApi.Models;
+using Application_Layer.Helpers;
 
 namespace Sermart_Api
 {
@@ -51,21 +51,22 @@ namespace Sermart_Api
 			builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
 			builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 			builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+			builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 			builder.Services.AddScoped<VendorSoldProductsRepo>();
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen(c =>
+			builder.Services.AddSwaggerGen( c =>
 			{
-				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				c.AddSecurityDefinition( "Bearer", new OpenApiSecurityScheme
 				{
 					Description = "JWT Authorization header using bearer scheme",
 					Name = "Authorization",
 					In = ParameterLocation.Header,
 					Type = SecuritySchemeType.ApiKey,
 					Scheme = "Bearer"
-				});
-				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				} );
+				c.AddSecurityRequirement( new OpenApiSecurityRequirement
 				{
 					{
 						new OpenApiSecurityScheme
@@ -78,8 +79,8 @@ namespace Sermart_Api
 						},
 						new string[]{ }
 					}
-				});
-			});
+				} );
+			} );
 			builder.Services.AddDbContext<AppDbContext>( options =>
 			{
 				options.UseLazyLoadingProxies().UseSqlServer( builder.Configuration.GetConnectionString( "DefaultConnection" ),
@@ -125,6 +126,7 @@ namespace Sermart_Api
 
 			} );
 
+			builder.Services.AddSignalR();
 
 
 			var app = builder.Build();
@@ -142,11 +144,15 @@ namespace Sermart_Api
 			app.UseAuthorization();
 
 
-			app.UseCors( o =>
-			{
-				o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-			} );
+			app.UseCors( builder => builder
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.SetIsOriginAllowed( ( host ) => true ) // Allow any origin for testing; tighten this in production
+				.AllowCredentials() );
+
+			app.MapHub<NotificationHub>( "/notificationHub" );
 			app.MapControllers();
+
 
 
 			app.Run();

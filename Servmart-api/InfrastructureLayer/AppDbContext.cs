@@ -33,10 +33,11 @@ namespace InfrastructureLayer
 			builder.ApplyConfiguration<ServiceRate>( new ServiceRateConfiguration() );
 			builder.ApplyConfiguration<Governorate>( new GovernorateConfiguration() );
 			builder.ApplyConfiguration<City>( new CityConfiguration() );
-			builder.ApplyConfiguration<Cart>(new CartConfigurations() );
-			builder.ApplyConfiguration<CartItem>(new CartItemConfiguration() );
-			builder.ApplyConfiguration<Order>(new OrderConfigurations());
-			builder.ApplyConfiguration<OrderItem>(new OrderItemConfigurations());
+			builder.ApplyConfiguration<Cart>( new CartConfigurations() );
+			builder.ApplyConfiguration<CartItem>( new CartItemConfiguration() );
+			builder.ApplyConfiguration<Order>( new OrderConfigurations() );
+			builder.ApplyConfiguration<OrderItem>( new OrderItemConfigurations() );
+			builder.ApplyConfiguration<Notifications>( new NotificationsConfiguration() );
 			builder.SeedRoles();
 			builder.SeedGovernorate();
 			builder.SeedCity();
@@ -64,8 +65,9 @@ namespace InfrastructureLayer
 		public DbSet<City> Cities { get; set; }
 		public DbSet<Cart> Cart { get; set; }
 		public DbSet<CartItem> CartItem { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
+		public DbSet<Order> Order { get; set; }
+		public DbSet<OrderItem> OrderItem { get; set; }
+		public DbSet<Notifications> Notifications { get; set; }
 
-    }
+	}
 }

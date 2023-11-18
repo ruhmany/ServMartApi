@@ -13,5 +13,6 @@ namespace ApplicationLayer.IRepos
 		Task<RequestOffer> AddAsync( AddRequestOfferDTO offer );
 		Task<RequestOffer> GetOfferById( string offerId );
 		Task<RequestOffer> Update( UpdateRequestOfferDTO updateRequestOfferDTO );
+		Task<Request> GetRequest( string requestId );
 	}
 }
