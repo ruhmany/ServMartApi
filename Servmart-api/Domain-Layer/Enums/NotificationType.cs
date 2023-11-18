@@ -2,8 +2,8 @@
 {
 	public enum NotificationType
 	{
-		ServiceRequest,
 		Offer,
+		ServiceRequest,
 		OrderRequest
 	}
 }

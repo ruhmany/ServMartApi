@@ -1,28 +1,25 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Azure.Core;
+using Domain_Layer.Models;
+using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace Application_Layer.Helpers
 {
 	public class NotificationHub : Hub
 	{
-
-		public async Task SendNotificationToAll( string message )
+		public async Task AddToGroup( string groupName )
 		{
-			await Clients.All.SendAsync( "ReceiveNotification", message );
+			await Groups.AddToGroupAsync( Context.ConnectionId, groupName );
 		}
 
-		public async Task SendNotificationToUser( string userId, string message )
+		public async Task RemoveFromGroup( string groupName )
 		{
-			await Clients.Client( userId ).SendAsync( "ReceiveNotification", message );
+			await Groups.RemoveFromGroupAsync( Context.ConnectionId, groupName );
 		}
 
-		public override async Task OnConnectedAsync()
+		public async Task SendOfferNotification( string groupName, object offer )
 		{
-			await base.OnConnectedAsync();
-		}
-
-		public override async Task OnDisconnectedAsync( Exception exception )
-		{
-			await base.OnDisconnectedAsync( exception );
+			await Clients.Group( groupName ).SendAsync( "NewOffer", offer );
 		}
 	}
 }

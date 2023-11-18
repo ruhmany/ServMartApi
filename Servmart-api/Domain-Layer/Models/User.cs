@@ -28,5 +28,6 @@ namespace Domain_Layer.Models
 		public virtual ICollection<Order> Orders { get; set; }
 		public virtual Governorate Governorate { get; set; }
 		public virtual City City { get; set; }
+		public virtual ICollection<Notifications> Notifications { get; set; }
 	}
 }

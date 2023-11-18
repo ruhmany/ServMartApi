@@ -1,9 +1,13 @@
 ﻿using Application_Layer.Helpers;
 using ApplicationLayer.IRepos;
+using Domain_Layer.DTOs.NotificationDTOs;
 using Domain_Layer.DTOs.RequestOfferDTOs;
+using Domain_Layer.Enums;
 using Domain_Layer.Models;
+using Infrastructure_Layer.IRepos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Sermart_Api.Controllers
@@ -14,14 +18,20 @@ namespace Sermart_Api.Controllers
 	{
 		private readonly IRequestOfferRepo _reqOfferRepo;
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IHubContext<NotificationHub> _hub;
+		private readonly INotificationRepo _notificationRepo;
 
-		private readonly IHubContext<NotificationHub> _hubContext;
-
-		public RequestOfferController( IRequestOfferRepo repo, IUnitOfWork unitOfWork, IHubContext<NotificationHub> hubContext )
+		public RequestOfferController(
+			IRequestOfferRepo repo,
+			IUnitOfWork unitOfWork,
+			IHubContext<NotificationHub> hubContext,
+			INotificationRepo notificationRepo
+			)
 		{
 			_reqOfferRepo = repo;
 			_unitOfWork = unitOfWork;
-			_hubContext = hubContext;
+			_hub = hubContext ?? throw new ArgumentNullException( nameof( hubContext ) );
+			_notificationRepo = notificationRepo;
 		}
 
 		[HttpGet( "GetAll" )]
@@ -59,14 +69,28 @@ namespace Sermart_Api.Controllers
 			}
 
 			var result = await _reqOfferRepo.AddAsync( offerDTO );
-			_unitOfWork.CommitChanges();
 
 			if ( result == null )
 			{
 				return BadRequest( "Failed to create offer" );
 			}
 
-			await _hubContext.Clients.User( offerDTO.ProviderId ).SendAsync( "SendNotificationToUser", "offer added" );
+			var request = await _reqOfferRepo.GetRequest( offerDTO.RequestId );
+
+			var notification = new NotificationDTO()
+			{
+				IsRead = false,
+				CreatedAt = DateTime.Now,
+				Message = $"لقد تلقيت عرض جديد علي طلبك {request.Title} من {request.User.FName} {request.User.LName}",
+				Type = NotificationType.Offer,
+				UserId = request.UserID
+			};
+
+			var notif = await _notificationRepo.Create( notification );
+
+			int x = _unitOfWork.CommitChanges();
+
+			await _hub.Clients.Group( request.UserID ).SendAsync( "NewOffer", notif );
 
 			return Ok( result );
 		}

@@ -1,4 +1,3 @@
-
 using Application_Layer.Repos;
 using Application_Layer.Services;
 using ApplicationLayer.IRepos;
@@ -52,6 +51,7 @@ namespace Sermart_Api
 			builder.Services.AddScoped<IRequestOfferRepo, RequestOfferRepo>();
 			builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 			builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+			builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 			builder.Services.AddScoped<VendorSoldProductsRepo>();
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -145,10 +145,10 @@ namespace Sermart_Api
 
 
 			app.UseCors( builder => builder
-		.AllowAnyMethod()
-		.AllowAnyHeader()
-		.SetIsOriginAllowed( ( host ) => true ) // Allow any origin for testing; tighten this in production
-		.AllowCredentials() );
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.SetIsOriginAllowed( ( host ) => true ) // Allow any origin for testing; tighten this in production
+				.AllowCredentials() );
 
 			app.MapHub<NotificationHub>( "/notificationHub" );
 			app.MapControllers();

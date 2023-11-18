@@ -79,5 +79,10 @@ namespace InfrastructureLayer.Repos
 		{
 			return _appDbContext.RequestOffer.Where( o => o.RequestID == Guid.Parse( requestId ) ).CountAsync();
 		}
+
+		public async Task<Request> GetRequest( string requestId )
+		{
+			return await _appDbContext.Request.FindAsync( Guid.Parse( requestId ) );
+		}
 	}
 }
