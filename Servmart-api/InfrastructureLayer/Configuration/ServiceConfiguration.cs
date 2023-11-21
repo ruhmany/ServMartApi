@@ -11,7 +11,7 @@ namespace InfrastructureLayer.Configuration
             builder.ToTable("Service", "Service");
             builder.HasKey(D => D.ID);
             builder.Property(n => n.Title).IsRequired().HasMaxLength(250);
-            builder.Property(D => D.Discription).IsRequired().HasMaxLength(250);
+            builder.Property(D => D.Discription).IsRequired().HasMaxLength(500);
             builder.Property(r => r.Rate).IsRequired().HasColumnType("float");
             builder.Property(E => E.ExpectedSalary).IsRequired().HasColumnType("float");
             builder.HasOne(e => e.ServiceCategory).WithMany(e => e.Services).HasForeignKey(e => e.CategoryID).IsRequired();

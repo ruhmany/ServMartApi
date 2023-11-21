@@ -1,4 +1,5 @@
 ﻿using Domain_Layer.DTOs.RequestDTOS;
+using Domain_Layer.Models;
 
 namespace Domain_Layer.DTOs.RequestOfferDTOs
 {
@@ -11,5 +12,6 @@ namespace Domain_Layer.DTOs.RequestOfferDTOs
 		public int Duration { get; set; }
 		public int Status { get; set; }
 		public DateTime CreatedAt { get; set; }
+		public User User { get; set; }
 	}
 }

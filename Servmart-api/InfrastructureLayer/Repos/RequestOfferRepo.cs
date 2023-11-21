@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.RequestOfferDTOs;
+using Domain_Layer.Enums;
 using Domain_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,7 +51,7 @@ namespace InfrastructureLayer.Repos
 
 		public async Task<RequestOffer> GetOfferById( string offerId )
 		{
-			return await _appDbContext.RequestOffer.FindAsync( offerId );
+			return await _appDbContext.RequestOffer.FindAsync( Guid.Parse( offerId ) );
 		}
 
 		public async Task<RequestOffer> Update( UpdateRequestOfferDTO updateRequestOfferDTO )
@@ -83,6 +84,43 @@ namespace InfrastructureLayer.Repos
 		public async Task<Request> GetRequest( string requestId )
 		{
 			return await _appDbContext.Request.FindAsync( Guid.Parse( requestId ) );
+		}
+
+		public async Task AcceptOffer( string offerId )
+		{
+			var offer = await _appDbContext.RequestOffer.FindAsync( Guid.Parse( offerId ) );
+			offer.Status = (int)RequestStatus.Accepted;
+			_appDbContext.RequestOffer.Update( offer );
+
+			var otherOffers = _appDbContext.RequestOffer
+				.Where( o => o.RequestID == offer.RequestID && o.ID != Guid.Parse( offerId ) )
+			.ToList();
+
+			foreach ( var item in otherOffers )
+			{
+				item.Status = (int)RequestStatus.Rejected;
+			}
+		}
+
+		public async Task RejectOffer( string offerId )
+		{
+			var offer = await _appDbContext.RequestOffer.FindAsync( Guid.Parse( offerId ) );
+			offer.Status = (int)RequestStatus.Rejected;
+			_appDbContext.RequestOffer.Update( offer );
+		}
+
+		public async Task CompleteOffer( string offerId )
+		{
+			var offer = await _appDbContext.RequestOffer.FindAsync( Guid.Parse( offerId ) );
+			offer.Status = (int)RequestStatus.Finished;
+			_appDbContext.RequestOffer.Update( offer );
+		}
+
+		public async Task ArchiveOffer( string offerId )
+		{
+			var offer = await _appDbContext.RequestOffer.FindAsync( Guid.Parse( offerId ) );
+			offer.Status = (int)RequestStatus.Archived;
+			_appDbContext.RequestOffer.Update( offer );
 		}
 	}
 }

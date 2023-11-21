@@ -14,7 +14,8 @@ namespace ApplicationLayer.IRepos
 		Task<int> GetTotalRequestItems();
 		Task<IEnumerable<Request>> GetProviderRequestsOrders( string providerId, int page, int pageSize );
 		Task<int> GetProviderOrdersCount( string providerId );
-		Task<IEnumerable<RequestShowDTO>> GetUserRequests( string userId, int page, int pageSize );
-		Task<int> GetUserRequestCount( string userId );
+		Task<IEnumerable<RequestShowDTO>> GetUserRequests( string userId, int status, int page, int pageSize );
+		Task<int> GetUserRequestCount( string userId, int status );
+		Task UpdateStatus( string requestId, int status );
 	}
 }

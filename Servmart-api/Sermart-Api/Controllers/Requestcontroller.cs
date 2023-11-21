@@ -91,16 +91,16 @@ namespace Sermart_Api.Controllers
 		}
 
 		[HttpGet( "GetUserRequestsById" )]
-		public async Task<IActionResult> GetUserRequests( string userId, int page, int pageSize )
+		public async Task<IActionResult> GetUserRequests( string userId, int status, int page, int pageSize )
 		{
-			var request = await _request.GetUserRequests( userId, page, pageSize );
+			var request = await _request.GetUserRequests( userId, status, page, pageSize );
 			return Ok( request );
 		}
 
 		[HttpGet( "GetUserRequestsCountById" )]
-		public async Task<IActionResult> GetUserRequestsCount( string userId )
+		public async Task<IActionResult> GetUserRequestsCount( string userId, int status )
 		{
-			var request = await _request.GetUserRequestCount( userId );
+			var request = await _request.GetUserRequestCount( userId, status );
 			return Ok( request );
 		}
 	}

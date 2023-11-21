@@ -30,6 +30,7 @@ namespace Domain_Layer.DTOs.RequestOfferDTOs
 				Duration = offer.Duration,
 				Status = offer.Status,
 				CreatedAt = offer.CreatedAt,
+				User = new User() { Id = offer.User.Id, ProfilePic = offer.User.ProfilePic, FName = offer.User.FName, LName = offer.User.LName }
 			};
 		}
 	}

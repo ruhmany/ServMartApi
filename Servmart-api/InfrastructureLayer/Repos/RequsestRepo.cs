@@ -100,7 +100,7 @@ namespace InfrastructureLayer.Repos
 
 		public async Task<IEnumerable<RequestShowDTO>> GetAllRequests( int page, int pageSize )
 		{
-			var query = _appDbContext.Request.Where(r=>r.IsDirect == false).Select( x => x.toShowRequestDTO() );
+			var query = _appDbContext.Request.Where( r => r.IsDirect == false ).Select( x => x.toShowRequestDTO() );
 			if ( page > 0 && pageSize > 0 )
 			{
 				int recordsToSkip = ( page - 1 ) * pageSize;
@@ -110,9 +110,11 @@ namespace InfrastructureLayer.Repos
 			return result;
 		}
 
-		public async Task<IEnumerable<RequestShowDTO>> GetUserRequests( string userId, int page, int pageSize )
+		public async Task<IEnumerable<RequestShowDTO>> GetUserRequests( string userId, int status, int page, int pageSize )
 		{
-			var query = _appDbContext.Request.Where( r => r.UserID == userId ).Select( x => x.toShowRequestDTO() );
+			var query = _appDbContext.Request
+				.Where( r => r.UserID == userId && r.Status == status )
+				.Select( x => x.toShowRequestDTO() );
 			if ( page > 0 && pageSize > 0 )
 			{
 				int recordsToSkip = ( page - 1 ) * pageSize;
@@ -122,11 +124,12 @@ namespace InfrastructureLayer.Repos
 			return result;
 		}
 
-		public async Task<int> GetUserRequestCount( string userId )
+		public async Task<int> GetUserRequestCount( string userId, int status )
 		{
-			return await _appDbContext.Request.Where( r => r.UserID == userId ).CountAsync();
+			return await _appDbContext.Request
+				.Where( r => r.UserID == userId && r.Status == status )
+				.CountAsync();
 		}
-
 
 		public async Task<Request> GetById( string id )
 		{
@@ -172,6 +175,17 @@ namespace InfrastructureLayer.Repos
 		public async Task<int> GetProviderOrdersCount( string providerId )
 		{
 			return await _appDbContext.Request.Where( r => r.ProviderId == providerId ).CountAsync();
+		}
+
+		public async Task UpdateStatus( string requestId, int status )
+		{
+			var req = await _appDbContext.Request.FirstOrDefaultAsync( r => r.ID ==  Guid.Parse( requestId ) );
+			if ( req != null )
+			{
+				req.Status = status;
+
+				_appDbContext.Request.Update( req );
+			}
 		}
 	}
 }

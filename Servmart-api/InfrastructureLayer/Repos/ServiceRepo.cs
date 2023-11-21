@@ -88,7 +88,7 @@ namespace Application_Layer.Repos
 			foreach ( var image in serviceDTO.ServicePic )
 			{
 				var pic = await _photoService.AddPhotoAsync( image );
-				service.ServiceMedia.Add( new ServiceMedia() { MediaUrl = pic.Url.ToString() } );
+				service.ServiceMedia.Add( new ServiceMedia() { MediaUrl = pic.Url.ToString(), ServiceID = service.ID } );
 			}
 
 			await _appDbContext.Service.AddAsync( service );
