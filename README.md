@@ -65,4 +65,4 @@ Technologies used in the project:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[product-screenshot]: servmart-1.png
+[product-screenshot]: ./servmart-1.png
