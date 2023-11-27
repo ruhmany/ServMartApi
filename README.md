@@ -5,9 +5,9 @@
    <h1 align="center" id="title">Servmart</h1>
 
   <p align="center">
-    A Servmart is an application project for ITI - Intensive Code Camp (ICC) program Scholarship
+    Web app project for ITI - Intensive Code Camp (ICC) program Scholarship
   </p>
-  <p>This repositry is just contain the " Backend " of Servmart project</p>
+  <p>This repositry is contain just the " Backend " of Servmart project</p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
