@@ -43,7 +43,7 @@ namespace Sermart_Api
 			builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 			builder.Services.AddScoped<IRequestServiceCategory, RequestServiceCategory>();
 			builder.Services.AddScoped<IcartItemRepo, CartItemRepo>();
-
+			builder.Services.AddScoped<IRateRepo, RateRepo>();
 			builder.Services.AddAutoMapper( p => p.AddProfile( new productProfile() ) );
 			builder.Services.AddAutoMapper( p => p.AddProfile( new CatgoryProfile() ) );
 			builder.Services.AddScoped<IRequestRepo, RequsestRepo>();

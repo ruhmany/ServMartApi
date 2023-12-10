@@ -26,7 +26,9 @@ namespace Domain_Layer.Models
 		public virtual ICollection<Chat> Chats { get; set; }
 		public virtual ICollection<Product> Products { get; set; }
 		public virtual ICollection<Order> Orders { get; set; }
-		public virtual Governorate Governorate { get; set; }
+        public virtual ICollection<ProductRate> ProductRates { get; set; }
+        public virtual ICollection<ServiceRate> ServiceRates { get; set; }
+        public virtual Governorate Governorate { get; set; }
 		public virtual City City { get; set; }
 		public virtual ICollection<Notifications> Notifications { get; set; }
 	}

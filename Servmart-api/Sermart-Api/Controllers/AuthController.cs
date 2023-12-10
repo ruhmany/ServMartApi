@@ -1,11 +1,13 @@
 ﻿using ApplicationLayer.IRepos;
 using Domain_Layer.DTOs.UserDTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sermart_Api.Controllers
 {
     [Route( "api/[controller]" )]
 	[ApiController]
+	[AllowAnonymous]
 	public class AuthController : ControllerBase
 	{
 		private readonly IAuthRepo _authRepo;

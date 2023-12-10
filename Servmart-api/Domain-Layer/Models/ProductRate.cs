@@ -7,7 +7,7 @@ namespace Domain_Layer.Models
         public float Rate { get; set; }
         public string Description { get; set; }
         public Guid ProductId { get; set; }
-        public Guid CustomerID { get; set; }
+        public string CustomerID { get; set; }
                
         public virtual Product Product { get; set; }
         public virtual User User { get; set; }
