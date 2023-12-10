@@ -13,6 +13,10 @@ namespace InfrastructureLayer.Configuration
             builder.Property(r => r.Description).HasMaxLength(250).IsRequired();
             builder.Property(r => r.Rate).IsRequired();
             builder.HasOne(P => P.Product).WithMany(Pr => Pr.ProductRates).HasForeignKey(x => x.ProductId);
+            builder.HasOne(r => r.User)
+                .WithMany(u => u.ProductRates)
+                 .HasForeignKey(s => s.CustomerID)
+                  .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

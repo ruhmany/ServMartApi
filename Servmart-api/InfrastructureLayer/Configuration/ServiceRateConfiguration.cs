@@ -17,6 +17,10 @@ namespace InfrastructureLayer.Configuration
             builder.Property(r => r.RespectDeliveryTime).IsRequired();
             builder.HasOne(s => s.Service).WithMany(sr => sr.ServiceRates).HasForeignKey(x => x.ServiceID)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(r => r.User)
+                    .WithMany(u => u.ServiceRates)
+                     .HasForeignKey(s => s.UserID)
+                      .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
