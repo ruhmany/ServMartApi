@@ -159,5 +159,20 @@ namespace Application_Layer.Repos
 			return result;
 		}
 
-	}
+        public async Task<double> GetRate(Guid id)
+        {
+            var service = await _appDbContext.Service.FirstOrDefaultAsync(p => p.ID == id);
+            if (service != null && service.ServiceRates.Count > 0)
+            {
+                double rate = 0;
+                foreach (var productRate in service.ServiceRates)
+                {
+                    rate += productRate.WorkQuality;
+                }
+                double result = rate / service.ServiceRates.Count;
+                return result;
+            }
+            return 0;
+        }
+    }
 }

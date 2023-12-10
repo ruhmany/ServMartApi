@@ -128,7 +128,16 @@ namespace Sermart_Api.Controllers
 			return Ok( count );
 		}
 
+        [HttpGet("getRate")]
+        public async Task<IActionResult> GetRate(Guid Id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var result = await _serviceRepo.GetRate(Id);
+            return Ok(result);
+        }
 
 
-	}
+
+    }
 }

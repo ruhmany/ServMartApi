@@ -178,5 +178,16 @@ namespace Sermart_Api.Controllers
             var result = _product.GetFilterdProducts(filters).ToList();
             return Ok(result);
         }
+
+
+
+        [HttpGet("getRate")]
+        public async Task<IActionResult> GetRate(Guid Id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var result = await _product.GetRate(Id);
+            return Ok(result);
+        }
     }
 }
