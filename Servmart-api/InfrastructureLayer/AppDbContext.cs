@@ -42,6 +42,7 @@ namespace InfrastructureLayer
 			builder.SeedGovernorate();
 			builder.SeedCity();
 			builder.SeedRequestAndServiceCategories();
+			builder.Productcategoryseed();
 
 			base.OnModelCreating( builder );
 

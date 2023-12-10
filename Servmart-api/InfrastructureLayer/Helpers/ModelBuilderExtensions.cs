@@ -48,6 +48,18 @@ namespace InfrastructureLayer.Helpers
 				new Governorate { ID = 27, NameAr = "سوهاج", NameEn = "Sohag" }
 			);
 		}
+		 public static void Productcategoryseed(this ModelBuilder builder)
+		{
+			builder.Entity<ProductCategory>().HasData(
+				new ProductCategory { ID = Guid.NewGuid(), Catagory = "ملابس " },
+				new ProductCategory { ID = Guid.NewGuid(), Catagory = "لحوم" },
+				new ProductCategory { ID = Guid.NewGuid(), Catagory = "مياه  " }
+
+
+				);
+			
+
+		}
 
 		public static void SeedCity( this ModelBuilder builder )
 		{

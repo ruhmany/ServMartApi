@@ -78,7 +78,9 @@ namespace InfrastructureLayer.Repos
 
 		public async Task<User> UpdateUser( UserUpdateDTO userDTO )
 		{
+			
 			var user = await _usermanager.FindByEmailAsync( userDTO.Email );
+
 			var result = await _photoservice.AddPhotoAsync( userDTO.ProfilePic );
 			user.Address = userDTO.Address;
 			user.UserName = userDTO.Username;
