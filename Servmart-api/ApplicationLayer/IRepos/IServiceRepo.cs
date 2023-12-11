@@ -17,5 +17,6 @@ namespace Infrastructure_Layer.IRepos
 		Task<IEnumerable<ServiceUser>> GetServicesProviders( int page, int pageSize );
 		Task<IEnumerable<ServiceRate>> GetUserServicesRates( string userId, int page, int pageSize );
 		Task<int> GetTotaUserRatesCount( string userId );
+		Task<double> GetRate(Guid id);
 	}
 }

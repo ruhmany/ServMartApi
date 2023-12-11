@@ -57,5 +57,21 @@ namespace InfrastructureLayer.Repos
             var filteredQuery = filter.ApplyFilter(query, filers);            
             return filteredQuery;
         }
+
+        public async Task<double> GetRate(Guid Id)
+        {
+            var product = await _dbContext.Product.FirstOrDefaultAsync(p => p.ProductID == Id);
+            if(product != null && product.ProductRates.Count > 0)
+            {
+                double rate = 0;
+                foreach (var productRate in product.ProductRates)
+                {
+                    rate += productRate.Rate;
+                }
+                double result = rate / product.ProductRates.Count;
+                return result;
+            }
+            return 0;
+        }
     }
 }
