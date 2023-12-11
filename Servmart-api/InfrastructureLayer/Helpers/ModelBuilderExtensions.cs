@@ -52,11 +52,22 @@ namespace InfrastructureLayer.Helpers
 		{
 			builder.Entity<ProductCategory>().HasData(
 				new ProductCategory { ID = Guid.NewGuid(), Catagory = "ملابس " },
-				new ProductCategory { ID = Guid.NewGuid(), Catagory = "لحوم" },
-				new ProductCategory { ID = Guid.NewGuid(), Catagory = "مياه  " }
+				new ProductCategory { ID = Guid.NewGuid(), Catagory = "الاغذية" },
+				new ProductCategory { ID = Guid.NewGuid(), Catagory = "الآلكترونيات" },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "الاجهزة المنزلية  " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "المشروبات  " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "العناية المنزلية  " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = " منتجات الاطفال" },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "مستلزمات المنزل   " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "كتب   " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "مستلزمات السيارات  " },
+                new ProductCategory { ID = Guid.NewGuid(), Catagory = "العاب فيديو  " }
 
 
-				);
+
+
+
+                );
 			
 
 		}

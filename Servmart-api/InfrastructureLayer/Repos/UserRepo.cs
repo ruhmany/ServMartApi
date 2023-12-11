@@ -55,10 +55,20 @@ namespace InfrastructureLayer.Repos
 
 		public async Task<IEnumerable<User>> GetAllUsers()
 		{
-			return await _appContext.Users.ToListAsync();
+			return await _usermanager.GetUsersInRoleAsync("Customer");
 		}
+        public async Task<IEnumerable<User>> GetAllVendors()
+        {
+            return await _usermanager.GetUsersInRoleAsync("Vendor");
+            
+        }
+        public async Task<IEnumerable<User>> GetAllProviders()
+        {
+            return await _usermanager.GetUsersInRoleAsync("ServiceProvider");
 
-		public async Task<User> GetUser( string userId ) => await _usermanager.FindByIdAsync( userId );
+        }
+
+        public async Task<User> GetUser( string userId ) => await _usermanager.FindByIdAsync( userId );
 		//=> await _appContext.Users.FirstOrDefaultAsync( y => y.Id == userId );
 
 		public async Task<AuthModel> ChangRole( UserRoleDTO userRoleDTO )
