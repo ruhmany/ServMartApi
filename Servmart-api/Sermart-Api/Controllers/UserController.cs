@@ -55,13 +55,27 @@ namespace Sermart_Api.Controllers
 			if ( Result is null ) return BadRequest(); return Ok( Result );
 		}
 
-		[HttpGet( "GetAllUsers" )]
-		public async Task<IActionResult> GetAllUsers()
+		[HttpGet("GetAllProviders")]
+		public async Task<IActionResult> GetAllProviders()
 		{
-			return Ok( await _userRepo.GetAllUsers() );
+			var data = await _userRepo.GetAllProviders();
+
+            return Ok(data);
 		}
 
-		[HttpPost( "UpdateEmail" )]
+        [HttpGet("GetAllVendors")]
+        public async Task<IActionResult> GetAllVendors()
+        {
+            return Ok(await _userRepo.GetAllVendors());
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userRepo.GetAllUsers());
+        }
+
+        [HttpPost( "UpdateEmail" )]
 		public async Task<ActionResult<User>> ChangeEmail( ChangeEmailDTO changeEmailDTO )
 		{
 			var updatedUser = await _userRepo.ChageEmail( changeEmailDTO );
